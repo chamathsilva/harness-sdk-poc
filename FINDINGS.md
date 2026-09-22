@@ -154,6 +154,12 @@ The instrumented example remains the clearest illustration
 
 Overall code-mode accuracy across every graded large run: **22/23 perfect**.
 
+**The same failure shows up in the multi-agent work.** Experiment 15's single-agent arm
+produced a 3,122,738-token run — 36× its own median and the only inaccurate run in that
+arm — and its tool calls show 42 direct reads against 2 in the cheap runs. See
+`FINDINGS-MULTIAGENT.md`. Both articles share one root cause: **cost variance comes from
+the model deciding how to move data**, not from the architecture around it.
+
 ---
 
 ## 5. Verified claims (each with a control)

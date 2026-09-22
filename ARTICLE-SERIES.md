@@ -47,9 +47,15 @@ SDK, to close the "can it do multi-agent?" gap and set up article 2.
 
 **Working title:** *Your Multi-Agent System Is Probably Just Expensive*
 
-**Thesis:** multi-agent topologies cost 2–5× a single agent and are usually slower, with
-no accuracy benefit. They buy exactly one thing — context isolation — and you should
-reach for them only when that is what you need.
+**Thesis:** the cost of a topology is not the story — the variance is. A `Graph` is no
+dearer than one agent on small sequential work (0.92×) and 4.88× on bulky fan-out, but
+its spread between best and worst run stays tight (2.2×, 6.6×) where a single agent's
+reaches 119×. Structure buys predictability, not speed or accuracy.
+
+**The unifying finding:** cost variance comes from the model choosing how to move data.
+The single agent's 3.1M-token run had abandoned the code sandbox and read 42 files
+directly — the identical failure article 1 documents. Structure helps because narrow
+nodes leave fewer chances to take that path.
 
 **Evidence:**
 - Four architectures, same task: single 30,034 tokens / 23.4s; graph 2.0×; swarm 4.1×;
@@ -62,12 +68,17 @@ reach for them only when that is what you need.
 - The one genuine win: isolation — 0 markers leaked vs 2,400.
 - Delegation is safe: policy is inherited, and a child cannot exceed the parent's tools.
 
+**Now verified:** conditional edges route correctly both ways, nested graphs work, and
+`as_tool()`/`make_subagent()` behave as documented. Also: a harness agent makes a poor
+narrow node — asked to classify in one word it wrote 149 words of troubleshooting, where
+a plain `Agent` replied `URGENT`.
+
 **Strongest missing experiment:** heterogeneous models per node — cheap model for
 extraction, expensive one for synthesis. That is the best theoretical case for a graph
 and it is untested. **Needs approval to use a non-Haiku model.**
 
-**Also missing:** a task that genuinely does not fit one context window; conditional
-edges and cycles; nested graphs; A2A; n≥5.
+**Also missing:** a task that genuinely does not fit one context window; cycles and
+feedback loops; A2A.
 
 ---
 
@@ -96,9 +107,11 @@ no second-class tier and no hole where your code escapes authorization.
 names and scored 0/6, while every object validated cleanly. The supported
 `structured_output_model=` route got 6/6. *A validated object is not a correct one.*
 
-**Missing:** HTTP/SSE MCP transport; multiple servers colliding; `mcp_router`;
-`Agent.as_tool()`; `make_subagent` presets; a skill with executable bundled scripts;
-sessions across a real process restart.
+**Now verified:** MCP over streamable HTTP (auto-detected and explicit transport, with
+headers); sessions across a real process restart.
+
+**Missing:** multiple servers colliding on a tool name; `mcp_router`; a skill with
+executable bundled scripts; `tool_filters`; OAuth-authenticated MCP.
 
 ---
 

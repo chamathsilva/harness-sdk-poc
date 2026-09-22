@@ -258,6 +258,40 @@ declarations genuinely shape the API the model sees, rather than just defaulting
 
 ---
 
+## The 3.1M-token run: one cause behind both articles
+
+The single-agent outlier was worth chasing, because it turns out not to be a
+multi-agent finding at all. Per-run tool calls for experiment 15's single arm:
+
+| billable input | direct `read` calls | sandbox calls | accuracy |
+|---|---|---|---|
+| 26,229 | 2 | 3 | 6/6 |
+| 46,559 | 2 | 6 | 6/6 |
+| 85,096 | 2 | 7 | 6/6 |
+| 290,223 | **44** | 9 | 6/6 |
+| **3,122,738** | **42** | 15 | **5/6** |
+
+The correlation is exact. Runs that stayed in the sandbox made two direct reads and
+cost under 100k. The two expensive runs made forty-plus, pulling every file into the
+context window — and the worst was also the only inaccurate one.
+
+**This is the same failure article 1 documents** (`FINDINGS.md` §4): the model abandons
+`programmatic_tool_caller` and fetches data itself. There it appeared in 8% of runs and
+cost about 17×. Here it appeared in 2 of 5 and cost up to 36× the median.
+
+So both articles share one root cause:
+
+> **Cost variance in this harness comes from the model deciding how to move data, not
+> from the architecture around it.** A deterministic `Graph` is more predictable
+> precisely because it takes some of that decision away.
+
+That reframes the multi-agent result. The graph's tighter spread is not a property of
+graphs in general — it is that giving each node one narrow job leaves the model fewer
+opportunities to choose the expensive path.
+
+
+---
+
 ## Caveats on this block
 
 - **Both experiments are now n=5.** Raising 14 from n=2 reversed its conclusion;
@@ -286,6 +320,4 @@ declarations genuinely shape the API the model sees, rather than just defaulting
    Requires approval to use a non-Haiku model.
 4. **A2A protocol** — completely untested.
 5. **Cycles / feedback loops** — conditional edges are verified, cycles are not.
-5. **Investigate the 3.1M-token single-agent run** — what did it do? If it is the
-   same sandbox-abandonment failure from article 1, that unifies both findings.
 6. **Swarm under contention** — more than one agent plausibly able to handle a step.
