@@ -1,39 +1,84 @@
 [
   {
     "arch": "single",
-    "seconds": 55.4,
-    "billable_input": 557541,
-    "output_tokens": 8908,
+    "seconds": 17.6,
+    "billable_input": 26229,
+    "output_tokens": 2350,
     "service_figures": 6,
     "of": 6,
     "covers_all_three": true,
     "tool_calls": {
-      "programmatic_tool_caller": 5,
-      "read": 41
+      "programmatic_tool_caller": 3,
+      "read": 2
     },
-    "answer_tail": "YSIS 3: NUMBER OF INCIDENTS PER SEVERITY LEVEL (SORTED DESCENDING)\n\n| Severity | Incidents |\n|----------|-----------|\n| SEV2 | 14 |\n| SEV3 | 14 |\n| SEV1 | 12 |\n\n---\n\n## ONE-SENTENCE SUMMARY\n\nThe 40 incidents accumulated 3688 total downtime minutes across 6 services, with notifications leading at 1160 minutes, config drift causing 8 incidents, and SEV2 severity being most common with 14 incidents.\n",
+    "answer_tail": "Level (Descending)\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n**Summary:** The 40 incidents across 6 services accumulated 4,688 total downtime minutes, with the notifications service suffering the most impact at 1,160 minutes, configuration drift and upstream timeouts being the dominant root causes at 8 incidents each, and SEV2 and SEV3 incidents equally prevalent at 14 each.\n",
     "trial": 1
   },
   {
     "arch": "single",
-    "seconds": 15.7,
-    "billable_input": 29077,
-    "output_tokens": 2130,
+    "seconds": 30.7,
+    "billable_input": 85096,
+    "output_tokens": 4704,
     "service_figures": 6,
     "of": 6,
     "covers_all_three": true,
     "tool_calls": {
-      "programmatic_tool_caller": 4,
-      "read": 1
+      "programmatic_tool_caller": 7,
+      "read": 2
     },
-    "answer_tail": "is 3: Number of Incidents Per Severity Level (Descending)\n1. SEV2: 14\n2. SEV3: 14\n3. SEV1: 12\n\n**Summary:** The 40 incidents caused 3,688 total downtime minutes across 6 services, with the notifications service experiencing the most impact (1160 minutes), config drift and upstream timeout as the most common root causes (8 incidents each), and SEV2 and SEV3 equally represented (14 incidents each).\n",
+    "answer_tail": "er of Incidents per Severity Level (sorted descending)**\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n## **One-Sentence Summary**\nAcross 40 incidents totaling 3688 minutes of downtime, the notifications service was most affected with 1160 minutes, config drift was the most common root cause affecting 8 incidents, and SEV2 was the most prevalent severity level with 14 incidents.\n",
     "trial": 2
   },
   {
+    "arch": "single",
+    "seconds": 48.8,
+    "billable_input": 290223,
+    "output_tokens": 7996,
+    "service_figures": 6,
+    "of": 6,
+    "covers_all_three": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 9,
+      "read": 44
+    },
+    "answer_tail": "ncidents\n- **SEV1**: 12 incidents\n\n---\n\n## Summary\nAcross 40 incidents totaling 3,688 minutes of downtime, the notifications service was hardest hit with 1,160 minutes down, while config drift, upstream timeouts, and database connection pool exhaustion tied as the top three root causes with 8 incidents each, evenly distributed across SEV2 and SEV3 severity levels (14 each) with 12 SEV1 incidents.\n",
+    "trial": 3
+  },
+  {
+    "arch": "single",
+    "seconds": 28.8,
+    "billable_input": 46559,
+    "output_tokens": 4424,
+    "service_figures": 6,
+    "of": 6,
+    "covers_all_three": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 6,
+      "read": 2
+    },
+    "answer_tail": "ty Level (Descending)**\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n**Summary:** Across 40 incidents totaling 3,688 minutes of downtime, the notifications service experienced the most disruption (1,160 minutes), while config drift and upstream timeouts were tied as the leading root causes (8 incidents each), with severity evenly split between SEV2 and SEV3 (14 incidents each).\n",
+    "trial": 4
+  },
+  {
+    "arch": "single",
+    "seconds": 137.6,
+    "billable_input": 3122738,
+    "output_tokens": 11605,
+    "service_figures": 5,
+    "of": 6,
+    "covers_all_three": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 15,
+      "read": 42
+    },
+    "answer_tail": "ents\n- SEV1: 12 incidents\n\n**One-Sentence Summary:**\nThe 40 incidents across 6 services totaled 3,688 downtime minutes, with the notifications service experiencing the most downtime (1,160 minutes), while config drift, upstream timeout, and database connection pool exhaustion were equally the most common root causes (8 incidents each), and SEV2 and SEV3 incidents were equally prevalent (14 each).\n",
+    "trial": 5
+  },
+  {
     "arch": "graph",
-    "seconds": 67.7,
-    "billable_input": 570399,
-    "output_tokens": 11914,
+    "seconds": 32.4,
+    "billable_input": 136001,
+    "output_tokens": 11140,
     "service_figures": 6,
     "of": 6,
     "covers_all_three": true,
@@ -46,20 +91,46 @@
     ],
     "status": "Status.COMPLETED",
     "node_times": {
-      "splitter": 11.5,
-      "by_cause": 10.6,
-      "by_service": 17.5,
-      "by_severity": 53.8,
-      "synthesis": 2.4
+      "splitter": 9.3,
+      "by_cause": 17.4,
+      "by_service": 20.4,
+      "by_severity": 21.1,
+      "synthesis": 1.9
     },
-    "answer_tail": "SIS 3: Number of Incidents per Severity Level (Descending)**\n- SEV2: 14\n- SEV3: 14\n- SEV1: 12\n\n**Summary:** The 40 incidents across six services totaled 3,688 minutes of downtime, with notifications bearing the highest impact at 1,160 minutes, config drift and upstream timeouts being the leading root causes at 8 incidents each, and SEV2 and SEV3 events being equally prevalent at 14 incidents each.",
+    "answer_tail": "egression: 3 incidents\n- rate limit breach: 1 incident\n\n**Analysis 3: Number of Incidents per Severity Level (Sorted Descending)**\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n**Summary:** The 40 incidents across 6 services generated 3,688 total downtime minutes, with configuration and upstream issues being the leading root causes and SEV2/SEV3 incidents being equally prevalent.",
     "trial": 1
   },
   {
     "arch": "graph",
-    "seconds": 50.6,
-    "billable_input": 454367,
-    "output_tokens": 16226,
+    "seconds": 54.4,
+    "billable_input": 901733,
+    "output_tokens": 17538,
+    "service_figures": 6,
+    "of": 6,
+    "covers_all_three": true,
+    "execution_order": [
+      "splitter",
+      "by_cause",
+      "by_severity",
+      "by_service",
+      "synthesis"
+    ],
+    "status": "Status.COMPLETED",
+    "node_times": {
+      "splitter": 4.7,
+      "by_cause": 17.9,
+      "by_severity": 46.5,
+      "by_service": 47.9,
+      "synthesis": 1.8
+    },
+    "answer_tail": "ory leak: 5\n- deploy regression: 3\n- rate limit breach: 1\n\n**3. Number of Incidents Per Severity Level (Descending):**\n- SEV2: 14\n- SEV3: 14\n- SEV1: 12\n\n**Summary:** The notifications service accrued the highest downtime at 1160 minutes, while config drift, upstream timeouts, and database connection pool exhaustion each caused 8 incidents\u2014the most common root causes across the 40 incident records.",
+    "trial": 2
+  },
+  {
+    "arch": "graph",
+    "seconds": 46.7,
+    "billable_input": 828990,
+    "output_tokens": 16813,
     "service_figures": 6,
     "of": 6,
     "covers_all_three": true,
@@ -72,13 +143,65 @@
     ],
     "status": "Status.COMPLETED",
     "node_times": {
-      "splitter": 6.5,
-      "by_service": 20.4,
-      "by_severity": 25.1,
-      "by_cause": 42.4,
-      "synthesis": 1.7
+      "splitter": 9.3,
+      "by_service": 21.0,
+      "by_severity": 34.9,
+      "by_cause": 35.5,
+      "synthesis": 1.8
     },
-    "answer_tail": "Level (sorted descending):**\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n**Summary:** Across 40 incidents totaling 4,128 downtime minutes, the notifications service experienced the most downtime (1,160 minutes), configuration drift and upstream timeouts were the leading root causes (8 incidents each), and SEV2 and SEV3 severity levels were equally prevalent (14 incidents each).",
-    "trial": 2
+    "answer_tail": "EVERITY LEVEL (sorted descending)**\n- SEV2: 14\n- SEV3: 14\n- SEV1: 12\n\n**Summary:** Across 40 analyzed incidents, the notifications service experienced the most downtime at 1160 minutes, while config drift, upstream timeout, and database connection pool exhaustion were tied as the most common root causes at 8 incidents each, with SEV2 and SEV3 severity levels equally prevalent at 14 incidents each.",
+    "trial": 3
+  },
+  {
+    "arch": "graph",
+    "seconds": 50.5,
+    "billable_input": 415530,
+    "output_tokens": 13842,
+    "service_figures": 6,
+    "of": 6,
+    "covers_all_three": true,
+    "execution_order": [
+      "splitter",
+      "by_cause",
+      "by_service",
+      "by_severity",
+      "synthesis"
+    ],
+    "status": "Status.COMPLETED",
+    "node_times": {
+      "splitter": 10.0,
+      "by_cause": 13.6,
+      "by_service": 24.5,
+      "by_severity": 38.9,
+      "synthesis": 1.6
+    },
+    "answer_tail": "ssion: 3\n- rate limit breach: 1\n\n**ANALYSIS 3: Incidents per Severity Level (Descending)**\n- SEV2: 14\n- SEV3: 14\n- SEV1: 12\n\n**Summary:** Across 40 incidents, the notifications service experienced the most downtime at 1160 minutes, config drift and upstream timeout were tied as leading root causes with 8 incidents each, and SEV2 and SEV3 severity levels were equally prevalent at 14 incidents each.",
+    "trial": 4
+  },
+  {
+    "arch": "graph",
+    "seconds": 44.1,
+    "billable_input": 183633,
+    "output_tokens": 13380,
+    "service_figures": 6,
+    "of": 6,
+    "covers_all_three": true,
+    "execution_order": [
+      "splitter",
+      "by_cause",
+      "by_severity",
+      "by_service",
+      "synthesis"
+    ],
+    "status": "Status.COMPLETED",
+    "node_times": {
+      "splitter": 9.2,
+      "by_cause": 22.5,
+      "by_severity": 22.9,
+      "by_service": 32.7,
+      "synthesis": 2.1
+    },
+    "answer_tail": "of Incidents Per Severity Level (Descending):**\n- SEV2: 14 incidents\n- SEV3: 14 incidents\n- SEV1: 12 incidents\n\n**Summary:** Across the 40 incidents, the notifications service experienced the most downtime (1160 minutes), configuration drift and upstream timeouts were the dominant root causes (8 incidents each), and severity levels were fairly balanced with SEV2 and SEV3 tied at 14 incidents each.",
+    "trial": 5
   }
 ]

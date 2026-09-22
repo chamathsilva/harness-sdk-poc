@@ -20,6 +20,10 @@ Structure does not buy speed or accuracy. It buys predictability. Handing contro
 decisions to the model is what creates cost variance — the same pattern article 1 found
 when the model chose whether to use the code sandbox.
 
+The fan-out experiment makes the trade explicit: a single agent was 4.88× cheaper on the
+median and then produced one run of **3.1 million tokens**, a 119× spread, while the
+graph stayed inside 6.6×. Cheaper on average, or bounded at the worst — pick one.
+
 > **This reverses an earlier conclusion.** At n=2 the medians read "topologies cost
 > 2–5× a single agent". Five runs per arm dissolved that: the single-agent arm alone
 > swings 29,575–130,212. Two runs per arm was an anecdote, exactly the mistake article 1
@@ -119,13 +123,27 @@ A graph can run the three branches concurrently; a single agent cannot.
 
 Graph shape: `splitter → [by_service, by_cause, by_severity] → synthesis`.
 
-| arch | wall sec | billable input | output | accuracy |
-|---|---|---|---|---|
-| **single** | **35.5** | **293,309** | 5,519 | 6.0/6 |
-| graph | 59.2 | 512,383 | 14,070 | 6.0/6 |
+| arch | median billable | min | max | spread | wall sec | accuracy |
+|---|---|---|---|---|---|---|
+| single | **85,096** | 26,229 | **3,122,738** | **119×** | 30.7 | 5.8/6 |
+| graph | 415,530 | 136,001 | 901,733 | **6.6×** | 46.7 | **6.0/6** |
 
-**The graph lost its own best case.** 1.7× slower, 1.75× the input tokens, 2.5× the
-output.
+On the median the graph costs **4.88×** and takes 1.52× the wall time. But look at the
+spread. One single-agent run consumed **3.1 million tokens** — thirty-six times its own
+median. The graph's worst run was 901,733, under seven times its best.
+
+```
+single  26,229   46,559   85,096   290,223  3,122,738
+graph  136,001  183,633  415,530   828,990    901,733
+```
+
+**The trade is median cost against tail risk.** One agent is far cheaper most of the
+time and occasionally catastrophic. The graph is dearer but bounded — and was slightly
+more accurate, since each branch had one job.
+
+This is the same shape as experiment 14, where the graph's spread was 2.2× against the
+single agent's 4.4×. Across both experiments the graph's median moved (0.92× on small
+sequential data, 4.88× on bulky fan-out) while its **predictability held**.
 
 ### Why — the data-loading tax
 
@@ -146,7 +164,9 @@ just did not help, because:
 3. **The join node pays again**, restating all three analyses into its own context.
 
 **Implication:** fan-out is worth it when branches touch *different* data. When they
-share a source, the topology duplicates the expensive part.
+share a source, the topology duplicates the expensive part, and the duplication tax
+scales with how much data each node must acquire. That is why the graph is at parity on
+experiment 14's small sequential task and 4.88× here.
 
 ---
 
@@ -240,9 +260,12 @@ declarations genuinely shape the API the model sees, rather than just defaulting
 
 ## Caveats on this block
 
-- **Experiment 14 is n=5; experiment 15 is still n=2** at the time of writing. Given
-  what raising n did to experiment 14, treat 15's numbers as provisional.
-- Even at n=5 these are medians of a very noisy process, not confidence intervals.
+- **Both experiments are now n=5.** Raising 14 from n=2 reversed its conclusion;
+  raising 15 confirmed its direction and revealed the 119× single-agent tail.
+- Even at n=5 these are medians of a very noisy process, not confidence intervals. The
+  3.1M-token outlier is a single observation and should be described as such.
+- The cost multiples are task-shaped, not universal: 0.92× on small sequential work,
+  4.88× on bulky fan-out. Quote the ratio with its task, never on its own.
 - **Haiku 4.5 only.** A frontier model might coordinate a swarm more efficiently, or
   might make the single-agent baseline even stronger. Unknown.
 - **My task designs may still favour the single agent.** Both tasks fit comfortably in
@@ -263,5 +286,6 @@ declarations genuinely shape the API the model sees, rather than just defaulting
    Requires approval to use a non-Haiku model.
 4. **A2A protocol** — completely untested.
 5. **Cycles / feedback loops** — conditional edges are verified, cycles are not.
-5. **Raise experiment 15 to n=5** — experiment 14 is done.
+5. **Investigate the 3.1M-token single-agent run** — what did it do? If it is the
+   same sandbox-abandonment failure from article 1, that unifies both findings.
 6. **Swarm under contention** — more than one agent plausibly able to handle a step.
