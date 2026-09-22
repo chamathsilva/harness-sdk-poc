@@ -1,0 +1,20 @@
+{
+  "as_tool": {
+    "tool_name": "reviewer",
+    "tool_registered": true,
+    "reviewer_saw_caller_secret": false,
+    "reviewer_message_count": 4,
+    "answer": "lsewhere, I'll need you to provide more details:\n\n- What system is the ticket in? (e.g., issue tracker, support system)\n- What was the ticket number or ID?\n- What issue did it concern?\n- Do you want me to reopen it, escalate it, or take a different action?\n\nWithout more specifics, I can't proceed.\"\n"
+  },
+  "make_subagent": {
+    "tool_name": "subagent",
+    "exposed_parameters": [
+      "task",
+      "agent_type",
+      "tools"
+    ],
+    "instructions_removed": true,
+    "model_removed": true,
+    "description": "Delegate a self-contained task to a subagent that runs in its own context and returns a final report. Reach for this when a subtask would otherwise flood your context with intermediate work and you on"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "plain_agent": {
+    "urgent": "URGENT",
+    "routine": "ROUTINE"
+  },
+  "harness_agent": {
+    "urgent": "There are no active background tasks currently running. \n\nTo help resolve this payments database outage, I need more information:\n\n1. **Database status**: Is the payments database completely inaccessible, or is it running but unresponsive?\n2. **Error messages**: What specific errors are customers seeing when trying to check out?\n3. **Recent changes**: Were there any recent deployments, updates, or configuration changes to the payments system?\n4. **Scope**: Is this affecting all payment methods, all customers, or specific regions/payment gateways?\n5. **Access**: Do you have database access logs or monitoring dashboards I should check?\n\nOnce you provide these details, I can help with immediate remediation steps such as:\n- Checking database connectivity and health\n- Reviewing error logs\n- Initiating a restart if appropriate\n- Implementing a temporary fallback (if available)\n- Escalating to the database administration team\n\nWhat information can you provide about the current state of the payments database?",
+    "routine": "ROUTINE\n\nThis is a cosmetic issue\u2014a minor visual misalignment that does not affect functionality, data, or system availability."
+  }
+}

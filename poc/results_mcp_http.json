@@ -1,0 +1,36 @@
+{
+  "url only (transport auto-detected)": {
+    "tools": [
+      "probe_echo_upper",
+      "probe_magic_number",
+      "strands_manage_background_task"
+    ],
+    "mcp_tools": [
+      "probe_echo_upper",
+      "probe_magic_number"
+    ],
+    "discovered": true,
+    "returned_4242": true,
+    "tool_calls": {
+      "probe_magic_number": 1
+    },
+    "answer": "The magic number tool returned **4242**.\n"
+  },
+  "explicit transport + headers": {
+    "tools": [
+      "probe_echo_upper",
+      "probe_magic_number",
+      "strands_manage_background_task"
+    ],
+    "mcp_tools": [
+      "probe_echo_upper",
+      "probe_magic_number"
+    ],
+    "discovered": true,
+    "returned_4242": true,
+    "tool_calls": {
+      "probe_magic_number": 1
+    },
+    "answer": "The magic number is **4242**.\n"
+  }
+}

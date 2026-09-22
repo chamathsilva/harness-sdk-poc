@@ -300,12 +300,42 @@ phases write their results to files instead.
 
 ---
 
+## 9. MCP over HTTP — `poc/25_mcp_http.py`, `poc/mcp_http_server.py`
+
+Experiment 16 used stdio. The config also takes `url` for streamable-http/sse, plus
+`headers`, `transport`, and OAuth `auth` (client-credentials, streamable-http only).
+
+Tested against a local `MCPServer` exposing an arbitrary, unguessable `magic_number`
+tool returning **4242**, so a correct answer proves a real call rather than invention:
+
+| config | tools discovered | called it |
+|---|---|---|
+| `{"url": "http://127.0.0.1:8931/mcp"}` — transport auto-detected | `probe_echo_upper`, `probe_magic_number` | yes, 4242 |
+| explicit `"transport": "streamable-http"` + custom headers | same | yes, 4242 |
+
+Both work. Transport is inferred from the presence of `url` versus `command`.
+
+Full `MCPServerConfig` keys: `command`, `args`, `env`, `cwd`, `url`, `headers`,
+`transport`, `auth`, `disabled`, `continue_on_error`, `prefix`, `tool_filters`,
+`startup_timeout`, `application_name`, `application_version`. String values support
+`${VAR}` interpolation, and `~` expands in `command` and `cwd`.
+
+**Note for reproduction:** `mcp` 2.x renamed `FastMCP` to `MCPServer`
+(`from mcp.server.mcpserver import MCPServer`). v1 example code will not import.
+
+---
+
+## 10. `Agent.as_tool()` and `make_subagent()`
+
+Covered in `FINDINGS-MULTIAGENT.md` experiment 23. Short version: `as_tool()` gives a
+tool named after the agent whose conversation is isolated from the caller's, and
+`make_subagent()` removes `Fixed`/`Inherit` axes from the tool schema the model sees.
+
+---
+
 ## Still to do for article 3
 
-1. **An MCP server over HTTP/SSE**, not just stdio — transport coverage.
 2. **Multiple MCP servers at once**, to show namespacing preventing a real collision.
 3. **`mcp_router`** vended tool — untested, and it may matter for large server counts.
-4. **`Agent.as_tool()`** — described from the README, never run.
-5. **`make_subagent`** with presets and `Fixed`/`Inherit`/`Open`/`Choice` axes — untested.
 6. **A skill with bundled scripts** the agent actually executes — only a prompt-only
    skill was tested.

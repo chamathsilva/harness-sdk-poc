@@ -150,6 +150,73 @@ So delegation is safe. It is just not cheap.
 
 ---
 
+## Experiment 24 — conditional edges, nested graphs, and which agent to use as a node
+
+### The finding that matters: don't put a harness agent in a narrow node
+
+This cost a run to learn and is the most practically useful thing in this document.
+
+A harness agent carries `HARNESS_CONTRACT`, which tells it to *keep working until the
+task is fully resolved*. That is right for an autonomous agent and wrong for a
+deterministic pipeline step. Asked to classify an incident in one word, with an
+identical prompt (`results_node_agent_choice.json`):
+
+| node built with | urgent input | routine input |
+|---|---|---|
+| plain `strands.Agent` | **1 word** — `URGENT` | **1 word** — `ROUTINE` |
+| `create_harness(...)` | **149 words**, beginning *"There are no background recovery tasks currently running..."* | 18 words |
+
+The harness agent stopped classifying and started troubleshooting the outage. My first
+conditional-edge test failed entirely because of this — both inputs took the same branch,
+since the classifier never emitted the word the condition looked for.
+
+**Rule: plain `Agent` for narrow deterministic nodes; harness agent only where you
+actually want autonomy.** This also partly explains experiment 14's cost gap: harness
+agents in every node means every node is inclined to elaborate.
+
+### Conditional edges work
+
+`add_edge(from, to, condition=callable)` where the callable receives `GraphState`.
+Conditions read `state.results[node_id]`; `str()` of a `NodeResult` contains the node's
+text.
+
+Run twice with opposite inputs, so a graph that always takes one path cannot pass by luck:
+
+| input | execution order |
+|---|---|
+| "payments database is down, customers cannot check out" | `classifier → pager` |
+| "a button is two pixels off centre" | `classifier → ticket` |
+
+Exactly one branch ran each time. The unchosen node genuinely did not execute.
+
+### Nested graphs work
+
+A `Graph` passed to `add_node()` of another `Graph` runs as a single node. Inner graph
+`doubler → adder` nested inside `inner_maths → reporter`, given "5", produced 15 and
+completed. Execution order of the outer graph: `['inner_maths', 'reporter']`.
+
+---
+
+## Experiment 23 — `Agent.as_tool()` and `make_subagent()`
+
+Both described in the series, neither previously run.
+
+**`Agent.as_tool()`** produces a tool named after the agent (`reviewer`), registered via
+`agent.tool_registry.register_tool(...)`. The specialist runs from its own conversation:
+a secret planted in the caller's history **never appeared** in the specialist's messages.
+
+**`make_subagent()`** derives its model-facing parameters from how each axis is declared.
+With `instructions=Fixed(None)` and `model=Inherit()`, the tool schema exposed only:
+
+```
+['task', 'agent_type', 'tools']
+```
+
+Both `instructions` and `model` were removed from the schema entirely — the axis
+declarations genuinely shape the API the model sees, rather than just defaulting values.
+
+---
+
 ## Caveats on this block
 
 - **n=2 per arm.** Directionally consistent across two independent experiments, but
@@ -172,9 +239,7 @@ So delegation is safe. It is just not cheap.
 2. **Heterogeneous models per node** — a cheap model for extraction, an expensive one
    for synthesis. This is the strongest theoretical case for a graph and is untested.
    Requires approval to use a non-Haiku model.
-3. **Conditional edges / cycles** in `Graph` — `add_edge(condition=...)` and feedback
-   loops are unexercised.
 4. **A2A protocol** — completely untested.
+5. **Cycles / feedback loops** — conditional edges are verified, cycles are not.
 5. **Raise n to 5+** on experiments 14 and 15.
 6. **Swarm under contention** — more than one agent plausibly able to handle a step.
-7. **Nested graphs** (a `Graph` as a node inside another `Graph`).

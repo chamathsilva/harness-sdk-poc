@@ -1,0 +1,35 @@
+{
+  "conditional": [
+    {
+      "input": "urgent input",
+      "execution_order": [
+        "classifier",
+        "pager"
+      ],
+      "pager_ran": true,
+      "ticket_ran": false,
+      "took_exactly_one_branch": true,
+      "answer": "classifier: URGENT\npager: PAGED: On-Call Database Engineer - Critical payment system outage preventing customer checkouts; requires immediate investigation and remediation."
+    },
+    {
+      "input": "routine input",
+      "execution_order": [
+        "classifier",
+        "ticket"
+      ],
+      "pager_ran": false,
+      "ticket_ran": true,
+      "took_exactly_one_branch": true,
+      "answer": "classifier: ROUTINE\nticket: TICKETED: Fix misaligned settings page button that is two pixels off center."
+    }
+  ],
+  "nested": {
+    "execution_order": [
+      "inner_maths",
+      "reporter"
+    ],
+    "status": "Status.COMPLETED",
+    "reached_15": true,
+    "answer": ": 5, 10, 15 (which follows a clear arithmetic pattern +5)\n\nGiven the context of \"inner_maths\" producing 10 and 15, and starting with 5, the most natural mathematical sequence is 5, 10, 15.\n\nRESULT: 15"
+  }
+}
