@@ -1,0 +1,20 @@
+{
+  "phases": {
+    "one": {
+      "phase": 1,
+      "messages": 2,
+      "session_id": "restart-probe-1"
+    },
+    "two": {
+      "phase": 2,
+      "messages_restored_before_asking": 2,
+      "recalled_number": true,
+      "recalled_owner": true,
+      "answer": "Based on the information you provided earlier:\n\n- **Incident bridge number**: 555-0142\n- **Escalation owner**: Priya\n"
+    }
+  },
+  "session_files": 1,
+  "sample_paths": [
+    "session/restart-probe-1/scopes/agent/default/snapshots/snapshot_latest.json"
+  ]
+}

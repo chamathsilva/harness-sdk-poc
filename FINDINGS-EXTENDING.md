@@ -263,6 +263,43 @@ awaited` warning. Cosmetic in these runs, but noisy in logs.
 
 ---
 
+## 8. Sessions survive a real process restart — `poc/21_session_restart.py`
+
+Experiment 08 showed long-term *memory* crosses conversations. This is the separate
+claim: a conversation saved to disk and resumable by id.
+
+Tested with **two separate OS processes**, not two objects in one interpreter, so
+nothing cached in memory could carry the answer:
+
+| | |
+|---|---|
+| Process 1 | told the agent an unguessable fact, exited |
+| Process 2 | fresh interpreter, same `session={"id", "dir"}` |
+| History restored before asking | **2 messages** |
+| Recalled both facts | **yes** |
+
+The reply began *"Based on the information you provided earlier"* — it was reading
+restored history, not re-deriving.
+
+On disk, one file:
+
+```
+session/<id>/scopes/agent/default/snapshots/snapshot_latest.json
+```
+
+```python
+agent = create_harness(session={"id": "user-42", "dir": "./.agent/sessions"})
+```
+
+Note the harness does **not** auto-resume: with no `id` it mints a fresh one per run.
+Read it off `agent.session_id` and pass it back, or supply a stable id up front.
+
+**Harness note for anyone reproducing this:** the agent streams its reply to stdout, so
+a result line printed there interleaves with it and cannot be parsed back reliably. The
+phases write their results to files instead.
+
+---
+
 ## Still to do for article 3
 
 1. **An MCP server over HTTP/SSE**, not just stdio — transport coverage.
@@ -272,4 +309,3 @@ awaited` warning. Cosmetic in these runs, but noisy in logs.
 5. **`make_subagent`** with presets and `Fixed`/`Inherit`/`Open`/`Choice` axes — untested.
 6. **A skill with bundled scripts** the agent actually executes — only a prompt-only
    skill was tested.
-8. **Sessions across a process restart** — only tested across agent objects in one process.
