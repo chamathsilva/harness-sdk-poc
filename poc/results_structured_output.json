@@ -1,0 +1,34 @@
+{
+  "structured_output": {
+    "validated": true,
+    "exact_figures": 0,
+    "of": 6,
+    "worst_correct": false,
+    "worst_minutes_correct": false,
+    "confidence": "low",
+    "parsed": {
+      "API Gateway": 450,
+      "Database": 380,
+      "Auth Service": 320,
+      "Cache Layer": 280,
+      "Load Balancer": 190
+    }
+  },
+  "via_call": {
+    "validated": true,
+    "exact_figures": 6,
+    "of": 6,
+    "worst_correct": true,
+    "worst_minutes_correct": true,
+    "confidence": "high",
+    "parsed": {
+      "payments": 994,
+      "auth": 700,
+      "checkout": 624,
+      "search": 446,
+      "inventory": 336,
+      "notifications": 182
+    },
+    "result_type": "AgentResult"
+  }
+}

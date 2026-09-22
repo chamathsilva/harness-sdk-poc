@@ -1,0 +1,36 @@
+[
+  {
+    "trial": 1,
+    "exact": 0,
+    "real_service_names": 0,
+    "of": 5,
+    "services": [
+      "AuthService",
+      "APIGateway",
+      "DatabaseCluster",
+      "CacheLayer",
+      "LoadBalancer"
+    ],
+    "tool_calls": {}
+  },
+  {
+    "trial": 2,
+    "exact": 0,
+    "real_service_names": 0,
+    "of": 1,
+    "services": [
+      "<UNKNOWN>"
+    ],
+    "tool_calls": {}
+  },
+  {
+    "trial": 3,
+    "exact": 0,
+    "real_service_names": 0,
+    "of": 1,
+    "services": [
+      "ServiceA"
+    ],
+    "tool_calls": {}
+  }
+]
