@@ -2,62 +2,9 @@
   {
     "arch": "single",
     "task": "complex",
-    "seconds": 21.5,
-    "billable_input": 26736,
-    "output_tokens": 2392,
-    "exact_figures": 6,
-    "of": 6,
-    "named_worst": true,
-    "has_advice": true,
-    "tool_calls": {
-      "programmatic_tool_caller": 5,
-      "read": 1
-    },
-    "answer_tail": "vice with the highest total downtime of 994 minutes. Its most common root cause is **deploy regression** with 3 occurrences.\n\n### Task 3: Remediation Advice\nImplement mandatory pre-deployment regression testing and canary deployments for the payments service to catch breaking changes before they reach production. Establish a rollback procedure that can be triggered automatically when payment processing error rates spike, limiting the impact of future deploy regressions on customer transactions.\n",
-    "trial": 1
-  },
-  {
-    "arch": "single",
-    "task": "complex",
-    "seconds": 25.4,
-    "billable_input": 33332,
-    "output_tokens": 3493,
-    "exact_figures": 6,
-    "of": 6,
-    "named_worst": true,
-    "has_advice": true,
-    "tool_calls": {
-      "read": 2,
-      "programmatic_tool_caller": 5
-    },
-    "answer_tail": "ause: deploy regression**\n\n### **3. Remediation Advice**\nImplement automated monitoring and alerting for payments to detect deploy regression issues before they impact production, with immediate notification to the on-call team for rapid response. Establish a regular review process and post-incident analysis workflow for payments to identify patterns in deploy regression-related incidents and implement preventive controls such as circuit breakers, rate limiting, or enhanced resource allocation.\n",
-    "trial": 2
-  },
-  {
-    "arch": "subagent",
-    "task": "complex",
-    "seconds": 66.0,
-    "billable_input": 258895,
-    "output_tokens": 10091,
-    "exact_figures": 6,
-    "of": 6,
-    "named_worst": true,
-    "has_advice": true,
-    "tool_calls": {
-      "programmatic_tool_caller": 5,
-      "read": 41,
-      "strands_manage_background_task": 11,
-      "subagent": 1
-    },
-    "answer_tail": "betically and represents a critical operational weakness in the deployment pipeline.\n\n---\n\n### **3. REMEDIATION ADVICE FOR PAYMENTS SERVICE**\n\nImplement automated canary deployments with comprehensive regression testing to prevent deploy regression incidents, which are the leading cause of downtime in the payments service. Establish a deployment rollback procedure with automated health checks to minimize impact when deploy regression occurs, reducing the service's 994 total minutes of downtime.\n",
-    "trial": 1
-  },
-  {
-    "arch": "subagent",
-    "task": "complex",
-    "seconds": 19.4,
-    "billable_input": 33004,
-    "output_tokens": 2617,
+    "seconds": 28.0,
+    "billable_input": 29575,
+    "output_tokens": 3187,
     "exact_figures": 6,
     "of": 6,
     "named_worst": true,
@@ -66,15 +13,174 @@
       "programmatic_tool_caller": 5,
       "read": 2
     },
-    "answer_tail": "n Root Cause**\n- Worst service: **payments** with 994 total downtime minutes\n- Most common root cause: **deploy regression** (3 occurrences)\n\n**Task 3: Remediation Advice**\nThe payments service should implement automated config validation and version control to prevent deploy regression incidents, which are the leading cause of outages. Additionally, deploy circuit breakers and rate limiting to gracefully degrade service during peak loads, reducing the severity and duration of future incidents.\n",
+    "answer_tail": " 182**\n\n### 2. Worst Service and Most Common Root Cause\n- **Worst Service:** payments (994 minutes total downtime)\n- **Most Common Root Cause:** deploy regression (3 incidents)\n\n### 3. Remediation Advice for Payments Service\nImplement comprehensive monitoring and alerting specifically for deploy regression incidents in payments to enable faster detection and response. Establish a post-incident review process to identify systemic improvements and automate prevention measures for this root cause.\n",
+    "trial": 1
+  },
+  {
+    "arch": "single",
+    "task": "complex",
+    "seconds": 52.2,
+    "billable_input": 128906,
+    "output_tokens": 8181,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 6,
+      "read": 42
+    },
+    "answer_tail": "ions**: 182 minutes\n\n### Task 2: Worst Service and Most Common Root Cause\n\n**Worst Service**: payments (994 total minutes)\n\n**Most Common Root Cause**: deploy regression (3 incidents)\n\n### Task 3: Remediation Advice for Payments\n\nEstablish mandatory canary deployments and comprehensive integration tests that include payment flow validation before rolling out changes to production. Implement automated rollback triggers based on transaction failure rates to quickly recover from deployment issues.\n",
     "trial": 2
+  },
+  {
+    "arch": "single",
+    "task": "complex",
+    "seconds": 30.8,
+    "billable_input": 75259,
+    "output_tokens": 3936,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 9,
+      "read": 2
+    },
+    "answer_tail": "ry: 336 minutes\n- notifications: 182 minutes\n\n**2. Worst Service and Its Most Common Root Cause**\n- Worst service: **payments** (994 minutes total downtime)\n- Most common root cause: **deploy regression** (3 incidents)\n\n**3. Remediation Advice**\nImplement automated configuration management and version control for payments to prevent configuration drift incidents. Additionally, establish a structured runbook and escalation procedure for payments incidents to minimize detection and response time.\n",
+    "trial": 3
+  },
+  {
+    "arch": "single",
+    "task": "complex",
+    "seconds": 25.4,
+    "billable_input": 48839,
+    "output_tokens": 2675,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 6,
+      "read": 2
+    },
+    "answer_tail": "*\n- Worst service: **payments**\n- Most common root cause: **deploy regression**\n\n**3. Remediation advice:**\nImplement automated canary deployments with automated rollback triggers to catch regressions before they affect production traffic; this will address the most frequent root cause. Additionally, establish a comprehensive pre-deployment testing suite including load testing and chaos engineering to validate payment system stability under various conditions before any code reaches production.\n",
+    "trial": 4
+  },
+  {
+    "arch": "single",
+    "task": "complex",
+    "seconds": 57.6,
+    "billable_input": 130212,
+    "output_tokens": 9757,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 8,
+      "read": 41
+    },
+    "answer_tail": " service and its most common root cause:**\n- Worst service: **payments**\n- Most common root cause: **deploy regression**\n\n**3. Remediation advice for payments:**\nImplement automated certificate renewal and monitoring processes with advance alerts to eliminate expiry-related incidents in the payments service. Establish pre-deployment testing and gradual rollout procedures to reduce deploy regression incidents, combined with circuit breaker patterns to handle upstream timeout failures gracefully.\n",
+    "trial": 5
+  },
+  {
+    "arch": "subagent",
+    "task": "complex",
+    "seconds": 24.9,
+    "billable_input": 41268,
+    "output_tokens": 3297,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 1
+    },
+    "answer_tail": "oot Cause:**\n- **Worst Service:** payments (994 total downtime minutes)\n- **Most Common Root Cause:** deploy regression (3 occurrences)\n\n**3. Remediation Advice:**\nThe payments service must implement comprehensive pre-deployment testing including automated regression test suites and canary deployments to catch issues before full rollout. Additionally, establish a service-level health monitoring dashboard and incident runbooks that enable faster detection and rollback of problematic deployments.\n",
+    "trial": 1
+  },
+  {
+    "arch": "subagent",
+    "task": "complex",
+    "seconds": 25.1,
+    "billable_input": 35041,
+    "output_tokens": 3426,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 1
+    },
+    "answer_tail": "mmon Root Cause**: deploy regression (3 occurrences)\n\n### **3. Remediation Advice**\nFor the payments service, which has experienced 994 minutes of downtime primarily due to deploy regression, implement automated configuration validation and version control for all configuration changes to prevent drift and reduce recurrence. Additionally, establish a post-incident review process with runbooks specific to deploy regression incidents to accelerate detection and mitigation when these issues occur.\n",
+    "trial": 2
+  },
+  {
+    "arch": "subagent",
+    "task": "complex",
+    "seconds": 53.3,
+    "billable_input": 210949,
+    "output_tokens": 7624,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 41,
+      "strands_manage_background_task": 7,
+      "subagent": 1
+    },
+    "answer_tail": "n Advice for the Payments Service**\nImplement a comprehensive pre-deployment testing strategy including automated regression tests, canary deployments, and automated rollback mechanisms to quickly revert problematic changes. Establish a staged deployment process with validation gates at each stage and require on-call engineer approval before rolling out changes to production.\n\n---\n\nAll analysis has been verified against the exact data from all 40 incident JSON files (INC-1001 through INC-1040).\n",
+    "trial": 3
+  },
+  {
+    "arch": "subagent",
+    "task": "complex",
+    "seconds": 56.8,
+    "billable_input": 209270,
+    "output_tokens": 7633,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "read": 41,
+      "programmatic_tool_caller": 9,
+      "strands_manage_background_task": 5,
+      "subagent": 1
+    },
+    "answer_tail": "eploy regression is the primary focus)\n\n### TASK 3: Remediation Advice for the Payments Service\n\nImplement automated canary deployments and comprehensive smoke tests to catch deploy regressions before they reach production, reducing the incidents caused by this critical issue. Establish circuit breakers and timeout retry policies with upstream services, along with dedicated monitoring dashboards for dependency health to mitigate upstream timeout incidents and improve overall service resilience.\n",
+    "trial": 4
+  },
+  {
+    "arch": "subagent",
+    "task": "complex",
+    "seconds": 59.7,
+    "billable_input": 651935,
+    "output_tokens": 6843,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 3,
+      "read": 2,
+      "strands_manage_background_task": 50,
+      "subagent": 1
+    },
+    "answer_tail": "* (tied with \"upstream timeout\" at 3 occurrences each)\n\n**3. REMEDIATION ADVICE**\n\nThe payments service suffers from deploy regression incidents that account for the highest portion of its 994-minute total downtime. Implement comprehensive integration testing, canary deployments, and automated rollback mechanisms to catch and mitigate regressions before production impact. Establish deployment approval gates that require validation of payment processing workflows before deployment to production.\n",
+    "trial": 5
   },
   {
     "arch": "graph",
     "task": "complex",
-    "seconds": 22.4,
-    "billable_input": 27279,
-    "output_tokens": 2754,
+    "seconds": 36.7,
+    "billable_input": 74572,
+    "output_tokens": 4976,
     "exact_figures": 6,
     "of": 6,
     "named_worst": true,
@@ -85,15 +191,15 @@
       "writer"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": "root cause for payments incidents is **deploy regression**, which occurred in 3 incidents.\n\n### 3. Remediation Advice for Payments Service\n\nImplement automated pre-deployment testing that includes comprehensive regression checks and staged rollout procedures to catch deployment issues before they reach production. Establish a mandatory change control process with automated monitoring and alerting for the payments service to quickly detect and respond to production anomalies when issues do occur.",
+    "answer_tail": "994 minutes of downtime. Its most common root cause is **deploy regression** (occurring 3 times).\n\n### 3. **Remediation Advice:**\nImplement automated canary deployments with immediate rollback triggers for the payments service to catch deploy regressions before they impact customer transactions. Establish a mandatory change review process where all payments service deployments require pre-flight validation checks and post-deployment monitoring for the first 30 minutes to identify issues quickly.",
     "trial": 1
   },
   {
     "arch": "graph",
     "task": "complex",
-    "seconds": 45.6,
-    "billable_input": 92689,
-    "output_tokens": 7914,
+    "seconds": 39.3,
+    "billable_input": 69572,
+    "output_tokens": 5310,
     "exact_figures": 6,
     "of": 6,
     "named_worst": true,
@@ -104,15 +210,108 @@
       "writer"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": "most common root cause is **deploy regression**, which occurred in 3 incidents.\n\n### 3. Remediation Advice\nImplement automated monitoring and alerting systems to detect deploy regression issues before they impact users, with incident response playbooks specifically addressing this failure mode. Establish preventive maintenance protocols and conduct regular failure mode analysis to identify and mitigate the underlying conditions that contribute to deploy regression events in the payments service.",
+    "answer_tail": "tical paths to detect regressions in real time, combined with a documented rollback procedure that can be executed within minutes of detection.\n\n---\n\n**Task Complete.** The analysis of all 40 incident records (INC-1001.json through INC-1040.json) is verified and all three requirements have been fulfilled:\n1. \u2713 Downtime totals per service with exact numbers\n2. \u2713 Worst service (payments) and its most common root cause (deploy regression) identified\n3. \u2713 Two sentences of remediation advice provided",
+    "trial": 2
+  },
+  {
+    "arch": "graph",
+    "task": "complex",
+    "seconds": 28.4,
+    "billable_input": 37781,
+    "output_tokens": 3689,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "s with 994 minutes as the worst-performing service, followed by auth at 700 minutes and checkout at 624 minutes. Deploy regression is the most common root cause for payments service incidents. Implement mandatory canary deployments with automated rollback triggers for the payments service to prevent deploy regressions. Establish a comprehensive pre-deployment integration test suite that validates payment processing flows and upstream service connectivity to catch issues before production impact.",
+    "trial": 3
+  },
+  {
+    "arch": "graph",
+    "task": "complex",
+    "seconds": 45.2,
+    "billable_input": 52862,
+    "output_tokens": 4842,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": " Establish comprehensive pre-production testing including load testing, integration tests, and production traffic shadowing to catch regressions before they impact customers.\n\n---\n\n**Task Status: Complete**\n\nAll three required components are present:\n1. \u2713 Downtime totals per service with exact numbers, sorted descending\n2. \u2713 Worst service (payments) and its most common root cause (deploy regression) identified\n3. \u2713 Two sentences of remediation advice provided\n\nThe analysis is ready for delivery.",
+    "trial": 4
+  },
+  {
+    "arch": "graph",
+    "task": "complex",
+    "seconds": 46.8,
+    "billable_input": 82003,
+    "output_tokens": 8501,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "onitoring and alerting systems with immediate escalation protocols to detect anomalies before they impact service availability. Establish a dedicated incident response team for payments with pre-defined runbooks and conduct regular disaster recovery drills to minimize response time and mean time to resolution.\n\n---\n\n**Task Status: COMPLETE** \u2713\n\nAll three requirements have been fulfilled with exact numbers, the worst service identified, and two sentences of actionable remediation advice provided.",
+    "trial": 5
+  },
+  {
+    "arch": "swarm",
+    "task": "complex",
+    "seconds": 24.1,
+    "billable_input": 32967,
+    "output_tokens": 2817,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "node_history": [
+      "extractor",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "ing workflows, including end-to-end tests for transaction processing, settlement, and reconciliation, with mandatory approval gates that require passing all tests before production deployment. Establish a canary deployment strategy for the payments service that gradually rolls out changes to 5% of traffic initially, monitoring key payment metrics (transaction success rate, latency, error rates) for 30 minutes before proceeding to full rollout, enabling rapid rollback if regressions are detected.",
+    "trial": 1
+  },
+  {
+    "arch": "swarm",
+    "task": "complex",
+    "seconds": 35.8,
+    "billable_input": 71627,
+    "output_tokens": 4944,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "node_history": [
+      "extractor",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": " incidents from reaching production.\n\n---\n\n**Summary**: The payments service experienced 994 total downtime minutes with deploy regression as its most common root cause (occurring 3 times). Implement mandatory pre-deployment testing and automated rollback procedures to catch regressions before production deployment, and establish a deployment review process that includes a payment-specific test suite and staging environment validation to prevent deploy-related incidents from reaching production.",
     "trial": 2
   },
   {
     "arch": "swarm",
     "task": "complex",
-    "seconds": 62.5,
-    "billable_input": 109195,
-    "output_tokens": 7100,
+    "seconds": 53.8,
+    "billable_input": 85881,
+    "output_tokens": 9465,
     "exact_figures": 6,
     "of": 6,
     "named_worst": true,
@@ -121,15 +320,32 @@
       "extractor"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": " address the payments service's recurring issues, implement automated canary deployments with rollback triggers to catch regressions before they impact production, and establish upstream service health monitoring with circuit breakers to gracefully degrade when external dependencies become unstable. Additionally, establish a pre-deployment testing protocol that includes load testing and chaos engineering practices to identify potential failure modes before releases reach production environments.",
-    "trial": 1
+    "answer_tail": "ection pool saturation scenarios. Additionally, establish a deployment review checklist and require mandatory approval from payment system specialists for all changes, along with setting up distributed tracing alerts to catch upstream timeout issues within the first minute of occurrence.\n\n---\n\n**Verification Note:** All data computed from exactly 40 incident records (INC-1001.json through INC-1040.json), with precise minute totals verified per service. The analysis is complete and ready for use.",
+    "trial": 3
   },
   {
     "arch": "swarm",
     "task": "complex",
-    "seconds": 78.6,
-    "billable_input": 137679,
-    "output_tokens": 8490,
+    "seconds": 49.9,
+    "billable_input": 133516,
+    "output_tokens": 8123,
+    "exact_figures": 6,
+    "of": 6,
+    "named_worst": true,
+    "has_advice": true,
+    "node_history": [
+      "extractor"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "ce)\n\n### 3. REMEDIATION ADVICE FOR PAYMENTS SERVICE\n\nImplement mandatory pre-deployment testing and canary deployments for the payments service to catch regressions before they reach production, including automated integration tests that validate backward compatibility and critical payment flows. Establish a deployment rollback automation strategy with instant rollback triggers based on error rate thresholds to minimize downtime impact when deploy regression incidents are detected in production.",
+    "trial": 4
+  },
+  {
+    "arch": "swarm",
+    "task": "complex",
+    "seconds": 38.0,
+    "billable_input": 95265,
+    "output_tokens": 5345,
     "exact_figures": 6,
     "of": 6,
     "named_worst": true,
@@ -139,21 +355,8 @@
       "writer"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": "\n\n**3. Remediation advice for the payments service:**\n\nThe payments service should implement automated regression testing in its deployment pipeline to catch issues before production release, as deploy regression is a primary failure mode occurring 3 times. Additionally, implementing circuit breakers and timeout handling for upstream service calls is critical, given that upstream timeout is equally prevalent and can be mitigated through better resilience patterns and upstream service monitoring.",
-    "trial": 2
-  },
-  {
-    "arch": "single",
-    "task": "trivial",
-    "seconds": 1.4,
-    "billable_input": 3488,
-    "output_tokens": 75,
-    "correct": true,
-    "tool_calls": {
-      "programmatic_tool_caller": 1
-    },
-    "answer_tail": "391\n",
-    "trial": 1
+    "answer_tail": "use: **deploy regression** (occurred 3 times)\n\n**3. Remediation advice:**\n\nThe payments service experiences deploy regressions that are causing significant downtime; implement mandatory staging environment validation and automated regression testing before any payment system deployments to catch issues before production. Additionally, establish a deployment freeze policy and require automated rollback procedures for the payments service to minimize impact when regressions do occur in production.",
+    "trial": 5
   },
   {
     "arch": "single",
@@ -166,12 +369,64 @@
       "programmatic_tool_caller": 1
     },
     "answer_tail": "391\n",
+    "trial": 1
+  },
+  {
+    "arch": "single",
+    "task": "trivial",
+    "seconds": 1.3,
+    "billable_input": 3483,
+    "output_tokens": 70,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
     "trial": 2
+  },
+  {
+    "arch": "single",
+    "task": "trivial",
+    "seconds": 1.3,
+    "billable_input": 3483,
+    "output_tokens": 70,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
+    "trial": 3
+  },
+  {
+    "arch": "single",
+    "task": "trivial",
+    "seconds": 1.3,
+    "billable_input": 3483,
+    "output_tokens": 70,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
+    "trial": 4
+  },
+  {
+    "arch": "single",
+    "task": "trivial",
+    "seconds": 1.8,
+    "billable_input": 3483,
+    "output_tokens": 69,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
+    "trial": 5
   },
   {
     "arch": "subagent",
     "task": "trivial",
-    "seconds": 1.5,
+    "seconds": 1.4,
     "billable_input": 4361,
     "output_tokens": 70,
     "correct": true,
@@ -184,7 +439,18 @@
   {
     "arch": "subagent",
     "task": "trivial",
-    "seconds": 1.6,
+    "seconds": 0.5,
+    "billable_input": 2141,
+    "output_tokens": 5,
+    "correct": true,
+    "tool_calls": {},
+    "answer_tail": "391\n",
+    "trial": 2
+  },
+  {
+    "arch": "subagent",
+    "task": "trivial",
+    "seconds": 1.4,
     "billable_input": 4361,
     "output_tokens": 70,
     "correct": true,
@@ -192,14 +458,40 @@
       "programmatic_tool_caller": 1
     },
     "answer_tail": "391\n",
-    "trial": 2
+    "trial": 3
+  },
+  {
+    "arch": "subagent",
+    "task": "trivial",
+    "seconds": 1.4,
+    "billable_input": 4361,
+    "output_tokens": 70,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
+    "trial": 4
+  },
+  {
+    "arch": "subagent",
+    "task": "trivial",
+    "seconds": 1.7,
+    "billable_input": 4366,
+    "output_tokens": 75,
+    "correct": true,
+    "tool_calls": {
+      "programmatic_tool_caller": 1
+    },
+    "answer_tail": "391\n",
+    "trial": 5
   },
   {
     "arch": "graph",
     "task": "trivial",
-    "seconds": 3.6,
-    "billable_input": 3956,
-    "output_tokens": 40,
+    "seconds": 1.8,
+    "billable_input": 3931,
+    "output_tokens": 15,
     "correct": true,
     "execution_order": [
       "extractor",
@@ -207,15 +499,15 @@
       "writer"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": "extractor: 391\nanalyst: I need to calculate 17 multiplied by 23.\n\n17 \u00d7 23 = 391\n\n**391**\nwriter: 391",
+    "answer_tail": "extractor: 391\nanalyst: 391\nwriter: 391",
     "trial": 1
   },
   {
     "arch": "graph",
     "task": "trivial",
     "seconds": 3.1,
-    "billable_input": 3956,
-    "output_tokens": 40,
+    "billable_input": 5745,
+    "output_tokens": 80,
     "correct": true,
     "execution_order": [
       "extractor",
@@ -223,13 +515,61 @@
       "writer"
     ],
     "status": "Status.COMPLETED",
-    "answer_tail": "extractor: 391\nanalyst: I need to calculate 17 multiplied by 23.\n\n17 \u00d7 23 = 391\n\n**391**\nwriter: 391",
+    "answer_tail": "extractor: 391\nanalyst: 391\nwriter: 391",
     "trial": 2
+  },
+  {
+    "arch": "graph",
+    "task": "trivial",
+    "seconds": 3.3,
+    "billable_input": 5801,
+    "output_tokens": 136,
+    "correct": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391\nanalyst: I notice there's a discrepancy here. Let me calculate 17 \u00d7 23 directly:\n\n17 \u00d7 23 = 391\n\nThe answer is: **391**\n\n(This matches the value provided from the extractor agent, confirming the result.)\nwriter: 391",
+    "trial": 3
+  },
+  {
+    "arch": "graph",
+    "task": "trivial",
+    "seconds": 2.9,
+    "billable_input": 5745,
+    "output_tokens": 80,
+    "correct": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391\nanalyst: 391\nwriter: 391",
+    "trial": 4
+  },
+  {
+    "arch": "graph",
+    "task": "trivial",
+    "seconds": 2.1,
+    "billable_input": 3954,
+    "output_tokens": 38,
+    "correct": true,
+    "execution_order": [
+      "extractor",
+      "analyst",
+      "writer"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391\nanalyst: I need to calculate 17 multiplied by 23.\n\n17 \u00d7 23 = 391\n\n391\nwriter: 391",
+    "trial": 5
   },
   {
     "arch": "swarm",
     "task": "trivial",
-    "seconds": 2.4,
+    "seconds": 1.6,
     "billable_input": 4101,
     "output_tokens": 90,
     "correct": true,
@@ -243,7 +583,7 @@
   {
     "arch": "swarm",
     "task": "trivial",
-    "seconds": 2.0,
+    "seconds": 1.5,
     "billable_input": 4101,
     "output_tokens": 90,
     "correct": true,
@@ -253,5 +593,47 @@
     "status": "Status.COMPLETED",
     "answer_tail": "extractor: 391",
     "trial": 2
+  },
+  {
+    "arch": "swarm",
+    "task": "trivial",
+    "seconds": 1.5,
+    "billable_input": 4098,
+    "output_tokens": 87,
+    "correct": true,
+    "node_history": [
+      "extractor"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391",
+    "trial": 3
+  },
+  {
+    "arch": "swarm",
+    "task": "trivial",
+    "seconds": 1.5,
+    "billable_input": 4086,
+    "output_tokens": 75,
+    "correct": true,
+    "node_history": [
+      "extractor"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391",
+    "trial": 4
+  },
+  {
+    "arch": "swarm",
+    "task": "trivial",
+    "seconds": 1.6,
+    "billable_input": 4101,
+    "output_tokens": 90,
+    "correct": true,
+    "node_history": [
+      "extractor"
+    ],
+    "status": "Status.COMPLETED",
+    "answer_tail": "extractor: 391",
+    "trial": 5
   }
 ]

@@ -9,14 +9,22 @@ Evidence for a second article on `Graph`, `Swarm` and the harness's built-in
 
 ## Headline
 
-**Multi-agent topologies in this SDK cost 1.75×–4.9× more than a single agent and are
-usually slower, with no accuracy benefit on the tasks tested.** They are not a free
-upgrade. They pay for themselves only in the narrow case where isolation is the point.
+**The cost of a topology is not the story. The variance is.**
 
-This is the opposite of how multi-agent frameworks are usually marketed, and it is the
-spine of article 2.
+At n=5, a `Graph` is no more expensive than a single agent (0.92× median) and is the
+most *predictable* thing you can build — a 2.2× spread between its best and worst run,
+against 4.4× for a single agent. Letting the model decide when to delegate is the
+opposite: `subagent` costs 2.78× the median and swings **18.6×** between runs.
 
----
+Structure does not buy speed or accuracy. It buys predictability. Handing control-flow
+decisions to the model is what creates cost variance — the same pattern article 1 found
+when the model chose whether to use the code sandbox.
+
+> **This reverses an earlier conclusion.** At n=2 the medians read "topologies cost
+> 2–5× a single agent". Five runs per arm dissolved that: the single-agent arm alone
+> swings 29,575–130,212. Two runs per arm was an anecdote, exactly the mistake article 1
+> made before repetition overturned it. Any claim in this file at n=2 should be treated
+> as provisional.
 
 ## What the SDK actually offers
 
@@ -64,29 +72,42 @@ cause → remediation advice) on the 40 small records. Every arm had `read` and
 `programmatic_tool_caller`, so arithmetic was done by code in all of them and the
 accuracy gap from experiment 04 is not being re-measured. n=2 per arm.
 
-### Complex task
+### Complex task (n=5 per arch)
 
-| arch | billable input | output | wall sec | correct |
-|---|---|---|---|---|
-| **single** | **30,034** | 2,942 | **23.4** | 6/6 figures, 2/2 worst |
-| graph | 59,984 | 5,334 | 34.0 | 6/6, 2/2 |
-| swarm | 123,437 | 7,795 | 70.5 | 6/6, 2/2 |
-| subagent | 145,950 | 6,354 | 42.7 | 6/6, 2/2 |
+| arch | median billable | mean | min | max | spread | wall sec |
+|---|---|---|---|---|---|---|
+| single | 75,259 | 82,558 | 29,575 | 130,212 | 4.4× | 30.8 |
+| **graph** | **69,572** | 63,358 | 37,781 | 82,003 | **2.2×** | 39.3 |
+| swarm | 85,881 | 83,851 | 32,967 | 133,516 | 4.0× | 38.0 |
+| **subagent** | **209,270** | 229,693 | 35,041 | **651,935** | **18.6×** | 53.3 |
 
-**All four were equally correct. The single agent was cheapest and fastest.**
-Graph 2.0×, swarm 4.1×, subagent 4.9× the cost of one agent.
+Against the single agent's median: graph **0.92×**, swarm **1.14×**, subagent **2.78×**.
 
-### Trivial task ("what is 17 × 23")
+**All four were correct in all five runs** — 6/6 figures, 5/5 on naming the worst service.
+
+Per-run values, sorted, showing how little the medians tell you:
+
+```
+single    29,575   48,839   75,259  128,906  130,212
+graph     37,781   52,862   69,572   74,572   82,003
+swarm     32,967   71,627   85,881   95,265  133,516
+subagent  35,041   41,268  209,270  210,949  651,935
+```
+
+The graph's range is narrow and its worst case is better than the single agent's
+median. The subagent's worst case is 18× its own best.
+
+### Trivial task ("what is 17 × 23", n=5)
 
 | arch | billable input | wall sec |
 |---|---|---|
-| single | 3,486 | 1.4 |
-| graph | 3,956 | 3.4 |
-| swarm | 4,101 | 2.2 |
-| subagent | 4,361 | 1.6 |
+| single | 3,483 | 1.3 |
+| graph | 5,745 | 2.9 |
+| swarm | 4,101 | 1.5 |
+| subagent | 4,361 | 1.4 |
 
-All correct. Overhead is modest in absolute tokens, but graph took 2.4× the wall time
-for a one-line answer.
+All 5/5 correct everywhere. Overhead is modest in absolute tokens, but the graph took
+2.2× the wall time for a one-line answer.
 
 ---
 
@@ -219,8 +240,9 @@ declarations genuinely shape the API the model sees, rather than just defaulting
 
 ## Caveats on this block
 
-- **n=2 per arm.** Directionally consistent across two independent experiments, but
-  these are not tight confidence intervals. Raise n before publishing specific multiples.
+- **Experiment 14 is n=5; experiment 15 is still n=2** at the time of writing. Given
+  what raising n did to experiment 14, treat 15's numbers as provisional.
+- Even at n=5 these are medians of a very noisy process, not confidence intervals.
 - **Haiku 4.5 only.** A frontier model might coordinate a swarm more efficiently, or
   might make the single-agent baseline even stronger. Unknown.
 - **My task designs may still favour the single agent.** Both tasks fit comfortably in
@@ -241,5 +263,5 @@ declarations genuinely shape the API the model sees, rather than just defaulting
    Requires approval to use a non-Haiku model.
 4. **A2A protocol** — completely untested.
 5. **Cycles / feedback loops** — conditional edges are verified, cycles are not.
-5. **Raise n to 5+** on experiments 14 and 15.
+5. **Raise experiment 15 to n=5** — experiment 14 is done.
 6. **Swarm under contention** — more than one agent plausibly able to handle a step.
