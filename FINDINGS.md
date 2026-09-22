@@ -112,9 +112,25 @@ Ranges: arm A small 12,239–30,900; arm A large 106,659–108,373; code mode sm
 2–3 round trips. `HARNESS_CONTRACT` explicitly instructs parallel tool calls, so the
 round-trip saving code mode is supposed to deliver largely does not exist there.
 
-### The fallback failure mode — most important caveat
+### The fallback failure mode — corrected with a larger n
 
-`poc/results_codemode_diagnostic.json`, large dataset, tool calls instrumented:
+`poc/18_abandonment_rate.py` plus every earlier code-mode run. **n=27 large-dataset
+code-mode runs, 24 of them instrumented** (tool calls recorded).
+
+A run "fell back" when it made 10+ direct `read` calls instead of letting sandboxed
+code do the fetching.
+
+| | n | median billable input |
+|---|---|---|
+| Used the sandbox | 22/24 | **26,650** |
+| Fell back to direct reads | **2/24 (8%)** | **469,484** (17.6× worse) |
+
+Runs exceeding 100k billable input: **5/27 (19%)** — costs were 115,825 · 413,313 ·
+419,311 · 458,865 · 519,657. Note 19% > 8%: one expensive run did *not* fall back, so
+cost blow-ups have more than one cause.
+
+The instrumented example remains the clearest illustration
+(`results_codemode_diagnostic.json`):
 
 | trial | direct `read` calls | sandbox calls | billable_in | exact |
 |---|---|---|---|---|
@@ -124,11 +140,19 @@ round-trip saving code mode is supposed to deliver largely does not exist there.
 | 4 | 1 | 4 | 25,940 | 6/6 |
 | 5 | 1 | 4 | 22,468 | 6/6 |
 
-When the model abandons the sandbox and reads all 40 files directly it produces both
-the most expensive run (5× arm A) **and** the only wrong answer in the code-mode set.
+> **CORRECTION REQUIRED IN ARTICLE 1.** The published draft says the model "simply does
+> not take the deal" *"roughly a quarter of the time"*, and that the fallback run
+> produced "the single wrong answer". Both overstate it:
+> - The measured fallback rate is **8%** (2/24), or **19%** if you count every run that
+>   blew past 100k. "Roughly a quarter" came from n=12.
+> - Of the two observed fallback runs, one scored 0/6 and the other **6/6**. Falling
+>   back is reliably *expensive*, not reliably *wrong*.
+>
+> Suggested wording: "about one run in twelve abandoned the sandbox, and roughly one in
+> five cost far more than it should have — when that happens you pay around 17× the
+> normal cost, and the answer may or may not survive."
 
-Grouped: used the sandbox → n=8, median 24,204, perfect 8/8. Fell back → n=1,
-519,657, perfect 0/1. **3 of 12 large code-mode runs exceeded 100k.**
+Overall code-mode accuracy across every graded large run: **22/23 perfect**.
 
 ---
 
@@ -225,9 +249,15 @@ Sandbox calls route through the same executor. Not an escape path.
 | Skills auto-discovered from folder | `09` | Verified w/ control |
 | Offloading swaps bulk for reference | `10` | Verified |
 | Summarizes at ~70% utilization | `presets.py` source | **Read, not observed** |
-| `web_fetch` distils page via small model | README + source | **Not tested** |
-| Subagent inherits interventions | README | **Not tested** |
-| Delegate cannot be granted more perms than parent | README | **Not tested** |
+| Delegate cannot be granted more perms than parent | `12` | Verified |
+| Subagent inherits parent's Cedar policy | `11` | Verified |
+| `web_fetch` distils rather than pastes | `13` | Verified, 791× |
+| MCP servers discovered, namespaced, isolated on failure | `16` | Verified |
+| Custom tools reach into the sandbox | `17` | Verified |
+| Cedar governs custom tools, not just built-ins | `17` | Verified |
+| `"smart"` and prose policies gate correctly | `19` | Verified w/ control |
+| Structured output via `structured_output_model=` | `20` | Verified, 6/6 |
+| Multi-agent topologies cost 2–5× a single agent | `14`, `15` | Verified, n=2 |
 
 ---
 
@@ -255,28 +285,16 @@ Ordered by how much they would change what we can claim.
    4.5. If a frontier model scores 18/20 on in-context arithmetic, the headline claim
    needs heavy qualification ("on a small model…") rather than being stated generally.
    **This is the single biggest open risk in the article.**
-2. **Measure the sandbox-abandonment rate properly.** n=12 with only 9 instrumented.
-   Run 25+ large code-mode trials recording `tool_calls` every time to put a real
-   number on "roughly a quarter of the time".
 3. **Raise n on small-dataset code mode** (currently n=7).
 
-### Priority 2 — claims currently asserted from docs
+### Priority 2 — remaining doc-sourced claims
 
-4. `web_fetch` — confirm it summarizes via a small model rather than pasting the page,
-   and measure the context saving.
-5. **Intervention inheritance into subagents** — verify a delegate cannot bypass the
-   parent's Cedar policy. Security-relevant and currently unverified.
-6. **Tool-narrowing on delegation** — confirm a child cannot be granted tools the
-   parent lacks.
 7. **Context summarization at ~70%** — drive a conversation past the threshold and
    observe summarization happening, rather than trusting `presets.py`.
 
 ### Priority 3 — breadth for a follow-up piece
 
 8. Cost in **dollars**, not tokens, across providers.
-9. `interventions="smart"` (LLM classifier) and natural-language policies — only Cedar
-   was tested.
-10. MCP server integration — completely untested.
 11. Session resume **across process restart**, not just across agent objects.
 12. `context_manager="auto"` vs `"agentic"`.
 13. TypeScript parity — is `createHarness()` equivalent?

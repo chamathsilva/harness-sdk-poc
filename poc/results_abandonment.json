@@ -1,0 +1,122 @@
+[
+  {
+    "trial": 1,
+    "direct_reads": 1,
+    "sandbox_calls": 6,
+    "billable_input": 47544,
+    "round_trips": 8,
+    "exact": 6
+  },
+  {
+    "trial": 2,
+    "direct_reads": 3,
+    "sandbox_calls": 9,
+    "billable_input": 115825,
+    "round_trips": 13,
+    "exact": 6
+  },
+  {
+    "trial": 3,
+    "direct_reads": 1,
+    "sandbox_calls": 3,
+    "billable_input": 37794,
+    "round_trips": 5,
+    "exact": 6
+  },
+  {
+    "trial": 4,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 30077,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 5,
+    "direct_reads": 1,
+    "sandbox_calls": 2,
+    "billable_input": 21413,
+    "round_trips": 4,
+    "exact": 6
+  },
+  {
+    "trial": 6,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 26528,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 7,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 39624,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 8,
+    "direct_reads": 41,
+    "sandbox_calls": 5,
+    "billable_input": 419311,
+    "round_trips": 11,
+    "exact": 6
+  },
+  {
+    "trial": 9,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 26999,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 10,
+    "direct_reads": 1,
+    "sandbox_calls": 2,
+    "billable_input": 18055,
+    "round_trips": 4,
+    "exact": 6
+  },
+  {
+    "trial": 11,
+    "direct_reads": 1,
+    "sandbox_calls": 3,
+    "billable_input": 25946,
+    "round_trips": 5,
+    "exact": 6
+  },
+  {
+    "trial": 12,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 27245,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 13,
+    "direct_reads": 1,
+    "sandbox_calls": 4,
+    "billable_input": 30450,
+    "round_trips": 6,
+    "exact": 6
+  },
+  {
+    "trial": 14,
+    "direct_reads": 1,
+    "sandbox_calls": 3,
+    "billable_input": 17990,
+    "round_trips": 5,
+    "exact": 6
+  },
+  {
+    "trial": 15,
+    "direct_reads": 1,
+    "sandbox_calls": 2,
+    "billable_input": 21163,
+    "round_trips": 4,
+    "exact": 6
+  }
+]
