@@ -1,0 +1,32 @@
+[
+  {
+    "label": "context management ON (forced low)",
+    "tools": [
+      "retrieve_context",
+      "retrieve_offloaded_content",
+      "strands_manage_background_task"
+    ],
+    "has_retrieve_context": true,
+    "messages_after_turns": 4,
+    "history_chars": 2011,
+    "first_fact_verbatim_in_history": true,
+    "summary_markers": [
+      "summar"
+    ],
+    "still_answers_first_fact": true,
+    "answer": "The cooling loop in the Helsinki datacentre is **ZX-9**.\n"
+  },
+  {
+    "label": "context management OFF (control)",
+    "tools": [
+      "strands_manage_background_task"
+    ],
+    "has_retrieve_context": false,
+    "messages_after_turns": 14,
+    "history_chars": 4414,
+    "first_fact_verbatim_in_history": true,
+    "summary_markers": [],
+    "still_answers_first_fact": true,
+    "answer": "The cooling loop in the Helsinki datacentre is **ZX-9**.\n"
+  }
+]

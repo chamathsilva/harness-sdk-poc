@@ -1,5 +1,8 @@
 # Strands harness — a small POC
 
+> **New here?** Read [AGENTS.md](AGENTS.md) first — it explains what each document
+> holds, the conventions the measurements follow, and what is safe to run.
+
 Code behind the article *The Agent You Don't Have to Build*. Everything here runs
 against the [Strands harness](https://github.com/strands-agents/harness-sdk)
 (`strands-harness` 0.1.1) on the Anthropic API.

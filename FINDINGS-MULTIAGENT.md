@@ -3,7 +3,7 @@
 Evidence for a second article on `Graph`, `Swarm` and the harness's built-in
 `subagent`. Same method as the first: measure, control, report what actually happened.
 
-**Last updated:** 2026-09-22 · All runs Claude Haiku 4.5, `effort="off"`, Anthropic API.
+**Last updated:** 2026-09-22 · Start with [AGENTS.md](AGENTS.md). · All runs Claude Haiku 4.5, `effort="off"`, Anthropic API.
 
 ---
 

@@ -2,8 +2,8 @@
 
 Where each piece stands, what evidence backs it, and what is still missing.
 
-**Last updated:** 2026-09-22 · Evidence lives in `FINDINGS.md`,
-`FINDINGS-MULTIAGENT.md`, `FINDINGS-EXTENDING.md`.
+**Last updated:** 2026-09-22 · Start with [AGENTS.md](AGENTS.md). Evidence lives in
+`FINDINGS.md`, `FINDINGS-MULTIAGENT.md`, `FINDINGS-EXTENDING.md`.
 
 ---
 
@@ -29,7 +29,7 @@ The library is a context-and-authority manager that happens to call a model.
 control · offloading 9,928 vs 175,317 chars · subagent isolation 0 vs 2,400 markers ·
 sandbox sealed · Cedar holds inside the sandbox.
 
-**Correction needed** (detail in `FINDINGS.md` §4): the draft says the model abandons
+**Correction — APPLIED 2026-09-22** (detail in `FINDINGS.md` §4): the draft says the model abandons
 the sandbox *"roughly a quarter of the time"* and that the fallback run produced *"the
 single wrong answer"*. With n=27 the real rate is **8%** (2/24 instrumented), or 19% if
 counting every run over 100k. And of two fallback runs, one was 0/6 and one 6/6 — so
@@ -104,7 +104,7 @@ sessions across a real process restart.
 
 ## Possible article 4 — the frontier-model check
 
-**Status: blocked on approval.**
+**Status: optional, pending approval. Not a blocker for articles 1-3.**
 
 Every number in this series is Claude Haiku 4.5. The accuracy finding — a model getting
 4/20 on arithmetic over data in its context — is the series' most striking claim and the
@@ -118,7 +118,9 @@ Three outcomes, all publishable:
    becomes about when cheap models need scaffolding that expensive ones do not.
 3. **Partial** → the most useful engineering answer: where the boundary sits.
 
-Standing constraint: the user asked for Haiku only, never Opus. This stays queued.
+Standing constraint: the user asked for Haiku only. This stays queued as a *pending,
+optional* item — articles 1-3 stand on their own without it, provided each states the
+Haiku caveat plainly, which article 1 now does.
 
 ---
 

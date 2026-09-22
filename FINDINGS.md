@@ -4,7 +4,7 @@ Working record of every measurement taken, how it was taken, what it supports, a
 what still needs doing. Written so a later session (or a follow-up article) can pick
 up without re-deriving anything.
 
-**Last updated:** 2026-09-22
+**Last updated:** 2026-09-22 · New here? Start with [AGENTS.md](AGENTS.md).
 
 ---
 
@@ -140,7 +140,7 @@ The instrumented example remains the clearest illustration
 | 4 | 1 | 4 | 25,940 | 6/6 |
 | 5 | 1 | 4 | 22,468 | 6/6 |
 
-> **CORRECTION REQUIRED IN ARTICLE 1.** The published draft says the model "simply does
+> **CORRECTION — APPLIED TO ARTICLE 1 on 2026-09-22.** Kept here as the record. The published draft says the model "simply does
 > not take the deal" *"roughly a quarter of the time"*, and that the fallback run
 > produced "the single wrong answer". Both overstate it:
 > - The measured fallback rate is **8%** (2/24), or **19%** if you count every run that
@@ -221,6 +221,38 @@ Sandbox calls route through the same executor. Not an escape path.
 
 ---
 
+## 5b. Summarization fires and compacts the history — `poc/22_summarization.py`
+
+The last doc-sourced claim in article 1. Six turns, each planting a distinctive fact,
+then a probe for the first one.
+
+Filling Haiku's real 200k window to hit the default 70% trigger would be costly, so the
+test shrinks the window the context manager measures against (`AnthropicModel(...,
+context_window_limit=2000)`) and fires at `utilization=0.5`.
+
+| | messages after 6 turns | history chars | still answers turn 1 |
+|---|---|---|---|
+| Context management **on** | **4** | **2,011** | yes |
+| Off (control) | 14 | 4,414 | yes |
+
+**14 messages collapsed into 4, history halved, answer still correct.**
+
+Two things worth recording:
+
+1. **The facts survive summarization.** My first pass expected the early fact to vanish
+   from history; it did not, because the summary carries it. A summary that dropped the
+   facts would be a bad summary. The signal is message count and history size falling,
+   not content disappearing.
+2. **`threshold` and `utilization` are not interchangeable.** Conversation summarization
+   triggers on `utilization` (a fraction of the context window). `threshold` (an absolute
+   token count) is what the *tool-result* strategies use. Two runs at
+   `threshold=1500` then `threshold=400` never fired before this was understood.
+
+Caveat: this verifies the mechanism at a forced trigger point. The shipped default of
+~70% utilization on a real window is still unobserved.
+
+---
+
 ## 6. Usability friction (observed, reproducible)
 
 1. **`read` returns `cat -n` numbered lines.** Sandbox code parsing them as JSON fails
@@ -248,8 +280,10 @@ Sandbox calls route through the same executor. Not an escape path.
 | Memory survives into new conversation | `08` | Verified |
 | Skills auto-discovered from folder | `09` | Verified w/ control |
 | Offloading swaps bulk for reference | `10` | Verified |
-| Summarizes at ~70% utilization | `presets.py` source | **Read, not observed** |
+| Summarization compacts history | `22` | Mechanism verified at forced trigger |
+| The ~70% default specifically | `presets.py` source | **Read, not observed** |
 | Delegate cannot be granted more perms than parent | `12` | Verified |
+| Sessions survive a process restart | `21` | Verified, 2 processes |
 | Subagent inherits parent's Cedar policy | `11` | Verified |
 | `web_fetch` distils rather than pastes | `13` | Verified, 791× |
 | MCP servers discovered, namespaced, isolated on failure | `16` | Verified |
@@ -281,6 +315,10 @@ Ordered by how much they would change what we can claim.
 
 ### Priority 1 — the accuracy finding may be model-specific
 
+> **Item 1 is OPTIONAL and pending the user's approval** (Haiku-only standing
+> instruction). It is not a blocker: articles 1-3 stand provided each states the Haiku
+> caveat, which article 1 now does.
+
 1. **Re-run the accuracy benchmark on Opus 5 / Sonnet 5.** Everything above is Haiku
    4.5. If a frontier model scores 18/20 on in-context arithmetic, the headline claim
    needs heavy qualification ("on a small model…") rather than being stated generally.
@@ -289,8 +327,6 @@ Ordered by how much they would change what we can claim.
 
 ### Priority 2 — remaining doc-sourced claims
 
-7. **Context summarization at ~70%** — drive a conversation past the threshold and
-   observe summarization happening, rather than trusting `presets.py`.
 
 ### Priority 3 — breadth for a follow-up piece
 

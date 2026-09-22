@@ -3,7 +3,7 @@
 Evidence for a practical article on custom tools, MCP, and skills: *how you actually
 build something on this thing.*
 
-**Last updated:** 2026-09-22 · All runs Claude Haiku 4.5, `effort="off"`, Anthropic API.
+**Last updated:** 2026-09-22 · Start with [AGENTS.md](AGENTS.md). · All runs Claude Haiku 4.5, `effort="off"`, Anthropic API.
 
 ---
 
