@@ -1,0 +1,63 @@
+{
+  "connected": {
+    "all_tools": [
+      "incidents_create_directory",
+      "incidents_directory_tree",
+      "incidents_edit_file",
+      "incidents_get_file_info",
+      "incidents_list_allowed_directories",
+      "incidents_list_directory",
+      "incidents_list_directory_with_sizes",
+      "incidents_move_file",
+      "incidents_read_file",
+      "incidents_read_media_file",
+      "incidents_read_multiple_files",
+      "incidents_read_text_file",
+      "incidents_search_files",
+      "incidents_write_file",
+      "strands_manage_background_task"
+    ],
+    "mcp_tools": [
+      "incidents_create_directory",
+      "incidents_directory_tree",
+      "incidents_edit_file",
+      "incidents_get_file_info",
+      "incidents_list_allowed_directories",
+      "incidents_list_directory",
+      "incidents_list_directory_with_sizes",
+      "incidents_move_file",
+      "incidents_read_file",
+      "incidents_read_media_file",
+      "incidents_read_multiple_files",
+      "incidents_read_text_file",
+      "incidents_search_files",
+      "incidents_write_file"
+    ],
+    "tool_calls": {
+      "incidents_list_directory": 1
+    },
+    "counted_40": true,
+    "answer": "There are **40 files** in the directory `/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents`.\n\nThey are all JSON files named sequentially from `INC-1001.json` through `INC-1040.json`.\n"
+  },
+  "broken_server": {
+    "agent_built": true,
+    "tools": [
+      "incidents_create_directory",
+      "incidents_directory_tree",
+      "incidents_edit_file",
+      "incidents_get_file_info",
+      "incidents_list_allowed_directories",
+      "incidents_list_directory",
+      "incidents_list_directory_with_sizes",
+      "incidents_move_file",
+      "incidents_read_file",
+      "incidents_read_media_file",
+      "incidents_read_multiple_files",
+      "incidents_read_text_file",
+      "incidents_search_files",
+      "incidents_write_file",
+      "strands_manage_background_task"
+    ],
+    "good_server_survived": true
+  }
+}

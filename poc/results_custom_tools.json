@@ -1,0 +1,20 @@
+{
+  "direct": {
+    "tools": [
+      "delete_everything",
+      "lookup_ticket",
+      "strands_manage_background_task"
+    ],
+    "called": true,
+    "found_owner": true
+  },
+  "in_sandbox": {
+    "reachable": true,
+    "calls": 1
+  },
+  "cedar_on_custom": {
+    "executed": false,
+    "denied": true,
+    "answer": "The call failed with the error: **DENIED: Access denied by Cedar policy**\n\nThe `delete_everything` function cannot be executed due to an access control policy that prevents this operation.\n"
+  }
+}
