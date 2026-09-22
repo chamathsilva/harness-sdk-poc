@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1012",
+  "service": "payments",
+  "severity": "SEV3",
+  "downtime_minutes": 116,
+  "root_cause": "upstream timeout",
+  "detected_by": "synthetic check",
+  "notes": "Postmortem scheduled. Runbook was out of date. Mitigation applied before customer impact widened. Paged the on-call engineer immediately. Postmortem scheduled. Mitigation applied before customer impact widened."
+}

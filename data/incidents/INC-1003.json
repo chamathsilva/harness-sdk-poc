@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1003",
+  "service": "checkout",
+  "severity": "SEV3",
+  "downtime_minutes": 33,
+  "root_cause": "db connection pool exhausted",
+  "detected_by": "synthetic check",
+  "notes": "Runbook was out of date. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Postmortem scheduled."
+}

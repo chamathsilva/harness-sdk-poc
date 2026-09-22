@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1026",
+  "service": "payments",
+  "severity": "SEV1",
+  "downtime_minutes": 63,
+  "root_cause": "rate limit breach",
+  "detected_by": "customer report",
+  "notes": "Runbook was out of date. Rollback restored service. Rollback restored service. Root cause confirmed via trace sampling. Postmortem scheduled. Mitigation applied before customer impact widened."
+}

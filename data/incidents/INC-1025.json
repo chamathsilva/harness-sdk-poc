@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1025",
+  "service": "auth",
+  "severity": "SEV1",
+  "downtime_minutes": 93,
+  "root_cause": "rate limit breach",
+  "detected_by": "alerting",
+  "notes": "Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Mitigation applied before customer impact widened. Runbook was out of date. Rollback restored service."
+}

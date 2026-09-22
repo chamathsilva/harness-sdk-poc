@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1040",
+  "service": "payments",
+  "severity": "SEV1",
+  "downtime_minutes": 179,
+  "root_cause": "upstream timeout",
+  "detected_by": "customer report",
+  "notes": "Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Postmortem scheduled. Root cause confirmed via trace sampling. Rollback restored service. Runbook was out of date."
+}

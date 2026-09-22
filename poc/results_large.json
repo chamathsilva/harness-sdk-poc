@@ -1,0 +1,57 @@
+[
+  {
+    "dataset": "large",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 3,
+    "usage_full": {
+      "inputTokens": 2912,
+      "outputTokens": 3994,
+      "totalTokens": 6906,
+      "cacheWriteInputTokens": 105461
+    },
+    "input_tokens": 2912,
+    "output_tokens": 3994,
+    "total_tokens": 6906,
+    "billable_input": 108373,
+    "tool_calls": {
+      "read": 41
+    },
+    "total_tool_calls": 41,
+    "seconds": 19.8,
+    "all_figures_correct": true,
+    "answer_tail": "\n- **checkout:** 65 + 121 + 130 + 26 + 147 = **489 minutes**\n- **inventory:** 59 + 34 + 107 + 149 + 117 + 33 + 25 + 38 = **562 minutes**\n\n**Total Downtime Minutes per Service (Sorted Descending):**\n\n1. **notifications: 1160**\n2. **auth: 723**\n3. **inventory: 562**\n4. **checkout: 489**\n5. **search: 380**\n6. **payments: 374**\n\n**The worst service is notifications with 1160 total downtime minutes.**\n"
+  },
+  {
+    "dataset": "large",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 5,
+    "usage_full": {
+      "inputTokens": 10794,
+      "outputTokens": 2199,
+      "totalTokens": 12993,
+      "cacheWriteInputTokens": 4248
+    },
+    "input_tokens": 10794,
+    "output_tokens": 2199,
+    "total_tokens": 12993,
+    "billable_input": 15042,
+    "tool_calls": {
+      "programmatic_tool_caller": 4
+    },
+    "total_tool_calls": 4,
+    "seconds": 12.4,
+    "all_figures_correct": true,
+    "answer_tail": "ve successfully read all 40 incident records and analyzed the downtime data. Here are the results:\n\n## Total Downtime Minutes per Service (Descending):\n\n1. **notifications**: 1160 minutes\n2. **auth**: 723 minutes\n3. **inventory**: 562 minutes\n4. **checkout**: 489 minutes\n5. **search**: 380 minutes\n6. **payments**: 374 minutes\n\n## Worst Service:\n\n**notifications** with **1160 minutes** of downtime\n"
+  }
+]

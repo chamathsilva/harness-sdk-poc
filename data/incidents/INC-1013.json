@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1013",
+  "service": "search",
+  "severity": "SEV3",
+  "downtime_minutes": 31,
+  "root_cause": "cert expiry",
+  "detected_by": "alerting",
+  "notes": "Rollback restored service. Mitigation applied before customer impact widened. Rollback restored service. Runbook was out of date. Rollback restored service. Postmortem scheduled."
+}

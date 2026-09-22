@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1022",
+  "service": "checkout",
+  "severity": "SEV1",
+  "downtime_minutes": 126,
+  "root_cause": "cert expiry",
+  "detected_by": "customer report",
+  "notes": "Postmortem scheduled. Mitigation applied before customer impact widened. Paged the on-call engineer immediately. Rollback restored service. Paged the on-call engineer immediately. Runbook was out of date."
+}

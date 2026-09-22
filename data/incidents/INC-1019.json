@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1019",
+  "service": "inventory",
+  "severity": "SEV3",
+  "downtime_minutes": 104,
+  "root_cause": "deploy regression",
+  "detected_by": "alerting",
+  "notes": "Paged the on-call engineer immediately. Rollback restored service. Postmortem scheduled. Rollback restored service. Paged the on-call engineer immediately. Mitigation applied before customer impact widened."
+}

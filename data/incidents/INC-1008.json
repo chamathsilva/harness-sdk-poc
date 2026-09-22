@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1008",
+  "service": "payments",
+  "severity": "SEV2",
+  "downtime_minutes": 136,
+  "root_cause": "cert expiry",
+  "detected_by": "customer report",
+  "notes": "Runbook was out of date. Postmortem scheduled. Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Paged the on-call engineer immediately."
+}

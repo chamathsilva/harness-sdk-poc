@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1038",
+  "service": "payments",
+  "severity": "SEV3",
+  "downtime_minutes": 144,
+  "root_cause": "cert expiry",
+  "detected_by": "alerting",
+  "notes": "Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Rollback restored service. Rollback restored service. Mitigation applied before customer impact widened. Paged the on-call engineer immediately."
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1032",
+  "service": "notifications",
+  "severity": "SEV1",
+  "downtime_minutes": 158,
+  "root_cause": "rate limit breach",
+  "detected_by": "synthetic check",
+  "notes": "Postmortem scheduled. Runbook was out of date. Mitigation applied before customer impact widened. Rollback restored service. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling."
+}

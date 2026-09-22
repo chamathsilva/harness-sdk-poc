@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1029",
+  "service": "search",
+  "severity": "SEV2",
+  "downtime_minutes": 161,
+  "root_cause": "memory leak",
+  "detected_by": "alerting",
+  "notes": "Postmortem scheduled. Runbook was out of date. Mitigation applied before customer impact widened. Runbook was out of date. Paged the on-call engineer immediately. Runbook was out of date."
+}

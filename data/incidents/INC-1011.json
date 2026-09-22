@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1011",
+  "service": "checkout",
+  "severity": "SEV2",
+  "downtime_minutes": 123,
+  "root_cause": "config drift",
+  "detected_by": "synthetic check",
+  "notes": "Paged the on-call engineer immediately. Paged the on-call engineer immediately. Runbook was out of date. Runbook was out of date. Mitigation applied before customer impact widened. Runbook was out of date."
+}

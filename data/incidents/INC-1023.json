@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1023",
+  "service": "auth",
+  "severity": "SEV3",
+  "downtime_minutes": 69,
+  "root_cause": "cert expiry",
+  "detected_by": "synthetic check",
+  "notes": "Rollback restored service. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Rollback restored service. Root cause confirmed via trace sampling. Mitigation applied before customer impact widened."
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1018",
+  "service": "notifications",
+  "severity": "SEV3",
+  "downtime_minutes": 15,
+  "root_cause": "cert expiry",
+  "detected_by": "synthetic check",
+  "notes": "Root cause confirmed via trace sampling. Postmortem scheduled. Postmortem scheduled. Postmortem scheduled. Postmortem scheduled. Paged the on-call engineer immediately."
+}

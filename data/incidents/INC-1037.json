@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1037",
+  "service": "search",
+  "severity": "SEV1",
+  "downtime_minutes": 38,
+  "root_cause": "cert expiry",
+  "detected_by": "synthetic check",
+  "notes": "Runbook was out of date. Paged the on-call engineer immediately. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Mitigation applied before customer impact widened. Runbook was out of date."
+}

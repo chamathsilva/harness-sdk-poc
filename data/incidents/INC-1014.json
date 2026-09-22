@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1014",
+  "service": "inventory",
+  "severity": "SEV2",
+  "downtime_minutes": 22,
+  "root_cause": "db connection pool exhausted",
+  "detected_by": "customer report",
+  "notes": "Postmortem scheduled. Root cause confirmed via trace sampling. Mitigation applied before customer impact widened. Rollback restored service. Postmortem scheduled. Root cause confirmed via trace sampling."
+}

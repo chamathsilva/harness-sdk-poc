@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1036",
+  "service": "payments",
+  "severity": "SEV1",
+  "downtime_minutes": 138,
+  "root_cause": "db connection pool exhausted",
+  "detected_by": "synthetic check",
+  "notes": "Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Postmortem scheduled. Rollback restored service. Root cause confirmed via trace sampling. Paged the on-call engineer immediately."
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1004",
+  "service": "checkout",
+  "severity": "SEV1",
+  "downtime_minutes": 13,
+  "root_cause": "memory leak",
+  "detected_by": "alerting",
+  "notes": "Mitigation applied before customer impact widened. Postmortem scheduled. Rollback restored service. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Root cause confirmed via trace sampling."
+}

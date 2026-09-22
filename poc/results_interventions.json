@@ -1,0 +1,16 @@
+{
+  "policy_file": "/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/poc/agent.cedar",
+  "allowed": "/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents/INC-1001.json",
+  "forbidden": "/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/vault/secrets.txt",
+  "allowed_ok": true,
+  "forbidden_blocked": true,
+  "forbidden_leaked": false,
+  "verdict": "POLICY HELD INSIDE SANDBOX",
+  "round_trips": 2,
+  "tool_calls": {
+    "programmatic_tool_caller": 1
+  },
+  "answer": "**Results:**\n\n1. **ALLOWED_READ:** `ok` \u2014 The incidents file was successfully readable\n2. **FORBIDDEN_READ:** `blocked -> RuntimeError(\"Tool 'read' error: DENIED: Access denied by Cedar policy\")` \u2014 The vault secrets file was blocked by a Cedar policy denial\n\nThe experiment shows that the first path is permitted while the second path is explicitly denied by an access control policy.\n",
+  "near_allowed": "ALLOWED_READ: ok \u2014 The incidents file was successfully readable\n2. ",
+  "near_forbidden": "FORBIDDEN_READ: blocked -> RuntimeError(\"Tool 'read' error: DENIED: Access denied by Cedar policy\") \u2014 The vault secrets file was blocked by a Cedar policy denial\n\nThe experiment shows that the first path is permitt"
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1024",
+  "service": "search",
+  "severity": "SEV3",
+  "downtime_minutes": 141,
+  "root_cause": "deploy regression",
+  "detected_by": "synthetic check",
+  "notes": "Mitigation applied before customer impact widened. Runbook was out of date. Paged the on-call engineer immediately. Runbook was out of date. Mitigation applied before customer impact widened. Root cause confirmed via trace sampling."
+}

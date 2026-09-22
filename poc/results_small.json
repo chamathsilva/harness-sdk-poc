@@ -1,0 +1,59 @@
+[
+  {
+    "dataset": "small",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1376,
+      "outputTokens": 3050,
+      "totalTokens": 4426,
+      "cacheWriteInputTokens": 10875
+    },
+    "input_tokens": 1376,
+    "output_tokens": 3050,
+    "total_tokens": 4426,
+    "billable_input": 12251,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 13.6,
+    "all_figures_correct": true,
+    "answer_tail": "ns**: 15 + 9 + 158 = **182 minutes**\n\n## Report: Total Downtime Minutes Per Service (Sorted Descending)\n\n1. **payments**: 994 minutes\n2. **auth**: 700 minutes\n3. **checkout**: 624 minutes\n4. **search**: 446 minutes\n5. **inventory**: 336 minutes\n6. **notifications**: 182 minutes\n\n## Worst Service\n\n**Payments** is the single worst service with **994 total downtime minutes** across the 40 incidents.\n"
+  },
+  {
+    "dataset": "small",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 6,
+    "usage_full": {
+      "inputTokens": 7170,
+      "outputTokens": 2289,
+      "totalTokens": 9459,
+      "cacheWriteInputTokens": 6687,
+      "cacheReadInputTokens": 11768
+    },
+    "input_tokens": 7170,
+    "output_tokens": 2289,
+    "total_tokens": 9459,
+    "billable_input": 25625,
+    "tool_calls": {
+      "programmatic_tool_caller": 4,
+      "read": 1
+    },
+    "total_tool_calls": 5,
+    "seconds": 15.3,
+    "all_figures_correct": true,
+    "answer_tail": " | Downtime (minutes) |\n|---------|-------------------|\n| payments | 994 |\n| auth | 700 |\n| checkout | 624 |\n| search | 446 |\n| inventory | 336 |\n| notifications | 182 |\n\n**Worst Service: payments** with **994 total downtime minutes**\n\nAll data was read from the 40 JSON files (INC-1001.json through INC-1040.json) located at `/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents/`.\n"
+  }
+]

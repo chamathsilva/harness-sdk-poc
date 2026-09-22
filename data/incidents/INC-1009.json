@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1009",
+  "service": "payments",
+  "severity": "SEV2",
+  "downtime_minutes": 44,
+  "root_cause": "rate limit breach",
+  "detected_by": "customer report",
+  "notes": "Rollback restored service. Postmortem scheduled. Postmortem scheduled. Paged the on-call engineer immediately. Runbook was out of date. Paged the on-call engineer immediately."
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1005",
+  "service": "auth",
+  "severity": "SEV3",
+  "downtime_minutes": 176,
+  "root_cause": "db connection pool exhausted",
+  "detected_by": "alerting",
+  "notes": "Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Runbook was out of date. Rollback restored service. Mitigation applied before customer impact widened. Paged the on-call engineer immediately."
+}

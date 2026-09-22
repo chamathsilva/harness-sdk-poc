@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1031",
+  "service": "inventory",
+  "severity": "SEV2",
+  "downtime_minutes": 23,
+  "root_cause": "config drift",
+  "detected_by": "alerting",
+  "notes": "Rollback restored service. Rollback restored service. Paged the on-call engineer immediately. Rollback restored service. Root cause confirmed via trace sampling. Postmortem scheduled."
+}

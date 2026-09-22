@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1030",
+  "service": "checkout",
+  "severity": "SEV2",
+  "downtime_minutes": 53,
+  "root_cause": "cert expiry",
+  "detected_by": "alerting",
+  "notes": "Postmortem scheduled. Runbook was out of date. Mitigation applied before customer impact widened. Paged the on-call engineer immediately. Runbook was out of date. Postmortem scheduled."
+}

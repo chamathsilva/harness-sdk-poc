@@ -1,0 +1,6 @@
+.venv/
+.env
+.agent/
+__pycache__/
+*.pyc
+# results are kept: they are the evidence behind the article

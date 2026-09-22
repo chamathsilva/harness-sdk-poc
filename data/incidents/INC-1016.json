@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1016",
+  "service": "search",
+  "severity": "SEV3",
+  "downtime_minutes": 61,
+  "root_cause": "deploy regression",
+  "detected_by": "customer report",
+  "notes": "Root cause confirmed via trace sampling. Rollback restored service. Mitigation applied before customer impact widened. Mitigation applied before customer impact widened. Paged the on-call engineer immediately. Rollback restored service."
+}

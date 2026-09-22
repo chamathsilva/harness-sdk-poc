@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1001",
+  "service": "auth",
+  "severity": "SEV1",
+  "downtime_minutes": 103,
+  "root_cause": "config drift",
+  "detected_by": "alerting",
+  "notes": "Paged the on-call engineer immediately. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Paged the on-call engineer immediately."
+}

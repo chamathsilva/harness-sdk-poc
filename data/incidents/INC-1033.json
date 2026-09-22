@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1033",
+  "service": "search",
+  "severity": "SEV1",
+  "downtime_minutes": 5,
+  "root_cause": "rate limit breach",
+  "detected_by": "synthetic check",
+  "notes": "Runbook was out of date. Paged the on-call engineer immediately. Root cause confirmed via trace sampling. Runbook was out of date. Rollback restored service. Postmortem scheduled."
+}

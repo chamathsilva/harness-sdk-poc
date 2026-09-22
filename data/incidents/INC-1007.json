@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1007",
+  "service": "auth",
+  "severity": "SEV2",
+  "downtime_minutes": 151,
+  "root_cause": "cert expiry",
+  "detected_by": "customer report",
+  "notes": "Mitigation applied before customer impact widened. Rollback restored service. Rollback restored service. Runbook was out of date. Rollback restored service. Paged the on-call engineer immediately."
+}

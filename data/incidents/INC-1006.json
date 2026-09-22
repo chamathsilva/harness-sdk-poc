@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1006",
+  "service": "payments",
+  "severity": "SEV3",
+  "downtime_minutes": 18,
+  "root_cause": "memory leak",
+  "detected_by": "alerting",
+  "notes": "Root cause confirmed via trace sampling. Rollback restored service. Postmortem scheduled. Runbook was out of date. Root cause confirmed via trace sampling. Postmortem scheduled."
+}

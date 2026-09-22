@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1028",
+  "service": "inventory",
+  "severity": "SEV3",
+  "downtime_minutes": 91,
+  "root_cause": "upstream timeout",
+  "detected_by": "alerting",
+  "notes": "Rollback restored service. Paged the on-call engineer immediately. Rollback restored service. Postmortem scheduled. Rollback restored service. Mitigation applied before customer impact widened."
+}

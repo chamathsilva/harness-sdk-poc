@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1017",
+  "service": "inventory",
+  "severity": "SEV3",
+  "downtime_minutes": 96,
+  "root_cause": "memory leak",
+  "detected_by": "synthetic check",
+  "notes": "Mitigation applied before customer impact widened. Rollback restored service. Runbook was out of date. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Runbook was out of date."
+}

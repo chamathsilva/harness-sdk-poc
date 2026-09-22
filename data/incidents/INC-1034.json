@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1034",
+  "service": "search",
+  "severity": "SEV1",
+  "downtime_minutes": 9,
+  "root_cause": "upstream timeout",
+  "detected_by": "alerting",
+  "notes": "Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Rollback restored service. Root cause confirmed via trace sampling. Mitigation applied before customer impact widened. Mitigation applied before customer impact widened."
+}

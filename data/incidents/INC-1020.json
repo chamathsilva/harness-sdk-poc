@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1020",
+  "service": "payments",
+  "severity": "SEV1",
+  "downtime_minutes": 28,
+  "root_cause": "deploy regression",
+  "detected_by": "synthetic check",
+  "notes": "Rollback restored service. Root cause confirmed via trace sampling. Paged the on-call engineer immediately. Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Paged the on-call engineer immediately."
+}

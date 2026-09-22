@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1010",
+  "service": "payments",
+  "severity": "SEV3",
+  "downtime_minutes": 82,
+  "root_cause": "upstream timeout",
+  "detected_by": "synthetic check",
+  "notes": "Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Postmortem scheduled. Root cause confirmed via trace sampling. Postmortem scheduled. Paged the on-call engineer immediately."
+}

@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1002",
+  "service": "payments",
+  "severity": "SEV1",
+  "downtime_minutes": 11,
+  "root_cause": "deploy regression",
+  "detected_by": "customer report",
+  "notes": "Postmortem scheduled. Paged the on-call engineer immediately. Rollback restored service. Paged the on-call engineer immediately. Root cause confirmed via trace sampling. Postmortem scheduled."
+}

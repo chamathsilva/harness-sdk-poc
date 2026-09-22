@@ -1,0 +1,9 @@
+{
+  "incident_id": "INC-1039",
+  "service": "checkout",
+  "severity": "SEV3",
+  "downtime_minutes": 117,
+  "root_cause": "memory leak",
+  "detected_by": "alerting",
+  "notes": "Paged the on-call engineer immediately. Postmortem scheduled. Mitigation applied before customer impact widened. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling. Root cause confirmed via trace sampling."
+}
