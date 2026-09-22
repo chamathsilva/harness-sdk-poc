@@ -1,0 +1,122 @@
+[
+  {
+    "exact": 5,
+    "of": 6,
+    "billable_input": 30900,
+    "output_tokens": 3091,
+    "round_trips": 5,
+    "dataset": "small",
+    "effort": "off",
+    "trial": 1
+  },
+  {
+    "exact": 2,
+    "of": 6,
+    "billable_input": 12242,
+    "output_tokens": 3232,
+    "round_trips": 2,
+    "dataset": "small",
+    "effort": "off",
+    "trial": 2
+  },
+  {
+    "exact": 2,
+    "of": 6,
+    "billable_input": 13931,
+    "output_tokens": 3418,
+    "round_trips": 3,
+    "dataset": "small",
+    "effort": "off",
+    "trial": 3
+  },
+  {
+    "exact": 2,
+    "of": 6,
+    "billable_input": 12611,
+    "output_tokens": 3620,
+    "round_trips": 2,
+    "dataset": "small",
+    "effort": "high",
+    "trial": 1
+  },
+  {
+    "exact": 0,
+    "of": 6,
+    "billable_input": 12645,
+    "output_tokens": 3766,
+    "round_trips": 2,
+    "dataset": "small",
+    "effort": "high",
+    "trial": 2
+  },
+  {
+    "exact": 3,
+    "of": 6,
+    "billable_input": 12488,
+    "output_tokens": 3392,
+    "round_trips": 2,
+    "dataset": "small",
+    "effort": "high",
+    "trial": 3
+  },
+  {
+    "exact": 5,
+    "of": 6,
+    "billable_input": 106660,
+    "output_tokens": 3359,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "off",
+    "trial": 1
+  },
+  {
+    "exact": 1,
+    "of": 6,
+    "billable_input": 106659,
+    "output_tokens": 3089,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "off",
+    "trial": 2
+  },
+  {
+    "exact": 6,
+    "of": 6,
+    "billable_input": 106661,
+    "output_tokens": 3315,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "off",
+    "trial": 3
+  },
+  {
+    "exact": 4,
+    "of": 6,
+    "billable_input": 106946,
+    "output_tokens": 3340,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "high",
+    "trial": 1
+  },
+  {
+    "exact": 2,
+    "of": 6,
+    "billable_input": 107124,
+    "output_tokens": 3764,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "high",
+    "trial": 2
+  },
+  {
+    "exact": 5,
+    "of": 6,
+    "billable_input": 107002,
+    "output_tokens": 3622,
+    "round_trips": 2,
+    "dataset": "large",
+    "effort": "high",
+    "trial": 3
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "label": "delegated to subagent",
+    "tools": [
+      "read",
+      "subagent"
+    ],
+    "parent_conversation_chars": 22925,
+    "distinct_trace_ids_in_parent": 0,
+    "tool_calls": {
+      "strands_manage_background_task": 19,
+      "subagent": 1
+    },
+    "billable_input": 91293,
+    "answer_tail": "re the total downtime minutes per service, sorted in descending order:\n\n1. **notifications**: 1,066 minutes\n2. **auth**: 754 minutes\n3. **inventory**: 603 minutes\n4. **checkout**: 471 minutes\n5. **search**: 427 minutes\n6. **payments**: 374 minutes\n\n**Grand Total**: 3,695 minutes across all services\n"
+  },
+  {
+    "label": "did it itself",
+    "tools": [
+      "read"
+    ],
+    "parent_conversation_chars": 255269,
+    "distinct_trace_ids_in_parent": 2400,
+    "tool_calls": {
+      "read": 40
+    },
+    "billable_input": 106662,
+    "answer_tail": "   - INC-1035: 137\n\n5. **search**: 380 minutes\n   - INC-1003: 156\n   - INC-1004: 157\n   - INC-1008: 4\n   - INC-1016: 17\n   - INC-1017: 46\n\n6. **payments**: 374 minutes\n   - INC-1002: 137\n   - INC-1027: 72\n   - INC-1034: 165\n\n---\n\n**WORST SERVICE: notifications with 1,088 minutes of total downtime**\n"
+  }
+]

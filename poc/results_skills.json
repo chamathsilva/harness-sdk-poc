@@ -1,0 +1,12 @@
+{
+  "skills ON": {
+    "has_skills_tool": true,
+    "followed_format": true,
+    "answer": "Now I'll provide the incident summary following the required format:\n\n---\n\nINCIDENT BRIEF // INC-1001\n\nA configuration drift in the auth service caused a SEV1 outage lasting 103 minutes, detected by alerting and mitigated before wider customer impact.\n\nFILED UNDER: AUTH\n"
+  },
+  "skills OFF (control)": {
+    "has_skills_tool": false,
+    "followed_format": false,
+    "answer": "## Summary of Incident INC-1001\n\n**Incident ID:** INC-1001\n\n**Service Affected:** Auth service\n\n**Severity:** SEV1 (Critical)\n\n**Duration:** 103 minutes of downtime\n\n**Root Cause:** Configuration drift\n\n**Detection Method:** Automated alerting system\n\n**Response Actions:**\n- The on-call engineer was paged immediately upon detection\n- Root cause was confirmed through trace sampling analysis\n- Mitigation was applied before the impact could affect customers further\n\nThis was a critical incident affecting the authentication service that lasted approximately 1 hour and 43 minutes. While it was seri"
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "label": "offloading ON (default)",
+    "tools": [
+      "read",
+      "retrieve_context",
+      "retrieve_offloaded_content",
+      "strands_manage_background_task"
+    ],
+    "has_retrieval_tool": true,
+    "conversation_chars": 9928,
+    "full_content_in_conversation": false,
+    "mentions_offload": true
+  },
+  {
+    "label": "offloading OFF",
+    "tools": [
+      "read",
+      "strands_manage_background_task"
+    ],
+    "has_retrieval_tool": false,
+    "conversation_chars": 175317,
+    "full_content_in_conversation": false,
+    "mentions_offload": false
+  }
+]

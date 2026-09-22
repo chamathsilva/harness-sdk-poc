@@ -1,0 +1,354 @@
+[
+  {
+    "dataset": "small",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1376,
+      "outputTokens": 3315,
+      "totalTokens": 4691,
+      "cacheWriteInputTokens": 10869
+    },
+    "input_tokens": 1376,
+    "output_tokens": 3315,
+    "total_tokens": 4691,
+    "billable_input": 12245,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 14.8,
+    "all_figures_correct": false,
+    "answer_tail": "1034: 9, INC-1037: 38\n   - Total: 31+61+141+161+5+9+38 = 455\n\n5. **inventory**: 436 minutes\n   - INC-1014: 22, INC-1017: 96, INC-1019: 104, INC-1028: 91, INC-1031: 23\n   - Total: 22+96+104+91+23 = 336\n\n6. **notifications**: 182 minutes\n   - INC-1018: 15, INC-1027: 9, INC-1032: 158\n   - Total: 15+9+158 = 182\n\n**Worst Service (by total downtime):** **payments** with 1,285 minutes of total downtime.\n",
+    "trial": 1
+  },
+  {
+    "dataset": "small",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1376,
+      "outputTokens": 3320,
+      "totalTokens": 4696,
+      "cacheWriteInputTokens": 10863
+    },
+    "input_tokens": 1376,
+    "output_tokens": 3320,
+    "total_tokens": 4696,
+    "billable_input": 12239,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 14.7,
+    "all_figures_correct": true,
+    "answer_tail": "**\n31 + 61 + 141 + 161 + 5 + 9 + 38 = 446\n\n**Notifications (INC-1018, 1027, 1032):**\n15 + 9 + 158 = 182\n\n**Total Downtime Per Service (Sorted Descending):**\n\n1. **payments: 994 minutes**\n2. **auth: 700 minutes**\n3. **checkout: 624 minutes**\n4. **search: 446 minutes**\n5. **inventory: 336 minutes**\n6. **notifications: 182 minutes**\n\n**The worst service is: payments with 994 total downtime minutes**\n",
+    "trial": 2
+  },
+  {
+    "dataset": "small",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1376,
+      "outputTokens": 2965,
+      "totalTokens": 4341,
+      "cacheWriteInputTokens": 10870
+    },
+    "input_tokens": 1376,
+    "output_tokens": 2965,
+    "total_tokens": 4341,
+    "billable_input": 12246,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 12.8,
+    "all_figures_correct": true,
+    "answer_tail": " + 179 = **994 minutes**\n2. **auth**: 103 + 176 + 151 + 108 + 69 + 93 = **700 minutes**\n3. **checkout**: 33 + 13 + 123 + 159 + 126 + 53 + 117 = **624 minutes**\n4. **search**: 31 + 61 + 141 + 161 + 5 + 9 + 38 = **446 minutes**\n5. **inventory**: 22 + 96 + 104 + 91 + 23 = **336 minutes**\n6. **notifications**: 15 + 9 + 158 = **182 minutes**\n\n**Worst Service: payments with 994 total downtime minutes**\n",
+    "trial": 3
+  },
+  {
+    "dataset": "small",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 6,
+    "usage_full": {
+      "inputTokens": 4296,
+      "outputTokens": 5256,
+      "totalTokens": 9552,
+      "cacheWriteInputTokens": 16205,
+      "cacheReadInputTokens": 25830
+    },
+    "input_tokens": 4296,
+    "output_tokens": 5256,
+    "total_tokens": 9552,
+    "billable_input": 46331,
+    "tool_calls": {
+      "programmatic_tool_caller": 4,
+      "read": 40
+    },
+    "total_tool_calls": 44,
+    "seconds": 26.1,
+    "all_figures_correct": true,
+    "answer_tail": "ness-sdk-poc/data/incidents/` (INC-1001.json through INC-1040.json) and analyzed the downtime data.\n\n### Total Downtime Minutes Per Service (sorted descending):\n1. **payments**: 994 minutes\n2. **auth**: 700 minutes\n3. **checkout**: 624 minutes\n4. **search**: 446 minutes\n5. **inventory**: 336 minutes\n6. **notifications**: 182 minutes\n\n### Worst Service: **payments** with 994 total downtime minutes\n",
+    "trial": 1
+  },
+  {
+    "dataset": "small",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 7,
+    "usage_full": {
+      "inputTokens": 14103,
+      "outputTokens": 2692,
+      "totalTokens": 16795,
+      "cacheWriteInputTokens": 6808,
+      "cacheReadInputTokens": 5328
+    },
+    "input_tokens": 14103,
+    "output_tokens": 2692,
+    "total_tokens": 16795,
+    "billable_input": 26239,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 1
+    },
+    "total_tool_calls": 6,
+    "seconds": 18.0,
+    "all_figures_correct": true,
+    "answer_tail": "Perfect! I have successfully read and analyzed all 40 incident records. Here are the results:\n\n## Total Downtime Minutes per Service (Sorted Descending):\n\n1. **payments**: 994 minutes\n2. **auth**: 700 minutes\n3. **checkout**: 624 minutes\n4. **search**: 446 minutes\n5. **inventory**: 336 minutes\n6. **notifications**: 182 minutes\n\n## Worst Service:\n**payments** with **994** total downtime minutes\n",
+    "trial": 2
+  },
+  {
+    "dataset": "small",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 8,
+    "usage_full": {
+      "inputTokens": 1844,
+      "outputTokens": 3117,
+      "totalTokens": 4961,
+      "cacheWriteInputTokens": 9484,
+      "cacheReadInputTokens": 39025
+    },
+    "input_tokens": 1844,
+    "output_tokens": 3117,
+    "total_tokens": 4961,
+    "billable_input": 50353,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 2
+    },
+    "total_tool_calls": 7,
+    "seconds": 21.1,
+    "all_figures_correct": true,
+    "answer_tail": "Perfect! I have successfully read all 40 incident files and analyzed the downtime data.\n\n## Results\n\n**Total Downtime Minutes per Service (sorted descending):**\n1. payments: 994\n2. auth: 700\n3. checkout: 624\n4. search: 446\n5. inventory: 336\n6. notifications: 182\n\n**Worst Service: payments with 994 minutes of downtime**\n",
+    "trial": 3
+  },
+  {
+    "dataset": "large",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1378,
+      "outputTokens": 3424,
+      "totalTokens": 4802,
+      "cacheWriteInputTokens": 105287
+    },
+    "input_tokens": 1378,
+    "output_tokens": 3424,
+    "total_tokens": 4802,
+    "billable_input": 106665,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 16.0,
+    "all_figures_correct": false,
+    "answer_tail": " minutes\n   - INC-1002: 137\n   - INC-1027: 72\n   - INC-1034: 165\n\nLet me recalculate more carefully:\n\n**Total Downtime Minutes per Service (Descending):**\n\n1. **notifications**: 1,259 minutes\n2. **auth**: 681 minutes\n3. **inventory**: 663 minutes\n4. **checkout**: 489 minutes\n5. **search**: 477 minutes\n6. **payments**: 374 minutes\n\n**Worst Service: notifications with 1,259 total downtime minutes**\n",
+    "trial": 1
+  },
+  {
+    "dataset": "large",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1378,
+      "outputTokens": 3414,
+      "totalTokens": 4792,
+      "cacheWriteInputTokens": 105285
+    },
+    "input_tokens": 1378,
+    "output_tokens": 3414,
+    "total_tokens": 4792,
+    "billable_input": 106663,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 15.7,
+    "all_figures_correct": false,
+    "answer_tail": "ts**: 374 minutes\n   - INC-1002: 137\n   - INC-1027: 72\n   - INC-1034: 165\n\n---\n\n## Summary\n\n**Total Downtime Minutes Per Service (Descending Order):**\n\n| Service | Downtime (minutes) |\n|---------|------------------|\n| notifications | 1,262 |\n| auth | 581 |\n| inventory | 483 |\n| checkout | 467 |\n| search | 380 |\n| payments | 374 |\n\n**Worst Service: notifications with 1,262 total downtime minutes**\n",
+    "trial": 2
+  },
+  {
+    "dataset": "large",
+    "arm": "A_one_call_at_a_time",
+    "tools": [
+      "read"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 2,
+    "usage_full": {
+      "inputTokens": 1378,
+      "outputTokens": 3102,
+      "totalTokens": 4480,
+      "cacheWriteInputTokens": 105284
+    },
+    "input_tokens": 1378,
+    "output_tokens": 3102,
+    "total_tokens": 4480,
+    "billable_input": 106662,
+    "tool_calls": {
+      "read": 40
+    },
+    "total_tool_calls": 40,
+    "seconds": 14.6,
+    "all_figures_correct": false,
+    "answer_tail": "133 + 47 + 140 + 65 + 137 = 723 minutes\n5. **payments** = 137 + 72 + 165 = 374 minutes\n6. **checkout** = 65 + 121 + 130 + 26 + 147 = 489 minutes\n\n**Final Report:**\n\n**Total Downtime Minutes Per Service (Sorted Descending):**\n\n1. notifications: 1260\n2. auth: 723\n3. inventory: 529\n4. checkout: 489\n5. search: 380\n6. payments: 374\n\n**The Worst Service: notifications with 1260 total downtime minutes**\n",
+    "trial": 3
+  },
+  {
+    "dataset": "large",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 5,
+    "usage_full": {
+      "inputTokens": 10501,
+      "outputTokens": 2147,
+      "totalTokens": 12648,
+      "cacheWriteInputTokens": 4157
+    },
+    "input_tokens": 10501,
+    "output_tokens": 2147,
+    "total_tokens": 12648,
+    "billable_input": 14658,
+    "tool_calls": {
+      "programmatic_tool_caller": 4
+    },
+    "total_tool_calls": 4,
+    "seconds": 12.1,
+    "all_figures_correct": true,
+    "answer_tail": "large` (INC-1001.json through INC-1040.json) and analyzed the downtime data.\n\n## Results\n\n**Total Downtime Minutes per Service (sorted descending):**\n1. **notifications**: 1160 minutes\n2. **auth**: 723 minutes\n3. **inventory**: 562 minutes\n4. **checkout**: 489 minutes\n5. **search**: 380 minutes\n6. **payments**: 374 minutes\n\n**Worst Service**: **notifications** with **1160 total downtime minutes**\n",
+    "trial": 1
+  },
+  {
+    "dataset": "large",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 6,
+    "usage_full": {
+      "inputTokens": 7183,
+      "outputTokens": 2252,
+      "totalTokens": 9435,
+      "cacheWriteInputTokens": 7842,
+      "cacheReadInputTokens": 11747
+    },
+    "input_tokens": 7183,
+    "output_tokens": 2252,
+    "total_tokens": 9435,
+    "billable_input": 26772,
+    "tool_calls": {
+      "programmatic_tool_caller": 4,
+      "read": 1
+    },
+    "total_tool_calls": 5,
+    "seconds": 16.0,
+    "all_figures_correct": true,
+    "answer_tail": "harness-sdk-poc/data/incidents_large` (INC-1001.json through INC-1040.json) and analyzed the downtime data.\n\n## Results\n\n**Total Downtime Minutes per Service (sorted descending):**\n- notifications: 1160 minutes\n- auth: 723 minutes\n- inventory: 562 minutes\n- checkout: 489 minutes\n- search: 380 minutes\n- payments: 374 minutes\n\n**Worst Service: notifications** with **1160 minutes** of total downtime\n",
+    "trial": 2
+  },
+  {
+    "dataset": "large",
+    "arm": "B_code_mode",
+    "tools": [
+      "read",
+      "programmatic_tool_caller"
+    ],
+    "model": "anthropic/claude-haiku-4-5-20251001",
+    "effort": "off",
+    "model_round_trips": 4,
+    "usage_full": {
+      "inputTokens": 1819,
+      "outputTokens": 1169,
+      "totalTokens": 2988,
+      "cacheWriteInputTokens": 7761,
+      "cacheReadInputTokens": 11722
+    },
+    "input_tokens": 1819,
+    "output_tokens": 1169,
+    "total_tokens": 2988,
+    "billable_input": 21302,
+    "tool_calls": {
+      "programmatic_tool_caller": 2,
+      "read": 1
+    },
+    "total_tool_calls": 3,
+    "seconds": 10.3,
+    "all_figures_correct": true,
+    "answer_tail": "yzed all 40 incident JSON files from `/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents_large/`.\n\n## Results:\n\n**Total downtime minutes per service (sorted descending):**\n- notifications: 1160 minutes\n- auth: 723 minutes\n- inventory: 562 minutes\n- checkout: 489 minutes\n- search: 380 minutes\n- payments: 374 minutes\n\n**Worst service: notifications with 1160 minutes of downtime**\n",
+    "trial": 3
+  }
+]

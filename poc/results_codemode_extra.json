@@ -1,0 +1,32 @@
+[
+  {
+    "dataset": "small",
+    "exact": 6,
+    "billable_input": 45306
+  },
+  {
+    "dataset": "small",
+    "exact": 6,
+    "billable_input": 37997
+  },
+  {
+    "dataset": "small",
+    "exact": 6,
+    "billable_input": 36273
+  },
+  {
+    "dataset": "large",
+    "exact": 6,
+    "billable_input": 43653
+  },
+  {
+    "dataset": "large",
+    "exact": 6,
+    "billable_input": 458865
+  },
+  {
+    "dataset": "large",
+    "exact": 6,
+    "billable_input": 413313
+  }
+]

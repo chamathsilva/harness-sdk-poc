@@ -1,0 +1,42 @@
+{
+  "open a file": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    print(open(\\\"/etc/hosts\\\").read()[:40])\\n          ~~~~~~~~~~~~~~~~~~\\nPermissionError: Permission denied: '/etc/hosts'\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_668505835\"}"
+  },
+  "import os": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 2, in <module>\\n    print(os.listdir(\\\"/\\\"))\\n          ~~~~~~~~~~~~~~~\\nPermissionError: Permission denied: '/'\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_845058039\"}"
+  },
+  "read env vars": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 2, in <module>\\n    print(os.environ.get(\\\"ANTHROPIC_API_KEY\\\"))\\n          ~~~~~~~~~~\\nRuntimeError: 'os.environ' is not supported in this environment\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_116214452\"}"
+  },
+  "spawn a process": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    import subprocess\\nModuleNotFoundError: No module named 'subprocess'\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_347245275\"}"
+  },
+  "open a socket": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    import socket\\nModuleNotFoundError: No module named 'socket'\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_384230767\"}"
+  },
+  "http request": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    import urllib.request\\nModuleNotFoundError: No module named 'urllib.request'\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_866877101\"}"
+  },
+  "import via __import__": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    m = __import__(\\\"os\\\")\\n        ~~~~~~~~~~~~~~~~\\nNameError: name '__import__' is not defined\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_640388109\"}"
+  },
+  "escape via builtins": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    print(__builtins__.__dict__.get(\\\"open\\\"))\\n          ~~~~~~~~~~~~\\nNameError: name '__builtins__' is not defined\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_322028097\"}"
+  },
+  "read own source file": {
+    "blocked": true,
+    "response": "{\"status\": \"error\", \"content\": [{\"text\": \"Execution error:\\nTraceback (most recent call last):\\n  File \\\"<python-input-0>\\\", line 1, in <module>\\n    print(open(__file__).read()[:40])\\n               ~~~~~~~~\\nNameError: name '__file__' is not defined\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_396961483\"}"
+  },
+  "CONTROL: arithmetic": {
+    "blocked": false,
+    "response": "{\"status\": \"success\", \"content\": [{\"text\": \"45\"}], \"toolUseId\": \"tooluse_programmatic_tool_caller_351378616\"}"
+  }
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "trial": 1,
+    "exact": 6,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 1
+    },
+    "direct_reads": 1,
+    "ptc": 5,
+    "billable_input": 36546,
+    "trips": 7
+  },
+  {
+    "trial": 2,
+    "exact": 6,
+    "tool_calls": {
+      "programmatic_tool_caller": 5
+    },
+    "direct_reads": 0,
+    "ptc": 5,
+    "billable_input": 31052,
+    "trips": 6
+  },
+  {
+    "trial": 3,
+    "exact": 0,
+    "tool_calls": {
+      "programmatic_tool_caller": 5,
+      "read": 40
+    },
+    "direct_reads": 40,
+    "ptc": 5,
+    "billable_input": 519657,
+    "trips": 12
+  },
+  {
+    "trial": 4,
+    "exact": 6,
+    "tool_calls": {
+      "programmatic_tool_caller": 4,
+      "read": 1
+    },
+    "direct_reads": 1,
+    "ptc": 4,
+    "billable_input": 25940,
+    "trips": 6
+  },
+  {
+    "trial": 5,
+    "exact": 6,
+    "tool_calls": {
+      "programmatic_tool_caller": 4,
+      "read": 1
+    },
+    "direct_reads": 1,
+    "ptc": 4,
+    "billable_input": 22468,
+    "trips": 6
+  }
+]
