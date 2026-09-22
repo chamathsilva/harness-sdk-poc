@@ -1,0 +1,9 @@
+{
+  "url": "https://en.wikipedia.org/wiki/Apollo_11",
+  "raw_page_bytes": 1424120,
+  "conversation_chars": 1800,
+  "boilerplate_markers_found": [],
+  "answered_correctly": true,
+  "verdict": "DISTILLED, NOT PASTED",
+  "answer": "Based on the Apollo 11 Wikipedia page:\n\n- **Landing Date:** The Apollo 11 lunar module landed on **July 20, 1969** at 20:17:40 UTC.\n- **Who Stayed in Orbit:** **Michael Collins** remained in lunar orbit aboard the Command Module Columbia while Neil Armstrong and Buzz Aldrin descended to the lunar surface.\n"
+}
