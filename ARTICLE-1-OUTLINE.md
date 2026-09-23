@@ -8,7 +8,14 @@ they don't know Strands.
 0.1.2 / SDK 1.57.0 (§11 static, §12 live). Wording for critical claims is fixed by the
 register in `ARTICLE-SERIES.md`.
 
-**Status:** awaiting your review. Nothing in the doc has been changed.
+**Status:** approved 2026-09-23 with all five recommendations (D1–D5), and **applied to the doc**.
+
+Fact-check fixes made during the rewrite, beyond the outline:
+- "the four options stack" → only a Cedar policy layers, with one of the other three (per the `create_harness` docstring)
+- `totalTokens`: compare the total (138) with the input alone (12,510), not total with input
+- `structured_output()`: the docstring says it answers from conversation history; the *source* shows it runs no tools
+- The subtitle no longer repeats the opening line; the as-of date is updated
+- Doc renamed *Strands Harness, Hands-On*
 
 ---
 
