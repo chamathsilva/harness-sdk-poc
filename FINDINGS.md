@@ -45,9 +45,10 @@ Twelve tools: `edit`, `programmatic_tool_caller`, `read`, `retrieve_context`,
 `retrieve_offloaded_content`, `search_memory`, `shell`, `strands_manage_background_task`,
 `subagent`, `todo_write`, `web_fetch`, `write`.
 
-**Three of twelve do no work** — `retrieve_context`, `retrieve_offloaded_content`,
-`search_memory` exist only to recover context that was pushed out. This is the
-article's central image and it is directly observable.
+**Three of twelve serve the context window rather than the task.** `retrieve_context`,
+`retrieve_offloaded_content` and `search_memory` exist to recover context that was
+pushed out. *The earlier phrasing "do no work" is our framing, not a fact; see register
+N1.*
 
 Also returned: `ContextManager`, `MemoryManager`, a session id, cache config
 (`strategy='auto'`, system prompt + tools TTL on), and a 1,665-char system prompt
@@ -90,8 +91,8 @@ arithmetic. Re-ran arm A with reasoning **on**:
 | large | off | 4.0 / 6 |
 | large | high | **3.7 / 6** |
 
-Reasoning made it slightly *worse*, not better. The gap is not an artifact of the
-effort setting.
+Reasoning did not help: the means went down, but at n=3 per cell that's too small to
+claim "worse" (register N8). The gap is not an artifact of the effort setting.
 
 ---
 
@@ -279,7 +280,7 @@ Caveat: this verifies the mechanism at a forced trigger point. The shipped defau
 | 12 tools, 3 do no work | `01` | Verified |
 | Model bad at in-context arithmetic; program exact | `04`, `05` | Verified, n=39 |
 | Crossover: code mode worse small, better large | `04` + extras | Verified, medians |
-| Code mode sometimes catastrophically expensive | diagnostic | Verified, 3/12 |
+| Code mode sometimes catastrophically expensive | `18` + diagnostic | Verified, n=27: 2/24 fell back, 5/27 over 100k |
 | Sandbox has no file/network/process access | `06` | Verified w/ control |
 | Cedar denial reaches inside sandbox | `03` | Verified |
 | Subagent keeps work off parent's desk | `07` | Verified |
@@ -297,7 +298,15 @@ Caveat: this verifies the mechanism at a forced trigger point. The shipped defau
 | Cedar governs custom tools, not just built-ins | `17` | Verified |
 | `"smart"` and prose policies gate correctly | `19` | Verified w/ control |
 | Structured output via `structured_output_model=` | `20` | Verified, 6/6 |
-| Multi-agent topologies cost 2–5× a single agent | `14`, `15` | Verified, n=2 |
+| ~~Multi-agent topologies cost 2–5× a single agent~~ | `14`, `15` | **Disproven at n=5** |
+| Graph is more predictable than a single agent or subagent | `14`, `15` | Verified, n=5 |
+| Conditional edges, nested graphs, `as_tool()`, `make_subagent()` | `23`, `24` | Verified |
+| MCP over streamable HTTP | `25` | Verified |
+
+> **Negative or critical claims** ("does no work", the `totalTokens` gotcha, the
+> structured-output trap, default tool exposure, the `read` friction) carry **no status
+> here until they pass the five-step check.** Their live status is the critical-claim
+> register in `ARTICLE-SERIES.md` (N1–N8).
 
 ---
 

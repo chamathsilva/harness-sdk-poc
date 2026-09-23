@@ -6,8 +6,8 @@ Orientation for anyone — human or agent — picking this repository up cold.
 
 An evaluation of the [Strands Harness](https://github.com/strands-agents/harness-sdk),
 an open-source agent library from AWS whose harness packages landed on **2026-09-21**.
-The goal is a series of Medium articles that argue from measurement rather than
-restating the README.
+The goal is a hands-on introductory article on the framework, followed by deep-dive
+articles, all arguing from measurement rather than restating the README.
 
 Everything here is **evidence and the code that produced it.** Nothing is aspirational:
 if a document states a number, a script in `poc/` produced it and the raw output is
@@ -20,10 +20,10 @@ Read in this order. Each is self-contained; you do not need the articles to use 
 | File | Read it when you want |
 |---|---|
 | **`AGENTS.md`** (this file) | Orientation. Conventions. What is safe to run |
-| **`ARTICLE-SERIES.md`** | The plan: three articles, each thesis, what backs it, what is missing |
+| **`ARTICLE-SERIES.md`** | The plan: flagship article + deep dives, the negative-claim rule, article 1's critical-claim register and definition of done |
 | **`FINDINGS.md`** | The master measurement log — context economics, accuracy, security, environment, open items |
-| **`FINDINGS-MULTIAGENT.md`** | `Graph`, `Swarm`, `subagent` — evidence for article 2 |
-| **`FINDINGS-EXTENDING.md`** | Custom tools, MCP, skills, structured output, sessions — evidence for article 3 |
+| **`FINDINGS-MULTIAGENT.md`** | `Graph`, `Swarm`, `subagent` — evidence for article 3 |
+| **`FINDINGS-EXTENDING.md`** | Custom tools, MCP, skills, structured output, sessions — evidence for article 4 |
 | **`README.md`** | Short public-facing summary and setup instructions |
 
 **Looking for one specific thing?**
@@ -57,14 +57,22 @@ or Sonnet without asking.** `poc/_env.py::assert_haiku()` enforces this: it insp
 a summarizer aborts the run before any tokens are spent.
 
 **Cost metric.** Use `billable_input = inputTokens + cacheReadInputTokens +
-cacheWriteInputTokens`. The SDK's `totalTokens` **excludes cache tokens** and will
-mislead you badly — arm A of the main benchmark looks 9× cheaper than it is.
+cacheWriteInputTokens`. The SDK's `totalTokens` leaves out cache tokens, so on its own
+it makes arm A of the main benchmark look 9× cheaper than it is. *(Whether that's a
+defect or faithful mirroring of the provider's `input_tokens` is register N2. For our
+metric it doesn't matter.)*
 
 **Controls are mandatory.** Two tests in this repo initially "passed" while being
 completely invalid — a sandbox-escape test where every attempt failed because the
 *calling code* was wrong, and a policy test whose regex stripped the underscores out of
 its own markers. Both were caught by a control. If a result has no control, treat it as
 unverified.
+
+**No negative claim ships unchecked.** Before anything is called broken, missing,
+misleading or a bug, it goes through the five-step check in `ARTICLE-SERIES.md`:
+current release, fresh reproduction, source, docs, and a correct-usage control plus an
+upstream issue search. The verdict limits the wording. Documented behaviour is
+described as a gotcha, never as broken.
 
 **Don't trust the model's account of what happened.** Where it matters, tests assert on
 side effects — a module-level counter proving a destructive tool never executed, a
@@ -101,13 +109,17 @@ If you read nothing else:
 
 1. **Accuracy, not cost, is the story.** Asking one tool call at a time got all six
    figures right in 4 of 20 runs; letting the agent write code got 18 of 19. Turning
-   reasoning on made it *worse*, so this is not an artifact of the `effort` setting.
-2. **Multi-agent topologies cost 2–5× a single agent with no accuracy benefit.** Even
-   genuine parallelism lost, because each node is an independent agent that re-reads the
-   same data. Delegation buys context isolation, not speed.
+   reasoning on did not close the gap, so it is not an artifact of the `effort` setting.
+2. **Structure buys predictability, not speed or accuracy** (n=5). A `Graph` came in
+   at 0.92× a single agent on small sequential work and 4.88× on bulky fan-out, but its
+   best-to-worst spread stayed at 2.2–6.6×. For a single agent it reached 119×, and for
+   `subagent` 18.6×. The worst outliers share article 2's cause: the model abandoning the
+   code sandbox. *(An earlier "2–5×" at n=2 was disproven. Don't reuse it.)*
 3. **A validated object is not a correct one.** The deprecated
    `agent.structured_output()` does not run the agent loop — 3/3 runs invented data and
    scored 0/6 while every object validated cleanly against its Pydantic model.
+   *Pending the fairness check (register N5): it may simply structure the conversation
+   so far, by design.*
 
 ## Known open item
 

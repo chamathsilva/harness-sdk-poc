@@ -74,7 +74,7 @@ Swarm members need `name` and `description` — handoff targets are chosen by na
 `poc/14_multiagent.py`. Same 3-stage task (total per service → worst service + root
 cause → remediation advice) on the 40 small records. Every arm had `read` and
 `programmatic_tool_caller`, so arithmetic was done by code in all of them and the
-accuracy gap from experiment 04 is not being re-measured. n=2 per arm.
+accuracy gap from experiment 04 is not being re-measured. n=5 per arm (first run n=2).
 
 ### Complex task (n=5 per arch)
 
@@ -147,21 +147,26 @@ sequential data, 4.88× on bulky fan-out) while its **predictability held**.
 
 ### Why — the data-loading tax
 
-Per-node wall times, trial 1:
+Per-node wall times, trial 1 of the n=5 run:
 
 ```
-splitter 11.5s | by_cause 10.6s | by_service 17.5s | by_severity 53.8s | synthesis 2.4s
+splitter 9.3s | by_cause 17.4s | by_service 20.4s | by_severity 21.1s | synthesis 1.9s
 ```
 
-Branch times sum to 81.9s but wall time was 59.2s, so **parallelism did occur**. It
-just did not help, because:
+The branches sum to 58.9s inside a 32.4s wall, so **parallelism did occur**. Wall time
+is roughly splitter + slowest branch + join: 9.3 + 21.1 + 1.9 = 32.3s. It still cost
+more, because:
 
 1. **Each node is an independent agent with an empty context.** All three branches read
    the same 210 KB of files separately. The work is triplicated; the single agent reads
    once and reuses.
-2. **A fan-out is only as fast as its slowest branch** — here 53.8s, which alone
-   exceeded the single agent's entire 35.5s run.
+2. **The splitter and join are serial overhead** the single agent never pays. Median
+   wall was 46.7s for the graph against 30.7s single.
 3. **The join node pays again**, restating all three analyses into its own context.
+
+*(The n=2 version of this section said the slowest branch alone outlasted the single
+agent's whole run. At n=5 that no longer holds: 21.1s against a 30.7s median. It has
+been removed.)*
 
 **Implication:** fan-out is worth it when branches touch *different* data. When they
 share a source, the topology duplicates the expensive part, and the duplication tax
@@ -181,7 +186,8 @@ Not speed, and not accuracy. The one verified win is **isolation** (experiment 0
 
 So the rule that fits all the evidence so far: **delegate to keep bulk out of a
 long-running parent's context, not to go faster or be more correct.** You are buying
-context hygiene and paying 2–5× in tokens for it.
+context hygiene. For `subagent`, that cost 2.78× the median in tokens, with an 18.6×
+spread (n=5).
 
 And the security properties hold up (experiments 11, 12):
 - A Cedar policy on the parent binds the child.
