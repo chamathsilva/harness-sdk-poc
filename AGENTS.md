@@ -21,6 +21,8 @@ Read in this order. Each is self-contained; you do not need the articles to use 
 |---|---|
 | **`AGENTS.md`** (this file) | Orientation. Conventions. What is safe to run |
 | **`ARTICLE-SERIES.md`** | The plan: flagship article + deep dives, the negative-claim rule, article 1's critical-claim register and definition of done |
+| **`ARTICLE-1.md`** | The current full text of article 1 (the Claude doc is the working copy) |
+| **`ARTICLE-1-OUTLINE.md`** | How article 1 was restructured: every paragraph mapped to keep/fix/cut/new, with the checks behind it |
 | **`FINDINGS.md`** | The master measurement log — context economics, accuracy, security, environment, open items |
 | **`FINDINGS-MULTIAGENT.md`** | `Graph`, `Swarm`, `subagent` — evidence for article 3 |
 | **`FINDINGS-EXTENDING.md`** | Custom tools, MCP, skills, structured output, sessions — evidence for article 4 |

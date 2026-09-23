@@ -22,7 +22,7 @@ pattern once, near the end. It does not lead with it.
 
 | # | Working title | Role | Status |
 |---|---|---|---|
-| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | **Restructured and fact-checked in the doc (2026-09-23).** Open: length (~4,100 words by estimate vs 3,500 target), then Medium export |
+| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | **Restructured and fact-checked in the doc (2026-09-23).** Full text in `ARTICLE-1.md`. Open: length (4,076 words vs 3,500 target) |
 | 2 | *Stop Letting the Model Do the Maths* | Deep dive: code mode | Evidence ready |
 | 3 | *Multi-Agent Systems Don't Make Agents Faster. They Make Them Predictable.* | Deep dive: multi-agent | Evidence ready, n=5 |
 | 4 | *A Validated Object Is Not a Correct One* | Deep dive: extending it safely | Evidence mostly ready |
@@ -149,7 +149,7 @@ The detail goes to the follow-ups. Article 1 keeps one sentence each:
 
 1. Every register entry N1–N8 has a verdict and approved wording. **Done.**
 2. G1–G8 are closed or scoped to existence-only wording. **Done.**
-3. The draft is restructured into the tour above, at ≤3,500 words. **Restructured; length pending (~4,100 est.).**
+3. The draft is restructured into the tour above, at ≤3,500 words. **Restructured; length pending (4,076 words).**
 4. **Fact-check pass:** every number in the draft is traced to a row in `FINDINGS.md`
    §7, and the one accuracy tally (18/19, or 22/23 across all graded runs) is used
    consistently. **Done (D2: 4/20 vs 18/19, plus the 0.1.2 replication line).**
