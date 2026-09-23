@@ -22,7 +22,7 @@ pattern once, near the end. It does not lead with it.
 
 | # | Working title | Role | Status |
 |---|---|---|---|
-| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | **Evidence complete and re-validated on 0.1.2**; next: outline → your review |
+| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | Evidence complete; **outline awaiting review** in `ARTICLE-1-OUTLINE.md` |
 | 2 | *Stop Letting the Model Do the Maths* | Deep dive: code mode | Evidence ready |
 | 3 | *Multi-Agent Systems Don't Make Agents Faster. They Make Them Predictable.* | Deep dive: multi-agent | Evidence ready, n=5 |
 | 4 | *A Validated Object Is Not a Correct One* | Deep dive: extending it safely | Evidence mostly ready |
