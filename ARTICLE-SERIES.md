@@ -45,7 +45,8 @@ SDK, to close the "can it do multi-agent?" gap and set up article 2.
 
 **Status: evidence gathered, not drafted.**
 
-**Working title:** *Your Multi-Agent System Is Probably Just Expensive*
+**Working title:** ~~*Your Multi-Agent System Is Probably Just Expensive*~~ — **DISPROVEN
+at n=5** (graph came in at 0.92× a single agent). See title candidates at the end.
 
 **Thesis:** the cost of a topology is not the story — the variance is. A `Graph` is no
 dearer than one agent on small sequential work (0.92×) and 4.88× on bulky fan-out, but
@@ -145,3 +146,55 @@ experiments get done. Article 2 is the strongest contrarian argument and benefit
 readers already trusting the method.
 
 Each stands alone. None depends on having read the others.
+
+---
+
+## Title candidates (proposed 2026-09-22, undecided)
+
+The series' spine changed once n=5 landed, and two working titles no longer fit.
+
+**Core goal, restated:** this is not a library review. It uses a fresh, well-built
+library as a lens for one claim — *agent reliability comes from taking discretion away
+from the model, and each constraint's payoff is measurable.* Each article covers one
+decision you take away:
+
+| | Taken away | Given instead | Measured payoff |
+|---|---|---|---|
+| 1 | Arithmetic | Code execution | 4/20 → 18/19 correct |
+| 2 | Control flow | Deterministic structure | 18.6× spread → 2.2× |
+| 3 | Trust | Policy and schemas | Cedar holds everywhere; a validated object was fabricated 3/3 |
+
+### Article 1
+
+| Title | Leads with | Risk |
+|---|---|---|
+| The Hard Part of AI Agents Was Never the AI *(current)* | The thesis | Safe but abstract; does not use the best number |
+| Your Agent Can't Add Up — And That's Fixable | 4/20 vs 18/19 | Concrete; could read as an anti-AI cheap shot |
+| A Quarter of This Agent's Tools Do No Work At All | The 12-tool observation | Strong curiosity gap; buries the accuracy finding |
+| Stop Letting the Model Do the Maths | The instruction | Actionable; sounds like a tip, not a piece |
+
+### Article 2 — the current working title is **disproven**
+
+*"Your Multi-Agent System Is Probably Just Expensive"* cannot be published: at n=5 the
+graph came in at **0.92×** a single agent. Replacements:
+
+| Title | Leads with | Risk |
+|---|---|---|
+| Multi-Agent Systems Don't Make Agents Faster. They Make Them Predictable. | The corrected thesis | Clearest; slightly long |
+| The Most Predictable Agent Is the One That Decides Least | The unifying idea | Ties all three together; abstract |
+| One Agent Run Cost Me 3.1 Million Tokens | The outlier | Most clickable — **but it is n=1**, the exact error this series spent a day correcting |
+| I Measured Four Agent Architectures. The Cheapest One Wasn't the Best. | The method | Honest; less distinctive |
+
+### Article 3
+
+| Title | Leads with | Risk |
+|---|---|---|
+| A Validated Object Is Not a Correct One | The finding as a rule | Quotable, clear |
+| It Validated. It Was Also Entirely Made Up. | The hallucinated Pydantic object | Best hook; piece is calmer than the title |
+| Everything You Plug In Gets the Same Treatment *(current)* | The uniformity argument | Accurate; flat, buries the hook |
+| The Deprecated Function That Invents Your Data | The specific trap | Searchable; may date as the API moves |
+
+**Recommendation:** 1 unchanged · 2 → *"Multi-Agent Systems Don't Make Agents Faster.
+They Make Them Predictable."* · 3 → *"A Validated Object Is Not a Correct One."*
+
+**Decision: pending.** Nothing in the drafts has been retitled.
