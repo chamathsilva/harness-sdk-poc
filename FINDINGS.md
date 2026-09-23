@@ -19,6 +19,7 @@ up without re-deriving anything.
 | Model | `claude-haiku-4-5-20251001` via **Anthropic API** |
 | Reasoning effort | `off` unless a test says otherwise |
 | Harness merged upstream | 2026-09-21, commit `4095cf5a6` |
+| **Re-validated on** | `strands-harness` 0.1.2 + `strands-agents` 1.57.0 (both released 2026-09-22), static checks only; see §11 |
 
 **Every number below is Haiku 4.5.** No Bedrock, no AWS credentials involved — an
 earlier version of this POC ran on Bedrock and was moved off it deliberately (see §8).
@@ -45,17 +46,27 @@ Twelve tools: `edit`, `programmatic_tool_caller`, `read`, `retrieve_context`,
 `retrieve_offloaded_content`, `search_memory`, `shell`, `strands_manage_background_task`,
 `subagent`, `todo_write`, `web_fetch`, `write`.
 
-**Three of twelve serve the context window rather than the task.** `retrieve_context`,
-`retrieve_offloaded_content` and `search_memory` exist to recover context that was
-pushed out. *The earlier phrasing "do no work" is our framing, not a fact; see register
-N1.*
+**Two of the twelve fetch back content the harness moved out of the context window**
+(`retrieve_context` from the context manager, `retrieve_offloaded_content` from the
+offloader plugin), and **a third, `search_memory`, searches long-term memory.** Each is
+registered only with the feature that needs it. *The earlier "three of twelve do no
+work" was wrong: `search_memory` is how memory is read. See §11, N1.*
+
+Also on by default but not visible in `tool_names`:
+- **Native `web_search`** on Anthropic models, as a provider tool (`anthropic_tools`:
+  `web_search_20260318`). So it is 12 registered tools plus native search.
+- **The `todos` and `environment` plugins** (`DEFAULT_BUILTIN_PLUGINS`). `01_inspect.py`
+  printed `PLUGINS: []` because `Agent` has no `plugins` attribute. That was an
+  artifact of our inspection, not a fact.
 
 Also returned: `ContextManager`, `MemoryManager`, a session id, cache config
 (`strategy='auto'`, system prompt + tools TTL on), and a 1,665-char system prompt
 identical to `HARNESS_CONTRACT`.
 
-Default model config observed: `global.anthropic.claude-opus-5`, `thinking: adaptive`,
-`effort: high`, `max_tokens: 128000`, `context_window_limit: 1000000`.
+Default model config observed on 0.1.1: `global.anthropic.claude-opus-5`, `thinking: adaptive`,
+`effort: high`, `max_tokens: 128000`, `context_window_limit: 1000000`. **0.1.2 changed the
+default effort to `"auto"`** (#4473). Our runs set `effort="off"` explicitly, so no measured
+number is affected.
 
 ---
 
@@ -233,7 +244,7 @@ Sandbox calls route through the same executor. Not an escape path.
 The last doc-sourced claim in article 1. Six turns, each planting a distinctive fact,
 then a probe for the first one.
 
-Filling Haiku's real 200k window to hit the default 70% trigger would be costly, so the
+Filling Haiku's real 200k window to hit the default trigger (85% under `"auto"`; see §11, G5) would be costly, so the
 test shrinks the window the context manager measures against (`AnthropicModel(...,
 context_window_limit=2000)`) and fires at `utilization=0.5`.
 
@@ -256,20 +267,20 @@ Two things worth recording:
    `threshold=1500` then `threshold=400` never fired before this was understood.
 
 Caveat: this verifies the mechanism at a forced trigger point. The shipped default of
-~70% utilization on a real window is still unobserved.
+85% utilization (`context_manager="auto"`) on a real window is still unobserved.
 
 ---
 
 ## 6. Usability friction (observed, reproducible)
 
-1. **`read` returns `cat -n` numbered lines.** Sandbox code parsing them as JSON fails
+1. *(Verdict: documented design, tip only; §11 N7a.)* **`read` returns `cat -n` numbered lines.** Sandbox code parsing them as JSON fails
    on first attempt, every run. Agent recovers, costs a round trip.
-2. **`read` needs absolute paths and cannot list a directory.** First attempt at the
+2. *(Verdict: documented; our friction came from removing `shell`; §11 N7b.)* **`read` needs absolute paths and cannot list a directory.** First attempt at the
    benchmark said "./data/incidents"; the agent made 14 increasingly desperate
    directory guesses before giving up. Tasks must state exact paths or provide `shell`.
-3. **`agent.interventions` reports `[]`** even when a Cedar handler is active — the
+3. *(Verdict: OUR ARTIFACT. `Agent` has no such attribute; the handler is in `_intervention_registry`. Dropped; §11 N7c.)* ~~**`agent.interventions` reports `[]`**~~ even when a Cedar handler is active — the
    handler is not visible on that attribute. Minor observability wart.
-4. **`web_search` is off** on models without native search, with a logged warning.
+4. *(Verdict: documented; on Anthropic it is native and on; `"exa"` works anywhere since 0.1.2; §11 N7d.)* **`web_search` is off** on models without native search, with a logged warning.
 
 ---
 
@@ -288,7 +299,7 @@ Caveat: this verifies the mechanism at a forced trigger point. The shipped defau
 | Skills auto-discovered from folder | `09` | Verified w/ control |
 | Offloading swaps bulk for reference | `10` | Verified |
 | Summarization compacts history | `22` | Mechanism verified at forced trigger |
-| The ~70% default specifically | `presets.py` source | **Read, not observed** |
+| ~~The ~70% default~~ **Default `"auto"` summarizes at 85%**, truncates tool results over 1,500 tokens | `context_manager.py` source + launch post | **Read, not observed** (70% was a misread; it belongs to a non-default preset) |
 | Delegate cannot be granted more perms than parent | `12` | Verified |
 | Sessions survive a process restart | `21` | Verified, 2 processes |
 | Subagent inherits parent's Cedar policy | `11` | Verified |
@@ -374,3 +385,64 @@ cd poc
 ```
 
 Raw results land in `poc/results_*.json` and are committed as evidence.
+
+---
+
+## 11. Phase 1 re-validation — static checks on the current release (2026-09-22)
+
+The five-step rule in `ARTICLE-SERIES.md` applied to every critical claim article 1
+could make, plus the gaps. **No model calls.** Checks were run against
+`strands-harness` **0.1.2** and `strands-agents` **1.57.0**, both released on
+2026-09-22, installed side by side in `.venv-new/` so old and new source could be
+diffed.
+
+### What changed upstream, and what it touches
+
+| Change | PR | Touches |
+|---|---|---|
+| Default `effort` `"high"` → `"auto"` | #4473 | §2 default config. Our runs set `"off"`, so no numbers change |
+| `web_search: "exa"` now wins over native search on any model | #4491 | N7d |
+| New vended tools: `mcp_router`, `handoff_to_user` | #4252, #4348 | Article 4's "missing" list (`mcp_router` now exists) |
+| MCP auth-flow and framing fix (82 lines in `tools/mcp/_compat.py`) | #4233 | `16`, `25`: re-run on 0.1.2 |
+| Summaries keep only text when re-roled (38 lines in `context_compression.py`) | #4402 | `22`: re-run on 0.1.2 |
+| Schema normalization no longer mutates caller specs | #4426 | `17`: re-run on 0.1.2 |
+| Graph / Swarm / tool executor | — | Import-line changes only |
+| Harness package itself | — | 4 files: the effort default and `web_search` precedence only. The default tool list is identical (12) |
+
+Also released: TypeScript harness 0.1.1 and **`@strands-agents/cli` 0.1.1**. The CLI ships
+the `strands` terminal command; it's untested (G6).
+
+### Verdicts
+
+| ID | Claim | Verdict | Deciding evidence |
+|---|---|---|---|
+| N1 | "3 of 12 tools do no work" | **Wrong: our framing.** Dropped | `memory/memory_manager.py:475`: `search_memory` searches long-term memory. `_context_manager/retrieval_tool.py:3`: `retrieve_context` is "registered automatically when the ContextManager has storage configured". `retrieve_offloaded_content` comes from the context-offloader plugin |
+| N2 | "`totalTokens` excludes cache tokens" | **Confirmed defect, known upstream** | `models/anthropic.py:816`: `totalTokens = input_tokens + output_tokens`. Issue **#3546** (open since 2026-07-29) says Anthropic direct "under-reports a cached run", Bedrock includes cache, and OpenAI-style providers count it *inside* input. Our metric matches Anthropic's documented total |
+| N3 | "Code mode abandoned ~8%, ~17× cost" | **Confirmed (model behaviour, not a framework defect)** | Re-derived from raw rows in 4 files: **2/24 = 8.3%**, medians 26,650 vs 469,484 (**17.6×**), exact scores 0/6 and 6/6. The prompt gave the absolute directory, the file range and "Use absolute paths", so path friction was not the cause |
+| N4 | "Code mode ~3× dearer on small data" | **Pending phase 2** | n=7, and the ranges overlap |
+| N5 | "Deprecated `structured_output()` invents data" | **Documented behaviour.** Fairness control still required | `agent/agent.py:962`: `DeprecationWarning` pointing to `structured_output_model`. The implementation is one `model.structured_output(...)` call over the existing messages, with no event loop and no tools. The docstring: "use only the existing conversation history to respond" |
+| N6 | "`shell`/`write`/`edit` on; interventions off" | **Confirmed and documented, bluntly** | `defaults.py`: `DEFAULT_BUILTIN_TOOLS` covers all built-ins. `agent.py:388`: interventions "defaults to `None` (off — every call runs)". `agent/agent.py:352`: the default environment is `NotASandboxLocalEnvironment`, "runs … on the host with **no isolation**. The deliberately blunt name … is a warning". Docker and SSH sandboxes exist |
+| N7a | "`read` returns `cat -n` lines" | **Documented design.** Tip only | `tools/file_tools.py:74`: "numbered lines so you can cite `path:line`" |
+| N7b | "`read` needs absolute paths, can't list dirs" | **Documented.** Tip only | `file_tools.py:25`. Reproduced deterministically with no model: `./x` and `x` are rejected with "should start with '/'", and `..` is rejected as traversal. Directory listing is `shell`'s job, and `shell` is on by default; our friction came from removing it |
+| N7c | "`agent.interventions` reports `[]`" | **Our misuse.** Dropped | `Agent` has **no** `interventions` attribute; `getattr(..., [])` returned our own default. The registry holds `['CedarAuthorization']` when a policy is passed. Same artifact as `PLUGINS: []` |
+| N7d | "`web_search` off without native search" | **Documented** | On Anthropic it's native and **on** (`anthropic_tools: web_search_20260318`). It's off only where the provider has no native search; `"exa"` serves any model since #4491 |
+| N8 | "Reasoning made accuracy worse" | **Softened** to "did not close the gap" (n=3 per cell) | Raising n is optional in phase 2 |
+
+### Gaps
+
+| ID | Result |
+|---|---|
+| G1 observability | **Source read; run pending.** Per `strands_harness/telemetry.py`, the SDK already emits spans for the model loop, tool calls and subagent delegation. The harness wires an exporter only when `OTEL_TRACES_EXPORTER` is `otlp` or `console`; unset means off. Phase 2: one run with the console exporter |
+| G2 providers | **Closed.** `models.py:296` resolves `bedrock`, `bedrock-mantle`, `anthropic`, `openai`, `google`, `ollama` and `litellm` prefixes, plus `Model` instances. We ran two: Anthropic (all numbers) and Bedrock (early, not kept). The article claims only those two |
+| G3 version currency | **Closed**, as above |
+| G4 TypeScript | **Closed.** `@strands-agents/harness` 0.1.1 is published and needs Node ≥22. Existence only; no parity claim |
+| G5 summarization default | **Closed, and corrected.** The harness default `context_manager="auto"` summarizes at **85%** utilization and truncates tool results over **1,500** tokens to 750-token previews (`_context_manager/context_manager.py:31-34`). The **70%** we'd been quoting is the non-default `proactive_summarization` preset. The launch post confirms "~1500 tokens" and "above 85%". Source warns that preset values "may change between releases" |
+| G6 Strands CLI | **New, untested.** `strands` command; `/export` produces Python or TypeScript. Existence only unless tested (its default model is Bedrock Opus 5, so it would need Haiku configured) |
+| G7 execution sandboxes | **New, untested.** Docker and SSH environments exist in `strands/sandbox/`. **Article 1 must separate the two sandboxes:** Monty (code mode, sealed, verified by `06`) versus the execution environment for `shell`/files (host by default) |
+| G8 vendor benchmarks | **New.** The launch post claims 28% lower token cost than Claude Code and Codex across six benchmarks, and 77% cheaper on Terminal Bench 2.1 with Fable 5. Cite as the vendor's claims; not reproduced |
+
+### Naming, per the launch post
+
+*Strands harness* (`pip install strands-harness`) is built on the *Strands Harness SDK*
+(PyPI `strands-agents`), in the `strands-agents/harness-sdk` monorepo. It's
+positioned as "a general-purpose agent rather than a coding agent".
