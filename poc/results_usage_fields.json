@@ -1,0 +1,31 @@
+[
+  {
+    "call": 1,
+    "usage": {
+      "inputTokens": 64,
+      "outputTokens": 5,
+      "totalTokens": 69,
+      "cacheWriteInputTokens": 6183
+    },
+    "totalTokens": 69,
+    "input_plus_output": 69,
+    "true_input_per_anthropic_docs": 6247,
+    "totalTokens_includes_cache": false,
+    "share_of_input_missing_from_totalTokens": 0.99
+  },
+  {
+    "call": 2,
+    "usage": {
+      "inputTokens": 128,
+      "outputTokens": 10,
+      "totalTokens": 138,
+      "cacheWriteInputTokens": 6199,
+      "cacheReadInputTokens": 6183
+    },
+    "totalTokens": 138,
+    "input_plus_output": 138,
+    "true_input_per_anthropic_docs": 12510,
+    "totalTokens_includes_cache": false,
+    "share_of_input_missing_from_totalTokens": 0.99
+  }
+]

@@ -89,6 +89,10 @@ cp .env.example .env          # add ANTHROPIC_API_KEY
 cd poc && ../.venv/bin/python 01_inspect.py
 ```
 
+**Two environments.** `.venv/` holds the originally tested versions (`strands-harness`
+0.1.1). `.venv-new/` holds the current ones (0.1.2 / SDK 1.57.0); every re-validation
+from `FINDINGS.md` §11 on ran there. Create it the same way, pinning those versions.
+
 Scripts are numbered in the order they were written. `01_inspect.py` makes **no model
 calls**. Everything else does, so each costs real money — small amounts on Haiku, but
 `04`, `18` and the multi-agent scripts run many trials and are the expensive ones.
@@ -116,10 +120,10 @@ If you read nothing else:
    `subagent` 18.6×. The worst outliers share article 2's cause: the model abandoning the
    code sandbox. *(An earlier "2–5×" at n=2 was disproven. Don't reuse it.)*
 3. **A validated object is not a correct one.** The deprecated
-   `agent.structured_output()` does not run the agent loop — 3/3 runs invented data and
-   scored 0/6 while every object validated cleanly against its Pydantic model.
-   *Pending the fairness check (register N5): it may simply structure the conversation
-   so far, by design.*
+   `agent.structured_output()` formats what the conversation already contains and runs no
+   tools, as its docstring says. Called cold, every object validated with every figure
+   invented (0/3). Called after the agent had done the work, it was perfect (3/3). It's
+   misuse of a deprecated method, not a bug (`27`).
 
 ## Known open item
 

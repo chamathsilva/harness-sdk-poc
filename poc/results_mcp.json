@@ -37,7 +37,7 @@
       "incidents_list_directory": 1
     },
     "counted_40": true,
-    "answer": "There are **40 files** in the directory `/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents`.\n\nThey are all JSON files named sequentially from `INC-1001.json` through `INC-1040.json`.\n"
+    "answer": "There are **40 files** in `/Users/chamathwor/Desktop/Projects/POC/harness-sdk-poc/data/incidents`.\n\nThe files are named sequentially from `INC-1001.json` to `INC-1040.json`.\n"
   },
   "broken_server": {
     "agent_built": true,

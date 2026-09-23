@@ -117,6 +117,9 @@ Median `billable_input`:
 | Code mode | 37,997 (n=7) | 28,912 (n=12) |
 | Delta | code mode **~3× worse** | code mode **~3.7× better** |
 
+> **Superseded for small data (§12):** at n=12 per arm on 0.1.2, code mode costs
+> **1.94×** on the small dataset (23,749 vs 12,244), not ~3×.
+
 Ranges: arm A small 12,239–30,900; arm A large 106,659–108,373; code mode small
 25,625–50,353; code mode large **14,658–519,657**.
 
@@ -309,6 +312,10 @@ Caveat: this verifies the mechanism at a forced trigger point. The shipped defau
 | Cedar governs custom tools, not just built-ins | `17` | Verified |
 | `"smart"` and prose policies gate correctly | `19` | Verified w/ control |
 | Structured output via `structured_output_model=` | `20` | Verified, 6/6 |
+| Code mode ~2× dearer on small data | `26` | Verified, n=12 per arm, 0.1.2 |
+| Deprecated `structured_output()` fabricates only when called cold | `27` | Verified w/ control: cold 0/3, warm 3/3 |
+| `totalTokens` omits cached input on Anthropic | `28` + #3546 | Verified, 0.1.2 |
+| OTEL tracing: off by default; agent/model/tool/delegation spans when on | `29` | Verified, 0.1.2 |
 | ~~Multi-agent topologies cost 2–5× a single agent~~ | `14`, `15` | **Disproven at n=5** |
 | Graph is more predictable than a single agent or subagent | `14`, `15` | Verified, n=5 |
 | Conditional edges, nested graphs, `as_tool()`, `make_subagent()` | `23`, `24` | Verified |
@@ -446,3 +453,68 @@ the `strands` terminal command; it's untested (G6).
 *Strands harness* (`pip install strands-harness`) is built on the *Strands Harness SDK*
 (PyPI `strands-agents`), in the `strands-agents/harness-sdk` monorepo. It's
 positioned as "a general-purpose agent rather than a coding agent".
+
+---
+
+## 12. Phase 2 re-validation — live runs on 0.1.2 (2026-09-23)
+
+All on `strands-harness` 0.1.2 + `strands-agents` 1.57.0 (`.venv-new/`), Haiku 4.5,
+`effort="off"`. Results are written to file after every trial.
+
+### N5 — the structured-output fairness control (`27_structured_fairness.py`, n=3 per arm)
+
+| Arm | Perfect | Figures | DeprecationWarning | Tool calls during the call |
+|---|---|---|---|---|
+| **cold**: `structured_output(Model, TASK)` on a fresh agent | **0/3** | 0, 0, 0 | yes | 0 |
+| **warm**: `agent(TASK)`, then `structured_output(Model)` | **3/3** | 6, 6, 6 | yes | 0 |
+| **supported**: `agent(TASK, structured_output_model=Model)` | **3/3** | 6, 6, 6 | — | — |
+
+**Verdict: documented behaviour, confirmed live.** The method formats what the
+conversation already contains and never fetches anything. Used as its docstring
+describes, it's perfect. Used cold, every returned object passed validation with every
+figure invented. The lesson "a validated object is not a correct one" stands, framed as
+misuse of a deprecated method, not as a bug.
+
+### N4 — the small-data crossover (`26_small_crossover.py`, n=12 per arm, interleaved)
+
+| Arm | Median billable | Range | Perfect | Median sec |
+|---|---|---|---|---|
+| One call at a time | **12,244** | 12,240–33,070 | **4/12** | 13.7 |
+| Code mode | **23,749** | 13,509–113,837 | **10/12** | 16.1 |
+
+**Verdict: direction confirmed, magnitude corrected.** Code mode costs **1.94×** on
+16 KB, not "~3×" (the n=7 figure). A random code-mode run cost more than a random
+one-at-a-time run in 94% of pairings. The accuracy gap replicates on the new release.
+
+The **sandbox fallback also occurs on small data**: 2 of 12 runs made 40+ direct
+reads. One scored 1/6 at 113,837 tokens; the other scored 6/6 at 44,442. Pooled with the
+large dataset, **4 fallbacks in 36 instrumented runs (11%), 2 of them wrong.**
+
+### N2 — usage fields on a cached run (`28_usage_fields.py`)
+
+| Call | `totalTokens` | input + cacheRead + cacheWrite | Share missing |
+|---|---|---|---|
+| 1 | 69 | 6,247 | 99% |
+| 2 | 138 | 12,510 | 99% |
+
+**Verdict: confirmed defect, known upstream (#3546).** On a cached Anthropic run,
+`totalTokens` omits almost all of the input.
+
+### G1 — tracing (`29_tracing.py`, two separate processes)
+
+| `OTEL_TRACES_EXPORTER` | Spans | Span names |
+|---|---|---|
+| unset | **0** | — |
+| `console` | **16** | `invoke_agent Strands Agents`, `execute_event_loop_cycle`, `chat`, `execute_tool read`, `execute_tool subagent`, `execute_tool strands_manage_background_task` |
+
+**Verdict: works as the source says.** Tracing is off unless asked for. When on, it
+covers the agent, every loop cycle, every model call, every tool call and delegation.
+
+### Verified results re-run on 0.1.2
+
+| Script | 0.1.1 | 0.1.2 | Holds? |
+|---|---|---|---|
+| `16` MCP stdio | 14 tools, used, broken server isolated | same | ✅ |
+| `17` custom tools | registered, in sandbox, Cedar-blocked, counter 0 | same | ✅ |
+| `22` summarization | 14 → 4 msgs; 4,414 → 2,011 chars | 14 → 4 msgs; 3,469 → 2,325 chars | ✅ The message compaction holds. **Say "14 messages became 4"; don't say "halved"** |
+| `25` MCP HTTP | auto + explicit transport, 4242 | same | ✅ |

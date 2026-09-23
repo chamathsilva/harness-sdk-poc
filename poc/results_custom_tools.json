@@ -15,6 +15,6 @@
   "cedar_on_custom": {
     "executed": false,
     "denied": true,
-    "answer": "The call failed with the error: **DENIED: Access denied by Cedar policy**\n\nThe `delete_everything` function cannot be executed due to an access control policy that prevents this operation.\n"
+    "answer": "The call failed with the error: **DENIED: Access denied by Cedar policy**\n\nThe deletion was blocked by an access control policy, so the records were not deleted.\n"
   }
 }

@@ -22,7 +22,7 @@ pattern once, near the end. It does not lead with it.
 
 | # | Working title | Role | Status |
 |---|---|---|---|
-| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | Evidence ~90%; the draft needs restructuring |
+| **1** | *Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does* | Flagship introduction | **Evidence complete and re-validated on 0.1.2**; next: outline → your review |
 | 2 | *Stop Letting the Model Do the Maths* | Deep dive: code mode | Evidence ready |
 | 3 | *Multi-Agent Systems Don't Make Agents Faster. They Make Them Predictable.* | Deep dive: multi-agent | Evidence ready, n=5 |
 | 4 | *A Validated Object Is Not a Correct One* | Deep dive: extending it safely | Evidence mostly ready |
@@ -93,24 +93,26 @@ is. Assumes no knowledge of Strands.
 | 5 | **Verdict** | Who it is for; which defaults to change first | — | Written last |
 | 6 | **Method box** | Haiku 4.5, sample sizes, repo link, frontier caveat | — | Ready |
 
-### Critical-claim register — phase 1 done (static checks on 0.1.2 / 1.57.0)
+### Critical-claim register — **closed** (phase 1 static + phase 2 live, on 0.1.2 / 1.57.0)
 
-Full evidence is in `FINDINGS.md` §11. The **approved wording** column is the only
-wording the draft may use.
+Full evidence is in `FINDINGS.md` §11 (static) and §12 (live). The **approved wording**
+column is the only wording the draft may use.
 
 | ID | Verdict | Approved wording | Where it goes |
 |---|---|---|---|
 | **N1** | **Wrong** (our framing) | "Two of the twelve fetch back content the harness moved out of the context window; a third searches long-term memory. Each arrives with the feature that needs it." | §1 what it is |
-| **N2** | **Confirmed defect, known upstream (#3546)** | "On the Anthropic API, `totalTokens` leaves out cached tokens, a known open issue (#3546). For cost, add `cacheReadInputTokens` and `cacheWriteInputTokens`." | §3 surprises |
-| **N3** | **Confirmed**: model behaviour, not framework | "On our task, Haiku abandoned code mode and read files itself in 2 of 24 runs. Those runs cost about 17× the median, and one still got every figure right." | §2a, detail in article 2 |
-| **N4** | Pending phase 2 | Until then: "on small inputs the overhead can outweigh the saving" | §2a |
-| **N5** | **Documented behaviour**; fairness control pending | "The deprecated `agent.structured_output()` makes one model call over the conversation so far and runs no tools, as its docstring says. Asked cold to analyse files, it returned schema-valid objects full of invented figures (3/3). The replacement, `structured_output_model=`, ran the tools and got 6/6." | §3 surprises, detail in article 4 |
+| **N2** | **Confirmed defect, known upstream (#3546)**; live on 0.1.2 | "On a cached Anthropic run, `totalTokens` reported 138 tokens where the true input was 12,510. It's a known open issue (#3546). For cost, add `cacheReadInputTokens` and `cacheWriteInputTokens`." | §3 surprises |
+| **N3** | **Confirmed**: model behaviour, not framework. Also seen on small data | "In roughly one run in ten (4 of 36), Haiku abandoned code mode and read every file itself. On the large dataset those runs cost about 17× the median. Half of them still got every figure right." | §2a, detail in article 2 |
+| **N4** | **Confirmed direction, magnitude corrected** (n=12 per arm) | "On 40 small files, code mode cost about twice as much (median 23,749 vs 12,244 tokens) and was still far more accurate (10/12 vs 4/12 perfect). On bulky files it was ~3.7× cheaper." | §2a |
+| **N5** | **Documented behaviour, confirmed with a control** | "The deprecated `agent.structured_output()` formats what the conversation already contains and never fetches anything, as its docstring says. Called after the agent had done the work, it was perfect (3/3). Called cold, it returned schema-valid objects with every figure invented (0/3). The replacement, `structured_output_model=`, got 3/3." | §3 surprises, detail in article 4 |
 | **N6** | **Confirmed and documented** | "Out of the box, `shell` and the file tools run on your machine with your privileges, and no call is gated. The SDK is blunt about it: the default environment is called `NotASandboxLocalEnvironment`. A Docker or SSH sandbox, or an interventions policy, is one argument away." | §4 before you ship |
 | N7a | Documented design | Tip only: "`read` numbers its lines so the model can cite `path:line`; code that parses file contents strips them" | Article 2 |
 | N7b | Documented | Tip only: "`read` takes absolute paths and reads files; listing is `shell`'s job" | Article 2 |
 | N7c | **Our misuse** | **Dropped** | — |
 | N7d | Documented | Optional: "web search is the provider's native tool where one exists, or Exa's hosted search on any model if you opt in" | §2 tour, one line |
 | **N8** | Softened | "Turning reasoning on did not close the gap" | §2a |
+
+**What phase 2 changed:** N4 shrank from ~3× to ~2×. N3 widened to small data (4 of 36 overall). N5's control cleared the method of being broken. N2 and G1 were observed live. All four re-runs held; summarization should be described as "14 messages became 4", not "halved".
 
 **What phase 1 changed:** N1 and N7c are gone. N5 and N7a/b/d moved from flaw to
 documented behaviour. N2 moved the other way: it's a real defect, already reported
@@ -121,23 +123,20 @@ not 70%. The sandbox section needs splitting in two (G7).
 
 | ID | Status | For the article |
 |---|---|---|
-| G1 observability | Source read; **one run pending** | "Spans for the model loop, tool calls and delegation; set `OTEL_TRACES_EXPORTER`." Say so only after the run |
+| G1 observability | **Closed**: 0 spans unset, 16 with `console` | "Tracing is off until you set `OTEL_TRACES_EXPORTER`; then every agent call, model call, tool call and delegation is a span." |
 | G2 providers | **Closed** | "Seven provider prefixes in the source; I ran two" |
-| G3 version | **Closed**: 0.1.2 / 1.57.0 | Method box names the versions. Re-run `16`, `17`, `22`, `25` on 0.1.2 |
+| G3 version | **Closed**: 0.1.2 / 1.57.0; `16`, `17`, `22`, `25` re-run and hold | Method box names the versions |
 | G4 TypeScript | **Closed** | Existence only: `@strands-agents/harness` 0.1.1, Node ≥22 |
 | G5 summarization | **Closed, corrected** | "Summarizes above 85% of the window; truncates tool results over ~1,500 tokens" |
 | G6 Strands CLI | New; untested | Existence and `/export` only, unless tested |
 | G7 two sandboxes | New | §2b must separate **Monty** (code mode, sealed, verified) from the **execution environment** (host by default) |
 | G8 vendor benchmarks | New | Cite the launch post's 28% and 77% as the vendor's claims; say we didn't reproduce them |
 
-### Phase 2 checklist (small Haiku runs, on 0.1.2)
+### Phase 2 — done (2026-09-23)
 
-1. **N5 fairness control:** call `structured_output()` *after* the agent has read the data.
-2. **N2 live capture:** one cached run on 0.1.2 printing all four usage fields.
-3. **G1:** one run with `OTEL_TRACES_EXPORTER=console`, confirming model and tool spans.
-4. **Re-run on 0.1.2:** `16` MCP stdio, `17` custom tools, `22` summarization, `25` MCP HTTP.
-5. **N4:** raise small-data code mode from n=7 to n≥12. The one costly item; run it in the background.
-6. *Optional:* N8 (raise n), G6 (CLI smoke test with Haiku).
+All five items ran on 0.1.2 and every result is in `FINDINGS.md` §12. Still open, and not
+required for article 1: raising n on N8 (the reasoning confound), and a CLI smoke test
+(G6). Both stay worded as above.
 
 ### Out of scope for article 1
 
@@ -148,8 +147,8 @@ The detail goes to the follow-ups. Article 1 keeps one sentence each:
 
 ### Definition of done
 
-1. Every register entry N1–N8 has a verdict and approved wording. *(Phase 1: all but N4 and N5's control.)*
-2. G1–G8 are closed or scoped to existence-only wording.
+1. Every register entry N1–N8 has a verdict and approved wording. **Done.**
+2. G1–G8 are closed or scoped to existence-only wording. **Done.**
 3. The draft is restructured into the tour above, at ≤3,500 words.
 4. **Fact-check pass:** every number in the draft is traced to a row in `FINDINGS.md`
    §7, and the one accuracy tally (18/19, or 22/23 across all graded runs) is used

@@ -31,6 +31,6 @@
     "tool_calls": {
       "probe_magic_number": 1
     },
-    "answer": "The magic number is **4242**.\n"
+    "answer": "The magic number tool returned **4242**.\n"
   }
 }

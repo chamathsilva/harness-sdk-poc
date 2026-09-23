@@ -1,0 +1,23 @@
+{
+  "off": {
+    "OTEL_TRACES_EXPORTER": null,
+    "exit": 0,
+    "span_count": 0,
+    "span_names": [],
+    "stderr_tail": ""
+  },
+  "on": {
+    "OTEL_TRACES_EXPORTER": "console",
+    "exit": 0,
+    "span_count": 16,
+    "span_names": [
+      "chat",
+      "execute_event_loop_cycle",
+      "execute_tool read",
+      "execute_tool strands_manage_background_task",
+      "execute_tool subagent",
+      "invoke_agent Strands Agents"
+    ],
+    "stderr_tail": ""
+  }
+}

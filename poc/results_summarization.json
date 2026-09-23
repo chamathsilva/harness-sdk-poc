@@ -8,7 +8,7 @@
     ],
     "has_retrieve_context": true,
     "messages_after_turns": 4,
-    "history_chars": 2011,
+    "history_chars": 2325,
     "first_fact_verbatim_in_history": true,
     "summary_markers": [
       "summar"
@@ -23,7 +23,7 @@
     ],
     "has_retrieve_context": false,
     "messages_after_turns": 14,
-    "history_chars": 4414,
+    "history_chars": 3469,
     "first_fact_verbatim_in_history": true,
     "summary_markers": [],
     "still_answers_first_fact": true,
