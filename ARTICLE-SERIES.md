@@ -1,5 +1,12 @@
 # Article series plan
 
+> **Historical plan — superseded by [ARTICLE-PLAN.md](ARTICLE-PLAN.md).** The agreed
+> direction is two standalone articles; other topics are conditional. The titles,
+> article numbering, completion status, and approved wording below record an earlier
+> editorial decision. Keep the five-step negative-claim rule, but consult the new
+> plan's evidence issues before reusing any historical "verified" accuracy tally.
+> The active Article 1 brief is [ARTICLE-1-OUTLINE.md](ARTICLE-1-OUTLINE.md).
+
 What each article is for, what backs it, and what must happen before it ships.
 
 **Last updated:** 2026-09-22 · Start with [AGENTS.md](AGENTS.md). Evidence lives in

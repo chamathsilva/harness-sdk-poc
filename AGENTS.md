@@ -6,8 +6,10 @@ Orientation for anyone — human or agent — picking this repository up cold.
 
 An evaluation of the [Strands Harness](https://github.com/strands-agents/harness-sdk),
 an open-source agent library from AWS whose harness packages landed on **2026-09-21**.
-The goal is a hands-on introductory article on the framework, followed by deep-dive
-articles, all arguing from measurement rather than restating the README.
+The agreed plan is two standalone articles: a practical introduction to the framework,
+then a controlled code-mode experiment. Additional articles depend on new evidence.
+All argue from measurement rather than restating the README. `ARTICLE-PLAN.md` is the
+authoritative editorial plan; the immediate focus is Article 1.
 
 Everything here is **evidence and the code that produced it.** Nothing is aspirational:
 if a document states a number, a script in `poc/` produced it and the raw output is
@@ -20,18 +22,23 @@ Read in this order. Each is self-contained; you do not need the articles to use 
 | File | Read it when you want |
 |---|---|
 | **`AGENTS.md`** (this file) | Orientation. Conventions. What is safe to run |
-| **`ARTICLE-SERIES.md`** | The plan: flagship article + deep dives, the negative-claim rule, article 1's critical-claim register and definition of done |
-| **`ARTICLE-1.md`** | The current full text of article 1 (the Claude doc is the working copy) |
-| **`ARTICLE-1-OUTLINE.md`** | How article 1 was restructured: every paragraph mapped to keep/fix/cut/new, with the checks behind it |
+| **`ARTICLE-PLAN.md`** | The finalized publication plan: two standalone articles, scope, evidence issues, and completion criteria |
+| **`ARTICLE-1-OUTLINE.md`** | The active Article 1 brief: title, reader promise, section budgets, evidence selection, and rewrite map |
+| **`ARTICLE-1.md`** | The complete revised draft under the two-article plan |
+| **`ARTICLE-1-REVIEW.md`** | Evidence checked for the revised draft, withheld accuracy claims, and remaining publication review |
+| **`ARTICLE-SERIES.md`** | Historical plan and claim register; retains the five-step negative-claim rule. Editorial decisions are superseded |
 | **`FINDINGS.md`** | The master measurement log — context economics, accuracy, security, environment, open items |
-| **`FINDINGS-MULTIAGENT.md`** | `Graph`, `Swarm`, `subagent` — evidence for article 3 |
-| **`FINDINGS-EXTENDING.md`** | Custom tools, MCP, skills, structured output, sessions — evidence for article 4 |
+| **`FINDINGS-MULTIAGENT.md`** | Exploratory `Graph`, `Swarm`, and `subagent` measurements; a dedicated article is conditional |
+| **`FINDINGS-EXTENDING.md`** | Custom tools, MCP, skills, structured output, and sessions; selected evidence for Article 1 |
 | **`README.md`** | Short public-facing summary and setup instructions |
 
 **Looking for one specific thing?**
 
-- *Is claim X actually tested?* → the claim-to-evidence matrix in `FINDINGS.md` §7.
-- *What should I test next?* → `FINDINGS.md` §9, prioritized. Multi-agent gaps are at
+- *Is claim X actually tested?* → the evidence issues in `ARTICLE-PLAN.md`, then the
+  claim-to-evidence matrix in `FINDINGS.md` §7 and the underlying results. Some older
+  "verified" labels are stale; in particular, exact accuracy tallies need a scoring audit.
+- *What should I work on next?* → the active Article 1 outline and publication gates
+  in `ARTICLE-PLAN.md`. Historical experiment ideas are in `FINDINGS.md` §9. Multi-agent gaps are at
   the end of `FINDINGS-MULTIAGENT.md`; extension gaps at the end of `FINDINGS-EXTENDING.md`.
 - *Why is a number what it is?* → every finding names its script. Raw results sit beside
   it in `poc/results_*.json`.

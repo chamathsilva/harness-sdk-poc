@@ -1,304 +1,117 @@
 <!--
-Article 1 — full text, copied from the working doc so it lives with the evidence.
-Source: https://claude.ai/code/artifact/e0d7ce0d-b5f9-4961-b48d-d3ec93f05a35 (rev 55, 2026-09-23)
-Status: restructured and fact-checked; length decision pending (4,076 words of prose, ~17 min, vs a 3,500 target).
-The doc is the working copy; if the two diverge, re-export from the doc.
-Every number traces to FINDINGS.md; critical-claim wording follows the register in ARTICLE-SERIES.md.
+Article 1 — revised draft under ARTICLE-PLAN.md and ARTICLE-1-OUTLINE.md.
+The prior draft is preserved in archive/ARTICLE-1-PREVIOUS.md.
+Publication review is in ARTICLE-1-REVIEW.md. Do not reintroduce the earlier exact
+accuracy tallies until their saved answers and scoring have been audited.
 -->
 
-# Strands Harness, Hands-On: What AWS's New Agent Harness Actually Does
+# Strands Harness in Practice: What It Handles and What You Still Control
 
-*What's in the box, what holds up when you measure it, and what to change before you trust it with anything real.*
+*A practical look at its tools, context, memory, and permissions, with experiments behind the advice.*
 
-On 21 September 2026 the Strands team at AWS released Strands harness: an open-source agent you get in one function call, under the Apache-2.0 licence. The launch post pitches it at builders who wish their Claude Code or Codex setup could run in the cloud, and calls it "a general-purpose agent rather than a coding agent." It also claims the harness costs 28% less than other harnesses across six benchmarks, and 77% less than Claude Code on Terminal Bench 2.1 with the same model. Those are the vendor's numbers. I didn't try to reproduce them.
+Give an agent a folder of incident reports and ask which service lost the most time. The request sounds small. The agent has to find and read the files, calculate totals, and give you an answer you can check. If you want to continue tomorrow, something has to preserve the conversation. Before it starts, you also have to decide which files and commands it may use.
 
-What I did instead was build against it for a few days and turn every claim in this article into an experiment: more than 200 agent runs, each with a control where one made sense. Here's what it is, what comes in the box and how each part behaved when I ran it, where it bit me, and what I'd change before pointing it at anything real.
+Strands Harness assembles much of that machinery through `create_harness()`. I used synthetic incident data and focused experiments to examine what that saves an engineer. The benefit is a working starting point: tools, instructions, context management, and persistence already connected. The decisions that remain are about your application: what the agent may access, what it should remember, and how you will judge its answers.
 
-## What a harness actually is
+## What one call assembles
 
-If you have ever built anything with an AI model, you have written a harness. It is the loop that sends your prompt, reads what the model asked for, runs it and feeds the result back. It is also the counter that stops the loop spinning forever, and the decision, every turn, about what goes into the next message.
+An agent needs a loop around its model. The model asks to use a tool; the loop executes the call, returns the result, and decides what context to send on the next turn. A useful agent also needs instructions, a way to manage long conversations, somewhere to store state, and rules about what actions are allowed.
 
-The model is the engine. The harness is everything bolted around it so the engine pulls in a useful direction. The word is borrowed from horses, and it is the right image: the animal supplies the power, and the harness turns it into a ploughed field rather than a hole in your fence.
+The [Strands Harness SDK](https://strandsagents.com/docs/user-guide/sdk/) supplies the pieces for building that system. [Strands Harness](https://strandsagents.com/docs/user-guide/harness/) is an assembled version with choices already made, released by the Strands team at AWS in September 2026. Its Python package, `strands-harness`, returns an ordinary Strands `Agent`, so you can still change those choices or use the underlying SDK directly.
 
-The loop itself is a weekend's work. What comes after is the hard part: long conversations where the model loses the plot, a tool that returns 200KB and knocks everything over, an action nobody approved, a bill four times your estimate. Those are harness problems, and until recently everyone solved them privately.
-
-## Meet Strands harness
-
-Two names are worth keeping apart. *Strands harness* (`pip install strands-harness`) is the assembled agent. It is built on the *Strands Harness SDK*, published on PyPI as `strands-agents` and public since May 2025, which supplies the loop, the tools, the multi-agent patterns and the rest. The harness is the SDK with the decisions made for you. Here is the whole thing:
+With the Anthropic extra installed and `ANTHROPIC_API_KEY` configured, a first invocation looks like this; the repository's [setup instructions](README.md) cover the environment. This default agent has host file tools and a shell, so use a workspace and credentials appropriate for that access.
 
 ```python
 from strands_harness import create_harness
 
 agent = create_harness(model="anthropic/claude-haiku-4-5-20251001")
-agent("Find the slowest test in this repo and explain why it's slow")
+agent("Summarize the incident in /absolute/path/to/INC-1001.json")
 ```
 
-Leave `model` out and it defaults to Claude Opus 5 on Amazon Bedrock, which needs AWS credentials. The source knows seven providers: Bedrock, Bedrock Mantle, Anthropic, OpenAI, Google, Ollama and LiteLLM, plus any model object you build yourself. I ran two. Every number in this article is Anthropic; Bedrock was only for early runs.
+Replace that path with a file you control. Naming the model makes the provider and model choice explicit. This example uses the same Haiku model as the measurements below.
 
-That agent is meant to go and look: list files, open the relevant ones, run the tests, read the timings, answer. You don't give it tools or write a prompt, because both come with it.
+In an [inspection without model calls](poc/31_strands_surface.py) of version 0.1.2, the assembled agent exposed twelve registered tools. Some read and change files or run commands. Others let the model delegate work or write a small program that calls its tools. Three serve context and memory: two retrieve material moved out of the active conversation, and one searches long-term memory.
 
-There is a TypeScript twin (`@strands-agents/harness`, Node 22 or later), and a terminal command built on it:
+The assembly also includes a framework-written set of working instructions. You can append instructions for your domain; you do not have to author the tool loop or its general working prompt first. That is the immediate saving. It also means the defaults are consequential. A tool that is present can be chosen by the model, and a memory feature that is on can write information beyond this turn.
 
-```bash
-npm install -g @strands-agents/cli
-strands "summarize what this repo does"    # answer, then keep chatting
-strands -p "list the top-level modules"    # one answer and exit
-```
+I inspected that assembled agent, but most behavioral experiments deliberately selected fewer tools or disabled memory and sessions to isolate one mechanism. Those experiments tell us what individual parts did under a stated configuration. They are not a benchmark of the entire default agent.
 
-Inside the CLI, `/export` writes the agent you have set up out as Python or TypeScript. I didn't test the TypeScript package or the CLI. Everything below is Python.
+## What happens as work accumulates
 
-## Twelve tools, and what they're for
+An agent's active conversation is a desk with limited space. A file returned by a tool goes onto that desk, and the model may see it again on later turns. Large results leave less room for the question, the agent's prior work, and the next result. The harness manages this by replacing some bulky tool output with a short preview and a way to retrieve the rest. It can also summarize older conversation when the working context grows.
 
-That one call registers twelve tools. Grouped by job:
+I [tested offloading](poc/10_offloading.py) by asking an agent to read a large text file, once with the context manager on and once with it off. The serialized conversation measured **9,928 characters** with management on and **175,317** with it off. These counts measure text retained in the conversation; they do not measure billed tokens. In both runs, `read` capped its response at 2,000 lines. Within that limit, enabling context management left far less text in the history. The [saved results](poc/results_offloading.json) show the comparison.
 
-| Group | Tools | What they do |
-| --- | --- | --- |
-| Hands | `read`, `write`, `edit`, `shell`, `web_fetch` | Open files (images and PDFs too, where the model can see them), create and change files, run commands, read web pages |
-| Orchestration | `programmatic_tool_caller`, `subagent`, `todo_write`, `strands_manage_background_task` | Write code that calls the other tools, delegate to a helper agent, keep a checklist, manage background work |
-| Context and memory | `retrieve_context`, `retrieve_offloaded_content`, `search_memory` | Fetch back content moved out of the conversation; search long-term memory |
+I also [tested summarization](poc/22_summarization.py) by lowering the configured context window and trigger threshold. After six supplied facts and a follow-up question, the managed history had four messages against fourteen with management off. Both agents still answered the question about the first fact. The [results](poc/results_summarization.json) demonstrate compaction under a forced trigger; the test did not measure when the default threshold would fire during ordinary use.
 
-Web search is there too, but it doesn't show up in that list. On Anthropic, OpenAI and Google models it is the provider's own search, switched on as a model setting.
+Keeping a conversation manageable is different from keeping it for later. A **session** saves the conversation so an agent can resume it by ID. To check that this was more than an object remaining in Python memory, I ran a [two-process experiment](poc/21_session_restart.py). The first process supplied an arbitrary bridge number and escalation owner, then exited. A new process loaded the same session ID, restored two earlier messages, and recalled both facts. That demonstrates a clean process restart in this setup; it does not test recovery from a crash during a write.
 
-The third group is the telling one. Two of those tools exist to fetch back content the harness moved out of the context window; the third searches long-term memory. Each arrives with the feature that needs it, and switching the feature off removes the tool. They only make sense once you see what an agent is up against.
+**Long-term memory** answers a different question: can a new conversation recall a fact from an earlier one? In a [separate test](poc/08_memory.py), one agent learned an invented codeword. I waited for its memory manager to flush, built a new agent over the same memory directory, and asked for the word and its owning team. Both came back. The stored fact was a readable Markdown file. Extraction runs in the background, so a short process that exits before the write finishes can leave its latest fact unsaved. For a deployed application, the default local directories for sessions and memory also need an appropriate durable location; the [production guidance](https://strandsagents.com/docs/user-guide/harness/production/) calls this out for ephemeral containers.
 
-## The desk
+Those mechanisms solve different problems. Context management limits what the model carries on its desk now. A session continues one conversation later. Long-term memory can bring a selected fact into a new conversation. I would decide which of those an application needs before accepting all three as incidental defaults.
 
-An AI model has no memory. Every time it replies, the entire conversation so far is sent to it again from scratch, and that re-reading has a hard ceiling: the context window. Think of it as the desk the model works at. Everything it needs has to fit on the desk at once: your question, every file it has opened, every command's output.
+## How it gets the work done
 
-Watch an agent work and the desk fills up. A config file, four hundred lines of test output, six source files. Forty minutes in, the thing it needs is somewhere under the pile. That is how agents actually fail: not with a dramatic wrong answer, but by slowly suffocating. And you are billed for everything on the desk on *every single turn*.
+The default tools let an agent read files, edit them, run commands, fetch web content, and delegate. The model can request several ordinary tool calls in one turn; forty files do not automatically mean forty separate model round trips. Strands also offers `programmatic_tool_caller`: the model writes a short Python program that calls its registered tools, processes their results, and prints only what the model needs to see next. The intermediate tool responses can stay inside that program instead of filling the conversation. The [official guide](https://strandsagents.com/docs/user-guide/harness/tools/programmatic-tool-calling/) describes that contract.
 
-Throwing old things away destroys information the agent may still need. So the harness does four other things instead.
+This matters for the incident task. Each record has a service and a downtime value. A program can read the records, add the numbers by service, and print six totals. The model then receives the result of the calculation without carrying every intermediate record into its next turn. Parsing is part of that work: Strands `read` returns tool content with numbered lines, which the program must handle before treating the file contents as JSON.
 
-**It files bulky results instead of binning them.** A large tool result is cut down to a preview, and the full version is kept where the agent can fetch it back. I pointed an agent at a 400KB file. With context management on (the default), its conversation stayed at 9,928 characters. With it off, 175,317.
+I compared a restricted agent with `read` against one with `read` plus code mode. Both got the same task and files within each dataset. Memory, sessions, skills, and context management were off so they would not cloud the comparison. That is a test of orchestration choices, not of the default assembled harness. The small and bulky datasets were also generated independently, so they are two workload shapes, not identical incidents with extra text attached.
 
-**It summarizes as it goes.** Tool results over about 1,500 tokens are cut to a preview straight away. Once the conversation passes 85% of the window, older exchanges get condensed. To watch this fire without paying for a full window, I shrank the window the manager measures against and lowered the trigger. Six turns later, 14 messages had become 4, and the agent still answered a question about the first turn correctly.
+The [recorded calls](poc/results_codemode_diagnostic.json) show why actual behavior needs inspection. In one instrumented run on bulky records, the model made forty direct `read` calls as well as five calls to the code tool. Enabling code mode had not kept all the file processing inside it. If your reason for choosing code mode is to keep intermediate data out of the conversation, check the tool trace to see whether the agent actually followed that route. The [benchmark script](poc/02_context_economics.py) makes the restricted configuration explicit.
 
-**It reads web pages somewhere else.** `web_fetch` does not paste a page into the conversation. It fetches the page, strips it to text, and asks a small, cheap model to answer your question from it. A 1.4MB Wikipedia page came back as an 1,800-character conversation, 791 times smaller, with the answer right and none of the page's boilerplate.
+Delegation offers another way to keep a large task out of the parent's active conversation. I gave a helper the bulky incident files, each containing unique trace markers, then counted those markers in the parent's history. With the built-in `subagent`, the parent had **zero** of the 2,400 markers. When the parent read the files itself, its history contained **all 2,400**. That [marker experiment](poc/07_subagent_isolation.py) demonstrates context separation for this route. It is not a general confidentiality guarantee: a delegate may still return sensitive information in its conclusion if the task asks for it.
 
-**It writes code, or it sends someone else.** These two are big enough for their own sections.
+Code mode and delegation are useful because they change where the working material goes. Whether either makes your task more accurate or economical depends on the task, the model, and the choices the agent actually makes. Their traces and final answers need checking against a known result.
 
-## The experiment that changed my mind
+## What it can touch
 
-Normally an agent uses a tool by asking. It says "read this file," the file comes back, it thinks, it asks for the next one. Forty files means a lot of back-and-forth, and every file lands on the desk.
+To understand the agent's access, follow a call from the model to the resource it reaches. Model-written code in `programmatic_tool_caller` runs in Monty, an isolated Python interpreter. Calls from that program to `read` or `shell` pass through the normal tool executor. The tool's **execution environment** determines where the file is read or the command runs. By default, those tools run on the host. An OS boundary around them requires a separately configured environment, as the [production guidance](https://strandsagents.com/docs/user-guide/harness/production/) explains.
 
-The `programmatic_tool_caller` tool offers a different deal: the agent writes a small program instead.
+I drove Monty directly in a [boundary test](poc/06_sandbox_boundary.py). Attempts to open a host file, inspect environment variables, start a process, and reach the network failed in that test. A control calculation returned `45`, proving the code tool was actually executing the submitted program. That is evidence for the attempted paths in the tested release; it is not a proof that every possible escape has been excluded. I did not test a Docker or SSH execution environment around the host tools.
+
+**Authorization** adds a decision before execution. Strands accepts an [intervention policy](https://strandsagents.com/docs/user-guide/harness/configure/interventions/) that decides whether a tool call may run; the default applies no such gate. Calls made from code mode pass through it too. In my [path experiment](poc/03_interventions.py), a Cedar policy permitted a read matching an incident path and denied a vault path. The agent reported the expected results, although that test graded its report rather than independently inspecting the file access.
+
+A [custom-tool experiment](poc/17_custom_tools.py) added an execution counter. I registered a working lookup tool and a simulated deletion tool whose body incremented a counter without deleting anything. The lookup ran in a separate registration check. With a Cedar policy that omitted permission for deletion, the agent reported a denial and the deletion counter stayed at **zero**. That independently confirmed the function had not executed in the denied run.
+
+Here is the configuration used for the narrower path test, expressed relative to this repository's root:
 
 ```python
-totals = {}
-for name in filenames:
-    record = await read(path=f"/data/{name}")
-    totals[record["service"]] = totals.get(record["service"], 0) + record["downtime_minutes"]
-print(totals)
+from strands_harness import create_harness
+
+agent = create_harness(
+    model="anthropic/claude-haiku-4-5-20251001",
+    effort="off",
+    builtin_tools=["read", "programmatic_tool_caller"],
+    interventions="poc/agent.cedar",
+    memory=False,
+    session=False,
+    skills=False,
+    builtin_plugins=[],
+    context_manager=False,
+)
 ```
 
-The program runs, calls `read` forty times by itself, and only what it prints comes back. The forty files never touch the desk. The agent gets six numbers.
+The [policy file](poc/agent.cedar) permits the code tool and `read` calls whose path argument matches `*/data/incidents/*`; other actions receive Cedar's default denial. This is a pattern check on the supplied path. The experiment does not establish filesystem containment against alternative path spellings or symlinks. The example requires the Cedar dependency and builds on the tested 0.1.2 environment. Its disabled features isolate the policy test; they are not a general application preset.
 
-The program runs in a real sandbox, called Monty, which matters when the code was written by an AI and is running on your machine. I spent a while trying to break out of it — opening files, importing `os`, opening a socket, the `__import__` trick that defeats most homemade sandboxes. Every attempt failed, and the way it failed is the interesting part: `socket` and `subprocess` raise *ModuleNotFoundError*, and `__import__` raises *NameError*. These are not blocked escape routes. They are absent. The only way out is the tools you handed in.
+For an application, choose the tools, policy, and execution environment together, then test allowed and denied actions. Human approval also affects the flow: inside code mode, a call requiring interactive approval raises an error the program can catch instead of pausing for input. The [code-mode guide](https://strandsagents.com/docs/user-guide/harness/tools/programmatic-tool-calling/) documents this behavior.
 
-One thing to be clear about: Monty contains the code the agent writes in this mode, and nothing else. `shell` and the file tools run somewhere else entirely, by default on your own machine. More on that below.
+## Making it useful for your task
 
-I set this up expecting to measure money. I gave it forty incident records and asked for total downtime per service — a question with one correct answer I could check against.
+The factory accepts domain instructions and tools you write. A Python function decorated with `@tool` can be registered beside the built-ins. In the custom-tool experiment, the model called the function directly, and code mode could call it as an async tool too. Adding a function therefore adds real authority to the agent. Its name and description may help the model decide when to use it; its implementation and policy determine what it can actually do.
 
-Then I ran it thirty-nine times, because one run of a non-deterministic system is an anecdote.
+**Skills** supply task instructions from folders. I invented an incident-summary format, wrote it in a `SKILL.md`, and explicitly configured the agent to use its directory. The agent followed the format's markers despite a prompt that never mentioned them. With skills disabled as a control, it did not. This [one-format test](poc/09_skills.py) demonstrates use of a supplied skill; it does not establish how reliably the agent chooses among many overlapping skills.
 
-### The thing I was not looking for
+**Model Context Protocol (MCP) servers** provide tools through a standard interface. In one [stdio test](poc/16_mcp.py), a filesystem server contributed fourteen tools with a server prefix in their names, and the agent used one to count the incident files. When I added a broken server beside it, the working server still contributed its tools. A separate [HTTP test](poc/25_mcp_http.py) exercised discovery and a call over that transport. Authentication and name collisions across many servers were outside those checks.
 
-Asking one tool call at a time got all six numbers right **4 times out of 20**.
+When an application needs a typed result, `structured_output_model=` can return an object validated against a Pydantic model. That is useful at the boundary with other software. A valid object still needs a factual check. In the [supported-route experiment](poc/20_structured_output.py), the agent had the tools needed for the task and the saved object could be compared with ground truth. I would perform that comparison for any field whose value matters; a schema only checks shape and types.
 
-Writing a program got them right **18 times out of 19**. When a new release came out mid-test, I re-ran the small-data case twelve times each way: 4 out of 12, against 10 out of 12.
+## How I would start
 
-That is not a rounding difference, and it is worth being clear about what failure looks like here. The agent does not announce that it is struggling. It confidently names the right worst-offending service, formats a tidy list, and gets individual figures wrong by fifty or a hundred. It looks exactly like a correct answer.
+I would begin with a small task whose answer I can verify. For these incident files, I would calculate the service totals independently and compare every service/value pair in the agent's complete answer. I would also save its tool calls and usage, so a plausible answer could be checked against both the expected result and the work that produced it.
 
-My first thought was that I had rigged it. I had turned the model's reasoning off to keep costs down, which is precisely the setting that would hurt an agent doing sums in its head while leaving the program-writing arm untouched. So I ran it again with reasoning on.
+The first configuration decisions follow from that task. Name the model, select the necessary tools, and define the files or services they can reach. For a one-off calculation, decide whether anything needs to persist. For an ongoing incident assistant, test resuming a session and recalling a fact separately. Add capabilities one at a time so you can see what each changes in the answer and the retained context.
 
-It didn't close the gap. Adding up forty numbers scattered through a long conversation is the wrong job for a language model, and exactly the right job for four lines of Python.
+Strands Harness is worth evaluating when you want a working agent with these pieces assembled and still want to replace individual defaults. The SDK underneath is available when you need to construct those pieces more explicitly. The work that remains yours is concrete: choose the model, constrain its authority, decide what persists, and grade its answers against something outside the model's own account.
 
-### The money, which was the point originally
-
-Cost turned out to be the smaller story, and it cuts both ways:
-
-| Billable input, median | 40 small records | The same 40, now bulky |
-| --- | --- | --- |
-| Asking one call at a time | **12,244** | **106,664** |
-| Writing a program | 23,749 | 28,912 |
-
-On small data the program costs about twice as much: writing code costs more than just asking, and the model already batches its requests rather than trickling them out one by one. On bulky data it is nearly four times cheaper, because the data never reaches the desk at all.
-
-### The part that should make you cautious
-
-Code mode is not reliably cheap. In roughly one run in ten, 4 of 36 across both datasets, the model abandoned the sandbox partway and read every file itself. On the bulky data those runs cost a median of 469,484 tokens, against 26,650 for runs that stayed in the sandbox: about 17 times as much.
-
-The worst cost **519,657 tokens**, five times more than never having the feature, and got every figure wrong. But half the runs that fell back still got every figure right. Falling back is reliably expensive, not reliably wrong.
-
-So the honest summary is not "code mode is better." It is that **handing arithmetic to a program instead of a language model makes it correct**, that this is cheap on big data and dearer on small, and that every so often the model does not take the deal. Why it walks away, and what that does to your bill, gets an article of its own.
-
-## Sending someone else
-
-The `subagent` tool hires help: a second agent with a clean desk, given one task, returning only its conclusion. I tested whether the delegate's work really stays on *its* desk by stamping every record with a unique marker and counting how many reached the parent. Delegating: zero. Doing the job itself: 2,400.
-
-The same idea comes in other shapes. `Agent.as_tool()` turns any agent into a tool another agent can call, starting from a clean conversation each time. `make_subagent()` builds a delegation tool from presets, and only the settings you leave open show up as parameters the model can set. Either way, a delegate inherits its parent's permissions and cannot be given tools the parent lacks.
-
-For fixed pipelines, the SDK underneath has `Graph` and `Swarm`. I raced them against a single agent, five runs each. The graph wasn't reliably cheaper: on one task it was slightly cheaper, on another it cost almost five times as much. But it was the most predictable. Its best and worst runs stayed within about seven times of each other, where a single agent's once spread 119 times. That trade gets its own article too.
-
-## It remembers you
-
-Three kinds of memory come switched on, and they are worth telling apart.
-
-**The conversation** is saved as it happens, under `./.agent/sessions`. Hand back its id to pick it up later:
-
-```python
-agent = create_harness(session={"id": "user-42"})
-agent("Where did we leave off?")
-```
-
-I checked that this survives more than a new Python object. One process told an agent a fact and exited. A second process, started fresh with the same session id, restored the conversation and recalled the fact.
-
-**Long-term memory** is the more interesting one. Every few turns, a small, cheap model reads back over what was said and pulls out things worth keeping: that you prefer a particular library, that a service belongs to a certain team. I tested it by telling an agent an invented codeword, throwing that agent away, and building a fresh one over the same folder. It knew the codeword. What it had written was a single readable line in a markdown file, 73 characters long. One catch: extraction runs in the background, so a short run can end before its last turns are saved.
-
-**Skills** are how you teach it something. A skill is a folder with a `SKILL.md` inside: a name, a description, and instructions in plain English. Drop it in and the agent finds it.
-
-```
-.agent/skills/
-└── release-notes/
-    └── SKILL.md
-```
-
-It sees only the name and description up front and reads the full instructions when the job calls for it — the desk problem again, so twenty skills do not crowd out the work. I checked this was real rather than coincidence by inventing a house format no model would produce on its own, then asking a question that never mentioned the skill. With the folder present the agent followed the format. With it removed, it did not.
-
-The thread running through all three is worth noticing. Everything lands as readable files in a folder in your project. Not a database, not a hosted service, not a vector store needing an account. If the agent has learned something wrong about you, you open the file and delete the line.
-
-## Plugging in your own things
-
-The built-ins are a starting point, and what you add is treated the same way.
-
-**Your own tools.** A plain Python function with a `@tool` decorator is registered and callable by the model. It is also callable from inside the code-mode sandbox, like any built-in, and governed by the same permission policy as `shell`. I gave an agent a destructive custom tool and a policy that forbade it. The call was refused, and a counter inside the function confirmed it never ran.
-
-**MCP servers.** Point it at a Model Context Protocol server and its tools appear, prefixed with the server's name so they can't collide. One filesystem server gave the agent 14 tools, which it used without being told to. A broken server alongside it didn't take the agent down; the working server's tools still worked. Servers over HTTP work as well as local ones.
-
-**Typed answers.** Pass a Pydantic model as `structured_output_model=` and you get a validated object back instead of prose. It ran the tools, did the sums and filled the schema correctly in 3 runs out of 3. There is an older way to do this that behaves very differently; see *What surprised me*.
-
-## The leash
-
-Go back to that three-line example. The agent it creates can run any shell command and write to any file, and it will do so without asking. That is the default.
-
-On a laptop, in a scratch folder, fine. Pointed at anything real, that should give you pause.
-
-There are four ways to hold the leash, and a Cedar policy can be layered with any one of the other three:
-
-```python
-create_harness(interventions="ask")     # ask me before every action
-create_harness(interventions="smart")   # judge each action, ask only about risky ones
-create_harness(interventions="Read-only, but writing under ./out is fine")
-create_harness(interventions="./agent.cedar")   # a formal written policy
-```
-
-The third deserves a second look: you write the rule in ordinary English, and it becomes the standard each action is judged against.
-
-The fourth is the serious one. Cedar is Amazon's policy language, the same sort of thing that governs who can touch what in cloud infrastructure. Using it here means your agent's permissions are written down and reviewable like any other config, rather than hopefully-worded pleading inside a prompt.
-
-Mine was four lines. Read a file in the incidents folder: allowed. Anything else: refused.
-
-```
-permit(principal, action == Action::"programmatic_tool_caller", resource);
-
-permit(principal, action == Action::"read", resource)
-when { context.input.path like "*/data/incidents/*" };
-```
-
-### The question worth asking
-
-Here is what I actually wanted to know. The agent can write and run its own code. So what stops it writing code that reads the file the policy forbids?
-
-This is not paranoia. A sandbox that could reach around your security rules would be a hole straight through them, and it is an easy mistake for a library to make.
-
-So I told the agent to try it: from inside its sandbox, read one permitted file and one forbidden one.
-
-```
-ALLOWED_READ: ok
-FORBIDDEN_READ: blocked -> RuntimeError("Tool 'read' error:
-                DENIED: Access denied by Cedar policy")
-```
-
-The rule held. Calls made from inside the sandbox pass through the same checkpoint as everything else. The same is true of work handed to a subagent: a delegate cannot be given permissions the agent that summoned it does not already have.
-
-That is the most reassuring thing I found all day, and it is written down. The documentation for `create_harness` says a subagent inherits the policy "so a delegate cannot bypass it."
-
-## Seeing what it did
-
-Tracing is built in and off by default. Set the standard OpenTelemetry variable, `OTEL_TRACES_EXPORTER=console` (or `otlp`, to send spans to a collector), and every agent call, loop cycle, model call, tool call and delegation becomes a span. With the variable unset I got no spans. With it set, one small delegated task produced 16.
-
-## The prompt in the box
-
-Every agent has a system prompt: standing instructions the model reads before anything else. Strands ships theirs as a documented, importable part of the library:
-
-```python
-from strands_harness import HARNESS_CONTRACT
-```
-
-It is 1,665 characters, and it is the most quietly interesting file in the project. Some of what it tells the model:
-
-> Keep working until the task is fully resolved before ending your turn. Only stop to ask the user when you are blocked on a decision or information that is genuinely theirs to provide.
-
-> Once you have enough to act on, act. Do not ask for confirmation of steps you can verify yourself.
-
-> Treat a task as done only when you have verified it, not when it looks plausible. If you cannot verify, say so.
-
-> A denied or failed tool call is information: adjust your approach, do not retry it verbatim.
-
-Read that list again as a catalogue of the ways agents annoy people. They stop halfway to ask permission for something they could have checked. They declare victory without testing. They retry the same failing command.
-
-Every line is a scar. Somebody got burned, and the fix went into the box.
-
-Notice what is *not* in there: no name, no personality, no domain. The contract says nothing about who the agent is or what it is for. That part is yours:
-
-```python
-create_harness(instructions="You are a support assistant. Always link the ticket you're working on.")
-```
-
-The split is deliberate. They ship the hard-won behaviour; you bring the job.
-
-## What surprised me
-
-**The token counter undercounts.** On the Anthropic API, a run's `totalTokens` leaves out tokens read from or written to the prompt cache, and most of an agent's input is cache. On one small cached run it reported a total of 138 tokens, when the input alone was 12,510. It is a known, open issue ([#3546](https://github.com/strands-agents/harness-sdk/issues/3546)). If you track cost, add `cacheReadInputTokens` and `cacheWriteInputTokens` to `inputTokens`.
-
-**A validated object is not a correct one.** Before `structured_output_model=` there was `agent.structured_output()`. It is deprecated, and it does something narrower than it looks: it makes one model call that formats what the conversation already contains. Its documentation says it answers from the conversation history, and the source shows it runs no tools. Called after the agent had done the work, it was perfect, 3 runs out of 3. Called on a fresh agent with the task in the prompt, it returned objects that passed every schema check with every figure invented, 3 out of 3. Nothing about those objects looked wrong.
-
-## Before you ship it
-
-A few days of building against it turned up friction worth knowing about. None of it is fatal.
-
-**The defaults are built for a developer's laptop.** Out of the box, `shell` and the file tools run on your machine with your privileges, and no call is gated: every permission option above is off until you pick one. The SDK is blunt about it. When no sandbox is configured, the execution environment is a class called `NotASandboxLocalEnvironment`, and its documentation says the name is a warning. Anything reachable from your shell is reachable by the agent, including cloud credentials sitting in a config file. Pass a Docker or SSH sandbox, or an interventions policy, before you point it at anything real, and give it a scoped key rather than your everyday one.
-
-**Know your tools' habits.** `read` numbers its lines, like `cat -n`, so the model can cite `path:line`; code that parses file contents has to strip them. It also takes absolute paths and reads files, not folders. Listing directories is `shell`'s job, so if you remove `shell`, tell the agent exactly where things are.
-
-**It is very new.** The harness went from 0.1.1 to 0.1.2 while I was testing, and the SDK from 1.56.0 to 1.57.0. The default reasoning setting changed along the way. Expect the surface to move. The upside is that the source is unusually well documented, and my best answers came from its docstrings.
-
-**Web search depends on the model.** Where the provider has its own search, it is switched on. Elsewhere it is off, unless you opt into Exa's hosted search, which works on any model since 0.1.2 and sends your queries to a third party.
-
-## So should you use it?
-
-**If you are about to write your own agent loop, try this first.** The loop is a weekend. Everything after it — keeping the desk clear, remembering across sessions, deciding what the agent may touch — is months, and it is all here.
-
-**If you already have an agent in production,** the piece worth stealing is the permissions layer, even if you take nothing else. Written-down rules that hold even when the agent writes its own code are hard to build and easy to get subtly wrong.
-
-**If you are shipping to customers next month,** wait a little. Version 0.1.2 is days old. Use the SDK underneath, which is at 1.57.0 and has been public since May 2025.
-
-**If you are just curious,** install the terminal command and point it at a repo you know well. Ten minutes will teach you more than this article.
-
-### The part that stays with me
-
-A framework's defaults are an argument about what matters, and you can read them like one.
-
-This one turns on, by default: a prompt that says verify before you claim you are done; tools that fetch back what the agent had to set aside; memory that writes itself into files you can edit; a summarizer that keeps long work coherent.
-
-It leaves off, by default: asking your permission.
-
-That combination tells you exactly what the last two years taught this team. Getting a model to do useful work is close to solved. Keeping it coherent over a long task, and keeping it affordable, is not — so that is where nearly all the machinery points.
-
-The permissions question they answered thoroughly and then shipped switched off. They are honest about it, since the default environment's name is a warning label, but I still think it is the wrong default. Nobody wants their quickstart to open with a permission prompt. I would still rather see one than hand an agent my shell.
-
-But the shape of the thing is right, and my measurements kept pointing the same way. The agent got more reliable every time a decision was taken away from the model and given to something deterministic: arithmetic to a program, fixed steps to a graph, permissions to a written policy. The next articles take those one at a time.
-
----
-
-*The project is at [github.com/strands-agents/harness-sdk](https://github.com/strands-agents/harness-sdk), Apache-2.0. Everything here comes from more than 200 agent runs on synthetic data, first against `strands-harness` 0.1.1 and re-checked on 0.1.2 (SDK 1.56.0 and 1.57.0), with reasoning off unless stated. The code and a log of every measurement are at [github.com/chamathsilva/harness-sdk-poc](https://github.com/chamathsilva/harness-sdk-poc). I didn't reproduce the vendor's benchmark claims. One caveat worth stating plainly: all of it ran on Claude Haiku 4.5, a small, fast model. The accuracy gap is the finding I would most want to re-check on a frontier model before assuming it holds everywhere.*
+**Method.** The recorded experiments used Claude Haiku 4.5 through the Anthropic API, usually with `effort="off"`, on synthetic data. The original runs used `strands-harness` 0.1.1 and SDK 1.56.0; selected checks were repeated on 0.1.2 and SDK 1.57.0. Default-agent inspection, isolated capability tests, source reading, and the restricted tool benchmark are different forms of evidence. The [scripts and raw results](poc/) are in this repository. I did not reproduce the vendor's benchmark comparisons or evaluate a production deployment. These observations may change with another model, task, or release.

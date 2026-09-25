@@ -1,0 +1,21 @@
+{
+  "strands_harness": "?",
+  "tools": [
+    "edit",
+    "programmatic_tool_caller",
+    "read",
+    "retrieve_context",
+    "retrieve_offloaded_content",
+    "search_memory",
+    "shell",
+    "strands_manage_background_task",
+    "subagent",
+    "todo_write",
+    "web_fetch",
+    "write"
+  ],
+  "tool_count": 12,
+  "tool_schema_chars": 12646,
+  "system_prompt_chars": 1665,
+  "environment": "NoneType"
+}

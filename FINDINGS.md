@@ -19,7 +19,7 @@ up without re-deriving anything.
 | Model | `claude-haiku-4-5-20251001` via **Anthropic API** |
 | Reasoning effort | `off` unless a test says otherwise |
 | Harness merged upstream | 2026-09-21, commit `4095cf5a6` |
-| **Re-validated on** | `strands-harness` 0.1.2 + `strands-agents` 1.57.0 (both released 2026-09-22), static checks only; see §11 |
+| **Re-validated on** | `strands-harness` 0.1.2 + `strands-agents` 1.57.0 (both released 2026-09-22), static and selected live checks; see §§11–12 |
 
 **Every number below is Haiku 4.5.** No Bedrock, no AWS credentials involved — an
 earlier version of this POC ran on Bedrock and was moved off it deliberately (see §8).
@@ -111,7 +111,7 @@ claim "worse" (register N8). The gap is not an artifact of the effort setting.
 
 Median `billable_input`:
 
-| | 40 small records (16 KB) | Same 40, bulky (210 KB) |
+| | 40 small records (16 KB) | 40 independently generated bulky records (210 KB) |
 |---|---|---|
 | One call at a time | **12,370** (n=10) | **106,664** (n=10) |
 | Code mode | 37,997 (n=7) | 28,912 (n=12) |
@@ -291,7 +291,7 @@ Caveat: this verifies the mechanism at a forced trigger point. The shipped defau
 
 | Article claim | Evidence | Status |
 |---|---|---|
-| 12 tools, 3 do no work | `01` | Verified |
+| Twelve registered tools; two retrieve moved context and one searches memory | `01`, source recheck in §11 N1, `31` | Corrected; the earlier "3 do no work" claim was wrong |
 | Model bad at in-context arithmetic; program exact | `04`, `05` | Verified, n=39 |
 | Crossover: code mode worse small, better large | `04` + extras | Verified, medians |
 | Code mode sometimes catastrophically expensive | `18` + diagnostic | Verified, n=27: 2/24 fell back, 5/27 over 100k |
